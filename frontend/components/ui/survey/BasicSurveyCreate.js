@@ -6,7 +6,7 @@ import SurveyTitleInput from "./SurveyTitleInput.js";
 import Question from "./input/Question.js";
 import Link from "next/link.js";
 import { customAxios } from "../../../utils/customAxios.js";
-import { API } from "../../../utils/API.js";
+import axios from "axios";
 
 const qTypes = [
     { name: '객관식', comp: "Objective", contentYn: true },
@@ -83,22 +83,11 @@ export default function BasicSurveyCreate () {
         data.svyEndDt = svyEndDt;
         data.svyRespMax = svyRespMax;
         console.log(data);
-        
+
         axios.post('/api/v1/surveys', data)
         .then(res => {
             console.log(res);
         })
-
-        API.post(
-                '/api/v1/surveys',
-                data,
-            )
-            .then((response) => {
-                console.log(response.status);
-                console.log(response.data);
-            })
-            .catch((e) => console.log('something went wrong :(', e));
-
     }
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
