@@ -1,6 +1,5 @@
 package com.example.jpa_demo.domain.members;
 
-import com.example.jpa_demo.domain.TimeEntity;
 import com.example.jpa_demo.domain.auth.Authority;
 import com.example.jpa_demo.domain.auth.MemberAuth;
 import com.example.jpa_demo.web.dto.members.MemberUpdateDTO;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.sql.Time;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
