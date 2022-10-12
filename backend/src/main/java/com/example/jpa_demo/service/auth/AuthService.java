@@ -81,7 +81,7 @@ public class AuthService {
 
         //redis에 refresh token 저장
         redisService.setValues(email, refreshToken, Duration.ofMillis(rtkLive));
-        System.out.println("redis " + redisService.getValues(email));
+//        System.out.println("redis " + redisService.getValues(email));
 
         //mysql에 refresh token 저장
 //        refreshTokenRepository.save(

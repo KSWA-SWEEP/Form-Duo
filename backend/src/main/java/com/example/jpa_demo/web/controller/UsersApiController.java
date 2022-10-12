@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(originPatterns = "http://localhost:3001")
+//@CrossOrigin(originPatterns = "http://localhost:3001")
 @Tag(name = "유저", description = "유저 관련 api 입니다.")
 @RequiredArgsConstructor
 @RequestMapping("/v2/users")

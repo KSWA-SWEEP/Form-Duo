@@ -8,10 +8,8 @@ import com.example.jpa_demo.web.dto.members.MemberRespDTO;
 import com.example.jpa_demo.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 /**
  * AuthController 설명 : auth controller
  * @author jowonjun
@@ -25,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthApisController {
 
     private final AuthService authService;
+
+    @GetMapping("/test")
+    public String test(){
+        return "OK";
+    }
 
     @PostMapping("/signup")
     public MemberRespDTO signup(@RequestBody MemberReqDTO memberRequestDto) {

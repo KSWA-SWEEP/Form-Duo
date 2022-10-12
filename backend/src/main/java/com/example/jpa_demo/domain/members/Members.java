@@ -1,6 +1,5 @@
 package com.example.jpa_demo.domain.members;
 
-import com.example.jpa_demo.domain.TimeEntity;
 import com.example.jpa_demo.domain.auth.Authority;
 import com.example.jpa_demo.domain.auth.MemberAuth;
 import com.example.jpa_demo.web.dto.members.MemberUpdateDTO;
@@ -9,13 +8,12 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.sql.Time;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +22,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@CrossOrigin("*")
 @Table(name = "member")
 @Entity
 public class Members {
@@ -69,6 +68,7 @@ public class Members {
             inverseJoinColumns = {@JoinColumn(name = "authority_name",referencedColumnName = "authority_name")}
     )
     private Set<Authority> authorities = new HashSet<>();
+
 
     @Builder
     public Members(String username, String email, String password, boolean activated, char delYn,
