@@ -78,16 +78,30 @@ export default function BasicSurveyCreate () {
         const data = new Object();
         data.svyTitle = svyTitle;
         data.svyIntro = svyIntro;
-        data.svyContents = svyContents;
+        data.svyContent = svyContents;
         data.svyStartDt = svyStartDt;
         data.svyEndDt = svyEndDt;
-        data.svyRespMax = svyRespMax;
+        data.svyEndMsg = svyEndMsg;
+        data.svySt = "";
+        data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
+        data.svyRespCount = 0;
         console.log(data);
 
-        axios.post('/api/v1/surveys', data)
-        .then(res => {
-            console.log(res);
-        })
+        async function makeSvy(){
+            try{
+                const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',data);
+                console.log("Result inside : " + JSON.stringify(result.data));
+                return result;
+            }catch (e) {
+                console.log(e);
+            }
+        }
+        makeSvy().then(r => {console.log("result : " + JSON.stringify(r.data))});
+
+        // axios.post('/api/v1/surveys', data)
+        // .then(res => {
+        //     console.log(res);
+        // })
     }
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기

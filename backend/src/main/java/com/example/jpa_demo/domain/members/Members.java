@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Time;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -32,7 +33,7 @@ public class Members {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(name = "username",length = 50,nullable = false)
+    @Column(name = "username",length = 50, nullable = false)
     private String username;
 
     // Email 을 토큰의 ID로 관리하기 때문에 unique = True
@@ -40,6 +41,7 @@ public class Members {
     private String email;
 
     @Column(name = "password",nullable = false)
+    @Size(min = 5, max = 100)
     private String password;
 
     @JsonIgnore

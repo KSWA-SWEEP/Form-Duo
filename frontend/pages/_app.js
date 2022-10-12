@@ -7,10 +7,15 @@ import { SessionProvider } from "next-auth/react"
 
 // console.log(process.env.NEXT_PUBLIC_API_URL);
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-// axios.defaults.baseURL = apiUrl;
-axios.defaults.baseURL = 'http://210.109.60.247:10001';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+//token 값 수정 필요
+const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJramhAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTY2NTU3OTkzMSwiZXhwIjoxNjY1NTgxNzMxfQ.YfYUJqZPUOqtWB8yysudtoxnG5tpM69Nok6ebPgzEleHO_Re5o83q37UgsC3qRR2qIT4HXFxBvv_kJ_qjMuleQ";
+
+axios.defaults.headers = {
+    'Content-Type': "application/json",
+    "Authorization": "Bearer " + token,
+};
+axios.defaults.mode = "cors";
+axios.defaults.withCredentials = true;
 
 export default function App({
   Component,

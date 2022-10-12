@@ -1,5 +1,6 @@
 package com.example.jpa_demo.web.controller;
 
+import com.example.jpa_demo.web.dto.members.MemberIsMyPwDTO;
 import com.example.jpa_demo.web.dto.members.MemberRemoveDTO;
 import com.example.jpa_demo.web.dto.members.MemberRespDTO;
 import com.example.jpa_demo.web.dto.members.MemberUpdateDTO;
@@ -38,10 +39,14 @@ public class MembersApiController {
     }
 
     @Operation(summary = "유저 삭제 요청", description = "유저 정보가 생성됩니다.")
-    @DeleteMapping("{email}")
-    public String remove(@PathVariable MemberRemoveDTO dto) {
+    @DeleteMapping("")
+    public String remove(@RequestBody MemberRemoveDTO dto) {
         return memberService.remove(dto);
     }
+
+    @Operation(summary = "내 비밀번호 검증(확인)", description = "이메일과 비밀번호 입력 시 비밀번호가 맞는지 확인")
+    @GetMapping("/valid-pw")
+    public boolean isMyPw(@RequestBody MemberIsMyPwDTO dto) {return memberService.isMyPassword(dto);}
 
 //    /**
 //     * @PreAuthorize 는 ControllerAdvice에 의해 에러핸들링됨

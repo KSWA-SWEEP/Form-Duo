@@ -4,6 +4,7 @@ import com.example.jpa_demo.domain.users.Users;
 import com.example.jpa_demo.util.SecurityUtil;
 import com.example.jpa_demo.domain.members.Members;
 import com.example.jpa_demo.domain.members.MemberRepository;
+import com.example.jpa_demo.web.dto.members.MemberIsMyPwDTO;
 import com.example.jpa_demo.web.dto.members.MemberRemoveDTO;
 import com.example.jpa_demo.web.dto.members.MemberRespDTO;
 import com.example.jpa_demo.web.dto.members.MemberUpdateDTO;
@@ -59,6 +60,16 @@ public class MemberService {
                 .orElseThrow(() -> new BizException(MemberExceptionType.NOT_FOUND_USER));
 
         members.updateMember(dto, passwordEncoder);
+    }
+
+    @Transactional
+    public boolean isMyPassword(MemberIsMyPwDTO dto){
+        Members members = memberRepository
+                .findByEmail(dto.getEmail())
+                .orElseThrow(() -> new BizException(MemberExceptionType.NOT_FOUND_USER));
+
+        if (passwordEncoder.matches(dto.getPassword(), members.getPassword())) return true;
+        else return false;
     }
 
     @Transactional
