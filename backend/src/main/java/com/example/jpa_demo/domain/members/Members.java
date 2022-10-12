@@ -9,6 +9,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@CrossOrigin("*")
 @Table(name = "member")
 @Entity
 public class Members {
@@ -69,6 +71,7 @@ public class Members {
             inverseJoinColumns = {@JoinColumn(name = "authority_name",referencedColumnName = "authority_name")}
     )
     private Set<Authority> authorities = new HashSet<>();
+
 
     @Builder
     public Members(String username, String email, String password, boolean activated, char delYn,
