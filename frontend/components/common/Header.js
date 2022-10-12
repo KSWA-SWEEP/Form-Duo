@@ -25,8 +25,8 @@ const navigation = [
   { name: '폼듀란?', href: '/about/formduo', current: false },
   { name: '설문 목록', href: '/survey/list/mySurvey', current: false },
   { name: '설문 제작', href: '/', current: false },
-  // { name: '설문 분석', href: '/survey/result/list', current: false },
-  // { name: '고객 지원', href: '/', current: false },
+  { name: '설문 분석', href: '/survey/result/list', current: false },
+  { name: '고객 지원', href: '/', current: false },
 ]
 
 const navigationBeforeLogin = [
