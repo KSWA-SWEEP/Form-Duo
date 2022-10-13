@@ -52,7 +52,7 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
         return [...arr.slice(0, index), newValue, ...arr.slice(index+1)];
     }
     
-    const onUpdate = index => e => {
+    const onUpdate = qContentId => e => {
         let tempContents = [...qContents]; 
         tempContents[index].qContentVal = e.target.value; 
 
