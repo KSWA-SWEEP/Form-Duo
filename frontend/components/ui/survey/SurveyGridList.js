@@ -6,8 +6,10 @@ import svyThumbnail from '../../../public/img/svyThumbnail01.png'
 import axios from "axios"
 import Image from "next/image"
 import Router, { useRouter } from "next/router"
-// 진행중 설문 세부 메뉴
+import ReactDOM from 'react-dom';
+import QR from "qrcode.react";
 
+// 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
   { name: '설문 수정', href: '/survey/create/' },
   { name: '설문 분석', href: '/survey/result/' },
@@ -33,6 +35,8 @@ export default function SurveyGridList() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [selectedSvyId, setSelectedSvyId] = useState()
   const [shareUrl, setShareUrl] = useState("")
+  const [showQr, setShowQr] = useState(false)
+  const [showCopyMsg, setShowCopyMsg] = useState(false)
 
   useEffect(() => {
     return () => {
@@ -86,10 +90,6 @@ export default function SurveyGridList() {
       location.reload();
   }
 
-  function saveQR() {
-
-  }
-
   function classNames(...classes) {
       return classes.filter(Boolean).join(' ')
   }
@@ -127,8 +127,13 @@ export default function SurveyGridList() {
     }
   } 
 
-  const shareSvy = (svyId) => {
+  const downloadQr = (svyId) => {
     console.log(svyId)
+  }
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(shareUrl)
+    setShowCopyMsg(showCopyMsg => !showCopyMsg)
   }
   
   return (
@@ -322,6 +327,7 @@ export default function SurveyGridList() {
                   >
                      설문 공유
                   </Dialog.Title>
+
                   <div className="mt-2">
                       <p className="text-sm text-gray-500">
                         QR코드나 링크를 통해 설문을 공유할 수 있습니다.
@@ -335,13 +341,21 @@ export default function SurveyGridList() {
                           value={shareUrl}
                           readOnly
                         />
-                        <span className="inline-flex items-center px-3 text-sm text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 hover:bg-gray-100 hover:text-gray-600" onClick={() => navigator.clipboard.writeText(shareUrl)}>
+                        <span className="inline-flex items-center px-3 text-sm text-gray-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 hover:bg-gray-100 hover:text-gray-600" onClick={() => copyUrl()}>
                           복사
                         </span>
                       </div>
-                      <p className="m-1 text-xs text-fdblue">
+                      {/* <p className="m-1 text-xs text-fdblue">
                         복사되었습니다.
-                      </p>
+                      </p> */}
+                      { showCopyMsg 
+                        ? 
+                        <p className="m-1 text-xs text-fdblue">
+                          복사되었습니다.
+                        </p>
+                        : 
+                        null 
+                      }
                   </div>
 
                   <div className="flex justify-center mt-4">
@@ -354,12 +368,54 @@ export default function SurveyGridList() {
                       </button>
 
                       <button
-                          type="button"
-                          className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none "
-                          onClick={() => saveQR(selectedSvyId)}
-                          >
-                          QR코드 저장하기
+                        type="button"
+                        className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none " onClick={() => setShowQr(showQr => !showQr)}
+                        >
+                        QR코드 보기
                       </button>
+                        
+                  </div>
+                  <div className="mx-5 mt-10 mb-5 w-100">
+                    { showQr 
+                      ? 
+                      // <div className="flex place-content-between">
+                      //   <QR
+                      //       id="qr-gen"
+                      //       value={shareUrl}
+                      //       size={200}
+                      //       imageSettings={{ src: shareUrl, width: 100, height: 100 }} //사이즈
+                      //       level={"H"}
+                      //       includeMargin={false} //QR 테두리 여부
+                      //       bgColor={"#FFFFFF"} //배경색
+                      //       fgColor={"#575757"} //QR색
+                      //   />
+                        
+                      //   <div className="flex items-center h-100">
+                      //     <button
+                      //       type="button"
+                      //       className="px-2 py-2 mx-2 text-xs font-semibold text-green-900 bg-green-100 border border-transparent rounded-md h-fit hover:bg-green-200 focus:outline-none " onClick={() => downloadQr(selectedSvyId)}
+                      //       >
+                      //       QR코드 다운로드
+                      //     </button>
+                      //   </div>
+                      // </div>
+                      <div className="flex justify-center">
+                        <QR
+                          id="qr-gen"
+                          value={shareUrl}
+                          size={200}
+                          imageSettings={{ src: shareUrl, width: 100, height: 100 }} //사이즈
+                          level={"H"}
+                          includeMargin={false} //QR 테두리 여부
+                          bgColor={"#FFFFFF"} //배경색
+                          fgColor={"#575757"} //QR색
+                          className="p-0 m-0"
+                        />
+                      </div>
+                      
+                      : 
+                      null 
+                    }
                   </div>
                   </Dialog.Panel>
               </Transition.Child>
