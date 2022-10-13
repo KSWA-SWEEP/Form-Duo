@@ -11,7 +11,7 @@ import QR from "qrcode.react";
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
-  { name: '설문 수정', href: '/survey/create/' },
+  { name: '설문 수정', href: '/survey/modify/' },
   { name: '설문 분석', href: '/survey/result/' },
   { name: '설문 삭제', href: 'deleteSvy' },
   { name: '설문 공유', href: 'shareSvy' },
@@ -143,6 +143,7 @@ export default function SurveyGridList() {
 
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {svyList.map((survey) => (
+
               <div key={survey.id} className="duration-200 rounded-2xl bg-neutral-100">
                   <div>
                       <div className="w-full overflow-hidden rounded-t-lg bg-neutral-200 aspect-w-16 aspect-h-9 xl:aspect-w-16 xl:aspect-h-9">
@@ -216,6 +217,7 @@ export default function SurveyGridList() {
                                                           {item.name}
                                                       </a>
                                                   }
+
                                           </Menu.Item>
                                       ))}
                                   </Menu.Items>

@@ -8,7 +8,7 @@ import { SessionProvider } from "next-auth/react"
 // console.log(process.env.NEXT_PUBLIC_API_URL);
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 //token 값 수정 필요
-const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJramhAZ21haWwuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTY2NTU3OTkzMSwiZXhwIjoxNjY1NTgxNzMxfQ.YfYUJqZPUOqtWB8yysudtoxnG5tpM69Nok6ebPgzEleHO_Re5o83q37UgsC3qRR2qIT4HXFxBvv_kJ_qjMuleQ";
+const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbWFpbDIyQGVtYWlsLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJpYXQiOjE2NjU2Mzc3MDEsImV4cCI6MTY2NTgxNzcwMX0.InZ3neTH-FUQwEGlHN30ESC1GGJUK6pZPC2jxH65EBxUpORJtE469dwVDXiN-l-l0D0XsmLSBw4gve9E4LRx2w";
 
 axios.defaults.headers = {
     'Content-Type': "application/json",
