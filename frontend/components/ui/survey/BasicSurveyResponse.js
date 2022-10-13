@@ -3,7 +3,7 @@ import React, { Fragment, useState, useRef, useCallback, useEffect } from "react
 import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { useRecoilValue } from "recoil";
-import { ansValState } from "../../../atoms/ansVal";
+import { respState } from "../../../atoms/resp";
 import { qIdState } from "../../../atoms/qId";
 import CreateRespContents from "./response/CreateRespContents";
 
@@ -16,7 +16,7 @@ export default function BasicSurveyResponse() {
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
 
-    const ansVal = useRecoilValue(ansValState);
+    const resp = useRecoilValue(respState);
     const qId = useRecoilValue(qIdState);
 
     function openSaveModal() {
@@ -64,7 +64,7 @@ export default function BasicSurveyResponse() {
     return (
         <div>
             <CreateRespContents svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} />
-            <ShowQuestionList />
+            <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             <div className="flex justify-center m-7 mx-2 rounded-md ">
                 <a
                     onClick={openSaveModal}

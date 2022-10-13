@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { v1 } from 'uuid';
 
-export const ansValState = atom({
-    key: `ansValState/${v1()}`,
+export const qContentIdState = atom({
+    key: `qContentIdState/${v1()}`,
     default: []
   });

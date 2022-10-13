@@ -6,12 +6,12 @@ import Objective from "./Objective";
 import Rating from "./Rating";
 import Subjective from "./Subjective";
 
-const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents }) => {
+const ShowQuestionListItem = ({ svyRespContents, setSvyRespContents, qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents }) => {
 
     function questionAsType() {
         switch (qType) {
             case 'checkbox':
-                return <Checkbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents}/>
+                return <Checkbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'date':
                 return <Date qId={qId} qTitle={qTitle} qInfo={qInfo} />
             case 'dropbox':

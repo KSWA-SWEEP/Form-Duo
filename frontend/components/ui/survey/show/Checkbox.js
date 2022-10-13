@@ -1,24 +1,49 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { ansValState } from "../../../../atoms/ansVal";
+import { respState } from "../../../../atoms/resp";
 import { qIdState } from "../../../../atoms/qId";
+import { qContentIdState } from "../../../../atoms/qContentId";
 
 export default function Checkbox(props) {
 
+
+  const [resp, setResp] = useRecoilState(respState);
+  const [qId, setQId] = useRecoilState(qIdState);
+  const [qContentId, setQContentId] = useRecoilState(qContentIdState);
+
+  // console.log("@@@ " + JSON.stringify(props.svyRespContents));
+
   const [checked, setChecked] = useState([]);
   const handleCheck = (event) => {
-    var updatedList = [...checked];
+    const updatedList = [...checked];
+    const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
+
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
+
+      const ansVal = {
+        qContentId: qContentId,
+        resp: resp,
+      };
+
+      // console.log("created ansVal: " + JSON.stringify(ansVal));
+      let tempRespContents = [...(props.svyRespContents)];
+      let tempAnsVal = tempRespContents[index].ansVal;
+      // console.log("tempAnsVal before " + JSON.stringify(tempAnsVal));
+      Array.from(tempAnsVal).concat(ansVal);
+      // tempAnsVal = [...tempAnsVal, ansVal];
+      // console.log("tempAnsVal after " + JSON.stringify(tempAnsVal));
+      // props.setSvyRespContents((props.svyRespContents[index].ansVal).concat(ansVal));
+       
     } else {
       updatedList.splice(checked.indexOf(event.target.value), 1);
     }
+
     setChecked(updatedList);
-    setAnsVal(updatedList);
+    setQContentId(event.target.value);
     setQId(props.qId);
+    setResp(props.qContents[event.target.value-1].qContentVal);
   }
-  const [ansVal, setAnsVal] = useRecoilState(ansValState);
-  const [qId, setQId] = useRecoilState(qIdState);
 
   return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">

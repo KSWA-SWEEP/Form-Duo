@@ -1,7 +1,7 @@
 import SVY_CONTENT_1 from "../../../../public/temp/SVY_CONTENT_1.json"
 import ShowQuestionListItem from "./ShowQuestionListItem";
 
-const ShowQuestionList = () => {
+const ShowQuestionList = (props) => {
 
     return(
         <div>
@@ -14,7 +14,9 @@ const ShowQuestionList = () => {
                 qImage={question.qImage}
                 qVideo={question.qVideo}
                 qIsMulti={question.isMulti}
-                qContents={question.qContents} />
+                qContents={question.qContents}
+                svyRespContents={props.svyRespContents}
+                setSvyRespContents={props.setSvyRespContents}/>
                 
             ))}
         </div>

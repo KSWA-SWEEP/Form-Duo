@@ -9,7 +9,7 @@ export default function CreateRespContents(props) {
     const initResContents = () => {
         const newList = [];
         SVY_CONTENT_1.svyContents.map(question => {
-            resContent.current = { "qId": question.qId, "qType": question.qType, "ansVal": { "qContentId": "", "resp": "" } }
+            resContent.current = { "qId": question.qId, "qType": question.qType, "ansVal": [{ "qContentId": "", "resp": "" }] }
             newList = [...newList, resContent.current];
         });
 
@@ -20,6 +20,7 @@ export default function CreateRespContents(props) {
         initResContents();
     }, []);
 
+    // console.log("Initial svyRespContents " + JSON.stringify(props.svyRespContents));
 
     return (
         <UpdateRespContents svyRespContents={props.svyRespContents} setSvyRespContents={props.setSvyRespContents} />

@@ -1,19 +1,22 @@
 import { list } from "postcss";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { ansValState } from "../../../../atoms/ansVal";
+import { respState } from "../../../../atoms/resp";
 import { qIdState } from "../../../../atoms/qId";
+import { qContentIdState } from "../../../../atoms/qContentId";
 
 export default function Subjective(props) {
 
     const [answer, setAnswer] = useState("");
     const onChange = (event) => {
         setAnswer(event.target.value);
-        setAnsVal(event.target.value);
+        setResp(event.target.value);
         setQId(props.qId);
+        setQContentId("");
     }
-    const [ansVal, setAnsVal] = useRecoilState(ansValState);
+    const [resp, setResp] = useRecoilState(respState);
     const [qId, setQId] = useRecoilState(qIdState);
+    const [qContentId, setQContentId] = useRecoilState(qContentIdState);
 
     return (
         <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
