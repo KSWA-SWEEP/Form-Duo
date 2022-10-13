@@ -29,8 +29,8 @@ const navigation = [
   { name: '폼듀란?', href: '/about/formduo', current: false },
   { name: '설문 목록', href: '/survey/list/mySurvey', current: false },
   { name: '설문 제작', href: '/', current: false },
-  { name: '설문 분석', href: '/survey/result/list', current: false },
-  { name: '고객 지원', href: '/', current: false },
+  // { name: '설문 분석', href: '/survey/result/list', current: false },
+  // { name: '고객 지원', href: '/', current: false },
 ]
 
 const navigationBeforeLogin = [
@@ -66,6 +66,7 @@ export default function Header() {
 
   console.log("hasToken? " + acctoken)
   console.log(session);
+  
   //session이 있을 때(카카오 로그인이 되었을 때 Header)
   // if(session){
   if(acctoken){
@@ -75,12 +76,12 @@ export default function Header() {
           <Disclosure as="nav">
             {({ open }) => (
               <>
-                <div className="px-4 mx-auto border-b-2 border-gray-100 max-w-7xl sm:px-6 lg:px-8">
+                <div className="px-4 mx-auto border-b-2 border-gray-200 max-w-7xl sm:px-6 lg:px-5">
                   <div className="flex items-center justify-between h-24">
   
                     {/* logo */}
-                    <div className="flex items-center duration-200 hover:scale-105">
-                      <div className="flex-shrink-0">
+                    <div className="flex items-center duration-50 hover:scale-105">
+                      <div className="flex-grow-0">
                       <Link 
                           href={{
                               pathname: '/'
@@ -191,6 +192,7 @@ export default function Header() {
                         {/*<button onClick={() => signOut()}>Sign out</button>*/}
                       {/*<button onClick={() => signOut()}>Sign out</button>*/}
                       <button onClick={openModal}>Sign out</button>
+
                     </>
                     
                     <div className="flex -mr-2 md:hidden">

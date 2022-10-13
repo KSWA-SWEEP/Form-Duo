@@ -1,15 +1,15 @@
 import PageTitle from "../../../components/ui/PageTitle";
 import SurveyGridList from "../../../components/ui/survey/SurveyGridList";
+import { useRouter } from 'next/router'
 
-const mySurvey = () => {
 
+const m = () => {
 
     return (
         <>
-            <PageTitle title="내가 만든 설문"/>
-            <SurveyGridList/>
+            <h1>"{surveyId}번" 설문 수정</h1>
         </>
     );
 };
 
-export default mySurvey;
+export default SurveyModify;

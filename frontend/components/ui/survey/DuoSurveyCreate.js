@@ -7,22 +7,13 @@ import Question from "./input/Question.js";
 import Link from "next/link.js";
 import { customAxios } from "../../../utils/customAxios.js";
 import axios from "axios";
-import { useRouter } from 'next/router'
-
 
 const qTypes = [
-    { name: '객관식', comp: "Objective", contentYn: true },
-    { name: '주관식', comp: "Subjective", contentYn: false },
-    { name: '체크박스', comp: "Checkbox", contentYn: true },
-    { name: '드롭박스', comp: "Dropbox", contentYn: true },
-    { name: '날짜', comp: "Date", contentYn: false },
-    { name: '평점', comp: "Rating", contentYn: false },
-    { name: '파일', comp: "File", contentYn: false },
+    { name: '음성', comp: "Objective", contentYn: true },
 ]
 
 export default function BasicSurveyCreate () {
 
-    const router = useRouter()
     const [selected, setSelected] = useState(qTypes[0])
     const [svyContents, setSvyContents] = useState([])
 
@@ -55,7 +46,6 @@ export default function BasicSurveyCreate () {
     };
     
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
-    const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
 
 
@@ -65,14 +55,6 @@ export default function BasicSurveyCreate () {
 
     function closeSaveModal() {
         setIsSaveModalOpen(false)
-    }
-
-    function openFailModal() {
-        setIsFailModalOpen(true)
-    }
-
-    function closeFailModal() {
-        setIsFailModalOpen(false)
     }
 
     function openSettingModal() {
@@ -97,19 +79,23 @@ export default function BasicSurveyCreate () {
         data.svySt = "";
         data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
         data.svyRespCount = 0;
+        console.log(data);
 
-        makeSvy(data);
-    }
-
-    async function makeSvy(data){
-        try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',data);
-            setIsSettingModalOpen(false)
-            router.push('/survey/create/finish', undefined, { shallow: true })
-        }catch (e) {
-            console.log(e);
-            openFailModal();
+        async function makeSvy(){
+            try{
+                const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',data);
+                console.log("Result inside : " + JSON.stringify(result.data));
+                return result;
+            }catch (e) {
+                console.log(e);
+            }
         }
+        makeSvy().then(r => {console.log("result : " + JSON.stringify(r.data))});
+
+        // axios.post('/api/v1/surveys', data)
+        // .then(res => {
+        //     console.log(res);
+        // })
     }
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -425,7 +411,7 @@ export default function BasicSurveyCreate () {
                                     <button
                                         type="button"
                                         className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
-                                        onClick={closeSettingModal}
+                                        onClick={closeSaveModal}
                                         >
                                         이전
                                     </button>
@@ -436,61 +422,6 @@ export default function BasicSurveyCreate () {
                                         onClick={saveBasicSurvey}
                                         >
                                         저장하기
-                                    </button>
-                                </div>
-                                </Dialog.Panel>
-                            </Transition.Child>
-                            </div>
-                        </div>
-                        </Dialog>
-                    </Transition>
-
-                    
-                    <Transition appear show={isFailModalOpen} as={Fragment}>
-                        <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        >
-                            <div className="fixed inset-0 bg-black bg-opacity-25" />
-                        </Transition.Child>
-
-                        <div className="fixed inset-0 overflow-y-auto">
-                            <div className="flex items-center justify-center min-h-full p-4 text-center">
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0 scale-95"
-                                enterTo="opacity-100 scale-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100 scale-100"
-                                leaveTo="opacity-0 scale-95"
-                            >
-                                <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                                <Dialog.Title
-                                    as="h3"
-                                    className="text-lg font-extrabold leading-6 text-gray-900"
-                                >
-                                    설문 저장 실패
-                                </Dialog.Title>
-                                <div className="mt-2">
-                                    <p className="text-sm text-gray-500">
-                                    설문 저장에 실패하였습니다. 잠시후 다시 시도해주세요
-                                    </p>
-                                </div>
-
-                                <div className="flex justify-center mt-4">
-                                    <button
-                                        type="button"
-                                        className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
-                                        onClick={closeFailModal}
-                                        >
-                                        닫기
                                     </button>
                                 </div>
                                 </Dialog.Panel>
