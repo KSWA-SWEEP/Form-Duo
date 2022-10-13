@@ -25,6 +25,7 @@ public class SurveysResponseDto  {
     private  Instant svyEndDt;
     private  Character delYn;
     private  String svyEndMsg;
+    private  Instant svyRegDt;
 
     // 클라이언트가 요청했을 때 보여질 애들을 정합시다~.
 
@@ -40,6 +41,7 @@ public class SurveysResponseDto  {
         this.svyEndMsg = entity.getSvyEndMsg();
         this.svyStartDt = entity.getSvyStartDt();
         this.svyEndDt = entity.getSvyEndDt();
+        this.svyRegDt = entity.getRegDt();
     }
 
 //    public Surveys toEntity() {
