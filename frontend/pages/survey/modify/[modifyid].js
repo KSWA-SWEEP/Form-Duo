@@ -3,7 +3,7 @@ import SurveyGridList from "../../../components/ui/survey/SurveyGridList";
 import { useRouter } from 'next/router'
 
 
-const m = () => {
+const ModifySurvey = () => {
 
     return (
         <>
@@ -12,4 +12,4 @@ const m = () => {
     );
 };
 
-export default SurveyModify;
+export default ModifySurvey;
