@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import {Dialog, Disclosure, Menu, Transition} from '@headlessui/react'
 import Image from 'next/future/image';
 import logoMixed from '../../public/img/mixed@3x.png'
 import logoIcon from '../../public/img/icon@3x.png'
@@ -7,6 +7,10 @@ import Link from 'next/link';
 import { useSession, signIn, signOut } from "next-auth/react"
 
 import { Bars3Icon, DocumentTextIcon, MicrophoneIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {useRecoilState} from "recoil";
+import {refToken} from "../../atoms/refToken";
+import {accToken} from "../../atoms/accToken";
+import {useState} from "react";
 
 // 임시 사용자 id
 const userId = 'user001';
@@ -49,10 +53,23 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  let [isOpen, setIsOpen] = useState(false)
+  function closeModal() {
+    setIsOpen(false)
+  }
+  function openModal() {
+    setIsOpen(true)
+  }
+
   const { data: session} = useSession()
+  const [acctoken,setAcctoken] = useRecoilState(accToken);
+
+  console.log("hasToken? " + acctoken)
   console.log(session);
-  if(session){
-    // 로그인 됬을 때
+  
+  //session이 있을 때(카카오 로그인이 되었을 때 Header)
+  // if(session){
+  if(acctoken){
     return (
       <>
         <div className="min-h-full mt-5">
@@ -171,8 +188,11 @@ export default function Header() {
                     </div>
   
                     <>
-                        반갑습니다, {session.user.name}님  <br/>
-                        <button onClick={() => signOut()}>Sign out</button>
+                        {/*Hello, {session.user.name} <br/>*/}
+                        {/*<button onClick={() => signOut()}>Sign out</button>*/}
+                      {/*<button onClick={() => signOut()}>Sign out</button>*/}
+                      <button onClick={openModal}>Sign out</button>
+
                     </>
                     
                     <div className="flex -mr-2 md:hidden">
@@ -233,9 +253,72 @@ export default function Header() {
             )}
           </Disclosure>
         </div>
+      {/*  logout Modal */}
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex items-center justify-center min-h-full p-4 text-center">
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <Dialog.Title
+                        as="h3"
+                        className="text-lg font-extrabold leading-6 text-gray-900"
+                    >
+                      로그아웃
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        로그아웃 하시겠습니까🥺?
+                      </p>
+                    </div>
+
+                    <div className="flex justify-center mt-4">
+                      <button
+                          type="button"
+                          className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
+                          onClick={closeModal}
+                      >
+                        취소
+                      </button>
+
+                      <button
+                          type="button"
+                          className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none "
+                          onClick={()=>signOut()}
+                      >
+                        로그아웃
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition>
       </>
     )
   }
+  //session이 없을 때(카카오 로그인이 되지 않았을 때 Header)
   return (
     <>
       <div className="min-h-full mt-5">
@@ -355,12 +438,18 @@ export default function Header() {
                   <div className="hidden md:block">
                     <div className="flex items-center ml-4 md:ml-6">
                       <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
-                          <button onClick={() => signIn("kakao")} className="text-sm font-normal text-gray-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">
-                            Sign In with Kakao
+                        <Link href='/account/signIn'>
+                          {/*<button onClick={() => signIn("kakao")} className="text-sm font-normal text-gray-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">*/}
+                          <button className="text-sm font-normal text-gray-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">
+                            {/*Sign In with Kakao*/}
+                            로그인
                           </button>
+                        </Link>
+                        <Link href='/account/signUp'>
                           <div className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
-                            Sign Up
+                            회원가입
                           </div>
+                        </Link>
                       </div>
                     </div>
                   </div>

@@ -23,7 +23,7 @@
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "recoil": "^0.7.5"
+    "recoil": "^0.7.6"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -31,7 +31,8 @@
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1",
     "postcss": "^8.4.17",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "uuid": "^9.0.0"
   },
-  "proxy":"http://210.109.60.247:10001"
+  "proxy": "http://210.109.60.247:10001"
 }
