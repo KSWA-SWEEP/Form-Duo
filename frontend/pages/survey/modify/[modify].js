@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import SurveyModify from '../../../components/ui/survey/SurveyModify'
 
 
-const ModifySurvey = () => {
+const Modify = () => {
     
     const router = useRouter();
     const { surveyId } = router.query
@@ -17,4 +17,4 @@ const ModifySurvey = () => {
     );
 };
 
-export default ModifySurvey;
+export default Modify;
