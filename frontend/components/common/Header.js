@@ -10,6 +10,7 @@ import {useRecoilState} from "recoil";
 import {refToken} from "../../atoms/refToken";
 import {accToken} from "../../atoms/accToken";
 import {useState} from "react";
+import {useRouter} from "next/router";
 
 // 임시 사용자 id
 const userId = 'user001';
@@ -60,6 +61,7 @@ export default function Header () {
 
   const [acctoken,setAcctoken] = useRecoilState(accToken);
   const [reftoken,setReftoken] = useRecoilState(refToken);
+  const router = useRouter();
 
   //check
   console.log("accToken? " + acctoken)
@@ -67,7 +69,7 @@ export default function Header () {
   console.log("Cookies : "+JSON.stringify(getCookies()));
 
   //로그아웃 함수
-  function logOut() {
+  async function logOut() {
     console.log("Logout");
     //check
     // console.log("Acc : " + acctoken);
@@ -77,6 +79,7 @@ export default function Header () {
     setCookie("accessToken","");
     setCookie("refreshToken","")
     closeModal();
+    await router.push('/');
   }
 
     return (

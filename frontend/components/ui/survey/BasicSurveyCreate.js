@@ -325,7 +325,7 @@ export default function BasicSurveyCreate () {
 
                     
                     <Transition appear show={isSettingModalOpen} as={Fragment}>
-                        <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
+                        <Dialog as="div" className="relative z-10" onClose={closeSettingModal}>
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
