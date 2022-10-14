@@ -365,6 +365,7 @@ export default function SurveyModify (props) {
                         </Dialog>
                     </Transition>
 
+              
                     <Transition appear show={isSettingModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
                         <Transition.Child
@@ -414,6 +415,7 @@ export default function SurveyModify (props) {
                                             id="svyStartDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onStartDtChange}
+                                            defaultValue={svyData.svyStartDt}
                                         />
                                         </div>
 
@@ -431,6 +433,7 @@ export default function SurveyModify (props) {
                                             id="svyEndDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onEndDtChange}
+                                            defaultValue={svyData.svyEndDt}
                                         />
                                         </div>
 
@@ -444,6 +447,7 @@ export default function SurveyModify (props) {
                                             rows={3}
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onEndMsgChange}
+                                            defaultValue={svyData.svyEndMsg}
                                         />
                                         </div>
                                         
@@ -457,6 +461,7 @@ export default function SurveyModify (props) {
                                             id="svyRespMax"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onRespMaxChange}
+                                            defaultValue={svyData.svyRespMax}
                                         />
                                         </div>
                                     </div>
