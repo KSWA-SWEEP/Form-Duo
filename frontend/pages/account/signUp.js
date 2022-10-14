@@ -16,10 +16,22 @@ const SignUp = () =>{
     function openModal() {
         setIsOpen(true)
     }
+    //회원 가입 오류 모달
+    let [isFailOpen, setIsFailOpen] = useState(false)
+    function closeFailModal() {
+        setIsFailOpen(false)
+        router.push('/account/signIn');
+    }
+    function openFailModal() {
+        setIsFailOpen(true)
+    }
+
+
     const router = useRouter();
     const userName = useRef("");
     const userEmail = useRef("");
     const userPw = useRef("");
+    const userPwChk = useRef("");
 
     const onNameChange = (e) => {
         userName.current = e.target.value;
@@ -33,17 +45,24 @@ const SignUp = () =>{
         userPw.current = e.target.value;
         console.log("userPw : "+userPw.current);
     };
+    const onPwChkChange = (e) => {
+        userPwChk.current = e.target.value;
+        console.log("userPwChk : "+userPwChk.current);
+    };
 
     async function reqSignup(){
         //입력 창 확인
         if(!userName.current){
-            alert("이름을 입력해주세요.");
+            alert("😮이름을 입력해주세요.");
             return <SignUp></SignUp>;
         } else if(!userEmail.current){
-            alert("이메일을 입력해주세요.");
+            alert("😮이메일을 입력해주세요.");
             return <SignUp></SignUp>;
         } else if(!userPw.current){
-            alert("비밀번호를 입력해주세요.");
+            alert("😮비밀번호를 입력해주세요.");
+            return <SignUp></SignUp>;
+        } else if(userPw.current !== userPwChk.current){
+            alert("😮비밀번호가 일치하지 않습니다. 다시 확인해주세요!");
             return <SignUp></SignUp>;
         }
 
@@ -63,9 +82,9 @@ const SignUp = () =>{
             console.log("User email : "+ result.data["email"]);
             openModal();
             return <></>;
-        }catch(e){
+        }catch (e) {
             console.log(e);
-        }finally {
+            openFailModal();
         }
     }
 
@@ -131,6 +150,21 @@ const SignUp = () =>{
                                     onChange={onPwChange}
                                 />
                             </div>
+                            <div>
+                                <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
+                                    비밀번호 확인
+                                </label>
+                                <input
+                                    id="passwordChk"
+                                    name="passwordChk"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required
+                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="Password Check"
+                                    onChange={onPwChkChange}
+                                />
+                            </div>
                         </div>
                         <div>
                             <button
@@ -192,6 +226,61 @@ const SignUp = () =>{
                                             type="button"
                                             className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
                                             onClick={closeModal}
+                                        >
+                                            닫기
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
+
+            {/*  signUp Fail Modal */}
+            <Transition appear show={isFailOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex items-center justify-center min-h-full p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="text-lg font-extrabold leading-6 text-gray-900"
+                                    >
+                                        회원 가입 오류
+                                    </Dialog.Title>
+                                    <div className="mt-2">
+                                        <p className="text-sm text-gray-500">
+                                            이미 등록 된 회원입니다!😢
+                                        </p>
+                                    </div>
+
+                                    <div className="flex justify-center mt-4">
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
+                                            onClick={closeFailModal}
                                         >
                                             닫기
                                         </button>
