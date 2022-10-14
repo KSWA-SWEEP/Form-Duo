@@ -48,22 +48,6 @@ export default function SurveyModify (props) {
         }
     }, [svyId]);
     
-
-    // useEffect(() => {
-    //     console.log(">>>> "+ svyId)
-    //     if(svyId != "undefined"){
-    //         getSurvey().then(r => {
-    //             let resultData = r.data;
-    //             let svyContent = resultData.svyContent;
-    //             setSvyContents(svyContent)
-    //             console.log(">> "+JSON.stringify(r.data))
-    //         });
-    //     }
-    //     // getSurvey().then(r => {
-    //     // console.log(">> "+JSON.stringify(r.data))
-    //     // });
-    // }, [svyId]);
-    
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
       console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
@@ -76,13 +60,6 @@ export default function SurveyModify (props) {
       }
     } 
 
-    // // 여기서 초기화된 SvyContents를 받아온 설문으로 넣어준다.
-    // getSurvey().then(r => {
-    //   console.log(JSON.stringify(r.data))
-    //   let resultData = r.data;
-    //   let svyContent = resultData.svyContent;
-    //   setSvyContents(svyContent)
-    // });
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)

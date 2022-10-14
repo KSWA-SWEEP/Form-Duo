@@ -3,7 +3,8 @@ import '../styles/globals.css'
 import * as Sentry from "@sentry/nextjs"
 import { Integrations } from '@sentry/nextjs'
 import axios from 'axios';
-import { SessionProvider } from "next-auth/react"
+// import { SessionProvider } from "next-auth/react"
+
 import {
     RecoilRoot,
     atom,
@@ -31,11 +32,11 @@ export default function App({
 }) {
   return (
       <RecoilRoot>
-          <SessionProvider session={session}>
+          {/* <SessionProvider session={session}> */}
                   <Layout>
                   <Component {...pageProps} />
                   </Layout>
-          </SessionProvider>
+          {/* </SessionProvider> */}
       </RecoilRoot>
   )
 }

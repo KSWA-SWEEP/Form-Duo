@@ -39,11 +39,10 @@ export default function SurveyGridList() {
   const [showCopyMsg, setShowCopyMsg] = useState(false)
 
   useEffect(() => {
-    return () => {
       getSvyList().then(r => {
         setSvyList(r.data)
+        console.log(">> "+JSON.stringify(r.data))
       });
-     }
    }, []);
    
 

@@ -4,7 +4,7 @@ import Image from 'next/future/image';
 import logoMixed from '../../public/img/mixed@3x.png'
 import logoIcon from '../../public/img/icon@3x.png'
 import Link from 'next/link';
-import { useSession, signIn, signOut } from "next-auth/react"
+// import { useSession, signIn, signOut } from "next-auth/react"
 
 import { Bars3Icon, DocumentTextIcon, MicrophoneIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import {useRecoilState} from "recoil";
@@ -61,11 +61,11 @@ export default function Header() {
     setIsOpen(true)
   }
 
-  const { data: session} = useSession()
+  // const { data: session} = useSession()
   const [acctoken,setAcctoken] = useRecoilState(accToken);
 
-  console.log("hasToken? " + acctoken)
-  console.log(session);
+  // console.log("hasToken? " + acctoken)
+  // console.log(session);
   
   //session이 있을 때(카카오 로그인이 되었을 때 Header)
   // if(session){

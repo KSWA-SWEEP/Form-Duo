@@ -8,7 +8,7 @@ import {useRef} from "react";
 import axios from "axios";
 import {accToken} from '../../atoms/accToken'
 import {refToken} from '../../atoms/refToken'
-import {signOut} from "next-auth/react";
+// import {signOut} from "next-auth/react";
 import MainPage from "../../components/ui/MainPage";
 
 import { useRouter } from 'next/router'
