@@ -3,15 +3,12 @@ import Image from 'next/future/image';
 import logoIcon from '../../public/img/mixed.png'
 import Link from "next/link";
 import {useRecoilState} from "recoil";
-import {useState} from "react";
 import {useRef} from "react";
 import axios from "axios";
 import {accToken} from '../../atoms/accToken'
 import {refToken} from '../../atoms/refToken'
-import {signOut} from "next-auth/react";
-import MainPage from "../../components/ui/MainPage";
-
 import { useRouter } from 'next/router'
+import {setCookie} from "cookies-next";
 
 const SignIn =()=> {
     const router = useRouter();
@@ -30,6 +27,7 @@ const SignIn =()=> {
     };
 
     async function reqLogin(){
+        //로그인 입력 확인
         console.log("userEmail : " + userEmail.current);
         console.log("userPw : " + userPw.current);
         if(!userEmail.current){
@@ -40,14 +38,14 @@ const SignIn =()=> {
             return <SignIn></SignIn>;
         }
         console.log("Login Request");
+
+        //로그인 api 호출
         const data = new Object();
         console.log("userEmail : " + userEmail.current);
         console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
         data.password = userPw.current;
         try{
-            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members');
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/api/v1/auth/reissue',data);
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/login", data);
 
             console.log("Result : " + JSON.stringify(result.data));
@@ -55,10 +53,9 @@ const SignIn =()=> {
             console.log("refreshToken : "+ result.data["refreshToken"]);
 
             setAcctoken(result.data["accessToken"]);
-            // console.log("req : "+ acctoken);
-
             setReftoken(result.data["refreshToken"]);
-            // console.log("res : "+ useRecoilValue(refToken));
+            setCookie("accessToken",result.data["accessToken"])
+            setCookie("refreshToken",result.data["refreshToken"])
 
             await router.push('/');
             return <></>;
@@ -67,11 +64,6 @@ const SignIn =()=> {
         }
     }
 
-    // function reqLogin() {
-    //     console.log("Login Request")
-    //     login().then(r => {console.log("Result : " + JSON.stringify(r.data));});
-    //     return <Link href='/'></Link>
-    // }
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -122,18 +114,6 @@ const SignIn =()=> {
                         </div>
 
                         <div className="flex items-center float-right justify-between">
-                            {/*<div className="flex items-center">*/}
-                            {/*    <input*/}
-                            {/*        id="remember-me"*/}
-                            {/*        name="remember-me"*/}
-                            {/*        type="checkbox"*/}
-                            {/*        className="h-4 w-4 rounded border-fdblue text-fdblue focus:ring-fdblue"*/}
-                            {/*    />*/}
-                            {/*    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">*/}
-                            {/*        Remember me*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
-
                             <div className="text-sm">
                                 <Link
                                     href="/account/signUp"

@@ -7,7 +7,7 @@ const m = () => {
 
     return (
         <>
-            <h1>"{surveyId}번" 설문 수정</h1>
+            <h1>{surveyId}번 설문 수정</h1>
         </>
     );
 };

@@ -85,7 +85,7 @@ export default function BasicSurveyCreate () {
     }
 
     function saveBasicSurvey() {
-        closeSettingModal;
+        closeSettingModal();
 
         const data = new Object();
         data.svyTitle = svyTitle;
@@ -97,6 +97,7 @@ export default function BasicSurveyCreate () {
         data.svySt = "";
         data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
         data.svyRespCount = 0;
+        console.log(data);
 
         makeSvy(data);
     }
@@ -445,7 +446,7 @@ export default function BasicSurveyCreate () {
                         </Dialog>
                     </Transition>
 
-                    
+
                     <Transition appear show={isFailModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
                         <Transition.Child

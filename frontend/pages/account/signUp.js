@@ -35,6 +35,7 @@ const SignUp = () =>{
     };
 
     async function reqSignup(){
+        //입력 창 확인
         if(!userName.current){
             alert("이름을 입력해주세요.");
             return <SignUp></SignUp>;
@@ -46,6 +47,7 @@ const SignUp = () =>{
             return <SignUp></SignUp>;
         }
 
+        //회원가입 api 호출
         console.log("SignUp Request");
         const data = new Object();
         console.log("userName : " + userName.current);
@@ -55,12 +57,10 @@ const SignUp = () =>{
         data.email = userEmail.current;
         data.password = userPw.current;
         try{
-            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members');
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/api/v1/auth/reissue',data);
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/signup", data);
-
+            //check
             console.log("Result : " + JSON.stringify(result.data));
-            console.log("email : "+ result.data["email"]);
+            console.log("User email : "+ result.data["email"]);
             openModal();
             return <></>;
         }catch(e){
