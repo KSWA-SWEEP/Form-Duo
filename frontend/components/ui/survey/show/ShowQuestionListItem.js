@@ -13,17 +13,17 @@ const ShowQuestionListItem = ({ svyRespContents, setSvyRespContents, qId, qTitle
             case 'checkbox':
                 return <Checkbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'date':
-                return <Date qId={qId} qTitle={qTitle} qInfo={qInfo} />
+                return <Date qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'dropbox':
-                return <Dropbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents}/>
+                return <Dropbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'file':
-                return <File qId={qId} qTitle={qTitle} qInfo={qInfo}/>
+                return <File qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'objective':
-                return <Objective qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents}/>
+                return <Objective qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'rating':
-                return <Rating qId={qId} qTitle={qTitle} qInfo={qInfo} />
+                return <Rating qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'subjective':
-                return <Subjective qId={qId} qTitle={qTitle} qInfo={qInfo} />
+                return <Subjective qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
         }
     }
 

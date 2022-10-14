@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 const MyPage = () => {
     const router = useRouter();
-    const { userId } = router.query
+    const { userId } = router.query;
 
     return (
         <>

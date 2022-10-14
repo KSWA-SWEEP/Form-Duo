@@ -3,15 +3,13 @@ import Image from 'next/future/image';
 import logoIcon from '../../public/img/mixed.png'
 import Link from "next/link";
 import {useRecoilState} from "recoil";
-import {useState} from "react";
-import {useRef} from "react";
+import {Fragment, useRef, useState} from "react";
 import axios from "axios";
 import {accToken} from '../../atoms/accToken'
 import {refToken} from '../../atoms/refToken'
-import {signOut} from "next-auth/react";
-import MainPage from "../../components/ui/MainPage";
-
 import { useRouter } from 'next/router'
+import {setCookie} from "cookies-next";
+import {Dialog, Transition} from "@headlessui/react";
 
 const SignIn =()=> {
     const router = useRouter();
@@ -19,6 +17,14 @@ const SignIn =()=> {
     const userPw = useRef("");
     const [acctoken,setAcctoken] = useRecoilState(accToken);
     const [reftoken,setReftoken] = useRecoilState(refToken);
+    //로그인 오류 모달
+    let [isFailOpen, setIsFailOpen] = useState(false)
+    function closeFailModal() {
+        setIsFailOpen(false)
+    }
+    function openFailModal() {
+        setIsFailOpen(true)
+    }
 
     const onEmailChange = (e) => {
         userEmail.current = e.target.value;
@@ -30,6 +36,7 @@ const SignIn =()=> {
     };
 
     async function reqLogin(){
+        //로그인 입력 확인
         console.log("userEmail : " + userEmail.current);
         console.log("userPw : " + userPw.current);
         if(!userEmail.current){
@@ -40,14 +47,14 @@ const SignIn =()=> {
             return <SignIn></SignIn>;
         }
         console.log("Login Request");
+
+        //로그인 api 호출
         const data = new Object();
         console.log("userEmail : " + userEmail.current);
         console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
         data.password = userPw.current;
         try{
-            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members');
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/api/v1/auth/reissue',data);
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/login", data);
 
             console.log("Result : " + JSON.stringify(result.data));
@@ -55,23 +62,18 @@ const SignIn =()=> {
             console.log("refreshToken : "+ result.data["refreshToken"]);
 
             setAcctoken(result.data["accessToken"]);
-            // console.log("req : "+ acctoken);
-
             setReftoken(result.data["refreshToken"]);
-            // console.log("res : "+ useRecoilValue(refToken));
+            setCookie("accessToken",result.data["accessToken"])
+            setCookie("refreshToken",result.data["refreshToken"])
 
             await router.push('/');
             return <></>;
         }catch(e){
             console.log(e);
+            openFailModal();
         }
     }
 
-    // function reqLogin() {
-    //     console.log("Login Request")
-    //     login().then(r => {console.log("Result : " + JSON.stringify(r.data));});
-    //     return <Link href='/'></Link>
-    // }
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -122,18 +124,6 @@ const SignIn =()=> {
                         </div>
 
                         <div className="flex items-center float-right justify-between">
-                            {/*<div className="flex items-center">*/}
-                            {/*    <input*/}
-                            {/*        id="remember-me"*/}
-                            {/*        name="remember-me"*/}
-                            {/*        type="checkbox"*/}
-                            {/*        className="h-4 w-4 rounded border-fdblue text-fdblue focus:ring-fdblue"*/}
-                            {/*    />*/}
-                            {/*    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">*/}
-                            {/*        Remember me*/}
-                            {/*    </label>*/}
-                            {/*</div>*/}
-
                             <div className="text-sm">
                                 <Link
                                     href="/account/signUp"
@@ -160,6 +150,61 @@ const SignIn =()=> {
                     </form>
                 </div>
             </div>
+
+            {/*  signIn Fail Modal */}
+            <Transition appear show={isFailOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex items-center justify-center min-h-full p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="text-lg font-extrabold leading-6 text-gray-900"
+                                    >
+                                        ❗로그인 실패
+                                    </Dialog.Title>
+                                    <div className="mt-2">
+                                        <p className="text-sm text-gray-500 justify-center">
+                                            로그인에 실패하였습니다! 확인 후 다시 로그인해주세요😢️
+                                        </p>
+                                    </div>
+
+                                    <div className="flex justify-center mt-4">
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
+                                            onClick={closeFailModal}
+                                        >
+                                            닫기
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
         </>
     )
 };
