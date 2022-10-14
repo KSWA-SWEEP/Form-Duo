@@ -10,19 +10,19 @@ const ShowQuestionListItem = ({ svyRespContents, setSvyRespContents, qId, qTitle
 
     function questionAsType() {
         switch (qType) {
-            case 'checkbox':
+            case 'Checkbox':
                 return <Checkbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
-            case 'date':
+            case 'Date':
                 return <Date qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
-            case 'dropbox':
+            case 'Dropbox':
                 return <Dropbox qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
-            case 'file':
+            case 'File':
                 return <File qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
-            case 'objective':
+            case 'Objective':
                 return <Objective qId={qId} qTitle={qTitle} qInfo={qInfo} qContents={qContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
-            case 'rating':
+            case 'Rating':
                 return <Rating qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
-            case 'subjective':
+            case 'Subjective':
                 return <Subjective qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
         }
     }

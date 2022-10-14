@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router'
+import PageTitle from '../../../components/ui/PageTitle';
+import SurveyResponse from "../../../components/ui/survey/SurveyResponse";
 
 // 설문 참여 페이지
 const Survey = () => {
@@ -7,11 +9,9 @@ const Survey = () => {
 
     return (
         <>
-            <div>
-                
-            </div>
+            <PageTitle title="설문 참여하기"/>
             <h1>Survey : {surveyId}</h1>
-            
+            <SurveyResponse svyId={surveyId} />
         </>
     );
 };

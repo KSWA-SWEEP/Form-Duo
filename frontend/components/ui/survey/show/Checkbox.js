@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function Checkbox(props) {
-
+  console.log("svyrespcont: "  + JSON.stringify(props.svyRespContents));
   const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
   const [tempAnsVal, setTempAnsVal] = useState([

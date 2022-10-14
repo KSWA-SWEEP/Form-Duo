@@ -17,6 +17,10 @@ export default function Objective(props) {
     [tempAnsVal]
   );
 
+  console.log("svy: " + JSON.stringify(props));
+  console.log("svyRespContents: " + JSON.stringify(props.svyRespContents));
+
+
   const updatedSvyRespConents = () => {
     const newList = replaceItemAtIndex(props.svyRespContents, index, {
       ...props.svyRespContents[index],
