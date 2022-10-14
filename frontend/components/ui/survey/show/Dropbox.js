@@ -1,26 +1,48 @@
-export default function Dropdox() {
-    return (
-        <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
-            <div className="overflow-hidden shadow rounded-2xl">
-                <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-                    <div className="col-span-6 sm:col-span-3">
-                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                          Country
-                        </label>
-                        <select
-                          id="country"
-                          name="country"
-                          autoComplete="country-name"
-                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                        >
-                          <option>United States</option>
-                          <option>Canada</option>
-                          <option>Mexico</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { respState } from "../../../../atoms/resp";
+import { qIdState } from "../../../../atoms/qId";
+import { qContentIdState } from "../../../../atoms/qContentId";
+
+export default function Dropdox(props) {
+
+  const [answer, setAnswer] = useState();
+  const onChange = (event) => {
+    setAnswer(event.target.value);
+    setQContentId(event.target.value);
+    setQId(props.qId);
+    setResp(props.qContents[event.target.value-1].qContentVal);
+  }
+  const [resp, setResp] = useRecoilState(respState);
+  const [qId, setQId] = useRecoilState(qIdState);
+  const [qContentId, setQContentId] = useRecoilState(qContentIdState);
+
+  return (
+    <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
+      <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
+        Question. {props.qId}
+      </div>
+      <div className="overflow-hidden shadow rounded-2xl">
+        <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
+          <div className="col-span-6 sm:col-span-3">
+            <legend className="contents text-base font-medium text-gray-900">{props.qTitle}</legend>
+            <p className="text-sm text-gray-500">{props.qInfo}</p>
+            <select
+              id="country"
+              name="country"
+              autoComplete="country-name"
+              className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              onChange={onChange}
+            >
+              {props.qContents && props.qContents.map((qContent) => {
+                return (
+                  <option key={qContent.qContentId} value={qContent.qContentId}>{qContent.qContentVal}</option>
+                )
+              })}
+            </select>
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  )
 }
-  
