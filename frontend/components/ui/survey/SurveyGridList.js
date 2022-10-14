@@ -11,7 +11,7 @@ import QR from "qrcode.react";
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
-  { name: '설문 수정', href: '/survey/create/' },
+  { name: '설문 수정', href: '/survey/modify/' },
   { name: '설문 분석', href: '/survey/result/' },
   { name: '설문 삭제', href: 'deleteSvy' },
   { name: '설문 공유', href: 'shareSvy' },
@@ -39,11 +39,10 @@ export default function SurveyGridList() {
   const [showCopyMsg, setShowCopyMsg] = useState(false)
 
   useEffect(() => {
-    return () => {
       getSvyList().then(r => {
         setSvyList(r.data)
+        console.log(">> "+JSON.stringify(r.data))
       });
-     }
    }, []);
    
 
@@ -171,8 +170,7 @@ export default function SurveyGridList() {
                                         : "진행중"
                                     }
                                 </span>
-                                <span className="text-xs text-gray-700">20XX. XX. XX 생성</span>
-                                {/* <span className="text-xs text-gray-700">{survey.regDt}</span> */}
+                                <span className="text-xs text-gray-700">{(survey.svyRegDt).substr(0, 10)} 생성됨</span>
                               </div>
                           </div>
                           <div>

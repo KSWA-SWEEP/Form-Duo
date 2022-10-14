@@ -31,13 +31,13 @@ const Basic = () => {
                                 </Link>
                             </div>
                             <div className="inline-flex ml-3 rounded-md shadow">
-                                <a
+                                {/* <a
                                     href="/survey/list/mySurvey"
                                     className="inline-flex items-center justify-center px-3 py-2 text-sm font-semibold bg-white border rounded-md border-fdbluelight border-opacity-60 text-fdblue hover:bg-indigo-50"
                                     >
                                     설문 목록 페이지로 이동
-                                </a>
-                                {/* <Link 
+                                </a> */}
+                                <Link 
                                     href="/survey/list/mySurvey"
                                     scroll={true}
                                     > 
@@ -46,7 +46,7 @@ const Basic = () => {
                                     >
                                     설문 목록 페이지로 이동
                                     </div>
-                                </Link> */}
+                                </Link>
                             </div>
                         </div>
                     </div>
