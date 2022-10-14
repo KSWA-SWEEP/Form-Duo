@@ -8,7 +8,8 @@ import Link from "next/link.js";
 import { customAxios } from "../../../utils/customAxios.js";
 import axios from "axios";
 import { useRouter } from 'next/router'
-
+import { useRecoilState } from "recoil";
+import { modifySvyID } from "../../../atoms/modifySvyID.js";
 
 const qTypes = [
     { name: '객관식', comp: "Objective", contentYn: true },
@@ -21,10 +22,11 @@ const qTypes = [
 ]
 
 export default function SurveyModify (props) {
-    console.log([props.surveyId]);
     
     const [selected, setSelected] = useState(qTypes[0])
     const [svyContents, setSvyContents] = useState([])
+    
+    console.log(props.svyID);
 
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
@@ -103,22 +105,24 @@ export default function SurveyModify (props) {
 
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
-        console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.surveyId)
+        let surveyID = svyID;
+        console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyID)
         try{
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.surveyId);
+            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyID);
             console.log(svyContents);
-            return svyContents;     
+            return svyContents;         
         }catch (e) {
             console.log(e);
         }
       } 
 
       // 여기서 초기화된 SvyContents를 받아온 설문으로 넣어준다.
-      useEffect(() => {
-          getSurvey().then(r => {
-            setSvyContents(r.data)
-          });
-       }, []);
+      getSurvey().then(r => {
+        console.log(JSON.stringify(r.data))
+        let resultData = r.data;
+        let svyContent = resultData.svyContent;
+        setSvyContents(svyContent)
+      });
 
 
     async function makeSvy(data){
