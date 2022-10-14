@@ -5,7 +5,6 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import SurveyTitleInput from "./SurveyTitleInput.js";
 import Question from "./input/Question.js";
 import Link from "next/link.js";
-import { customAxios } from "../../../utils/customAxios.js";
 import axios from "axios";
 import { useRouter } from 'next/router'
 
