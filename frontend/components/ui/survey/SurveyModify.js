@@ -5,11 +5,8 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import SurveyTitleInput from "./SurveyTitleInput.js";
 import Respond from "./input/Respond";
 import Link from "next/link.js";
-import { customAxios } from "../../../utils/customAxios.js";
 import axios from "axios";
-import { useRouter } from 'next/router'
-import { useRecoilState } from "recoil";
-import { modifySvyID } from "../../../atoms/modifySvyID.js";
+
 
 const qTypes = [
     { name: '객관식', comp: "Objective", contentYn: true },
@@ -22,11 +19,10 @@ const qTypes = [
 ]
 
 export default function SurveyModify (props) {
-    
+
     const [selected, setSelected] = useState(qTypes[0])
     const [svyContents, setSvyContents] = useState([])
-    
-    console.log(props.svyID);
+    const [svyId, setSvyId] = useState(props.svyId)
 
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
@@ -34,6 +30,59 @@ export default function SurveyModify (props) {
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState("")
+    
+    useEffect(() => {
+        setSvyId(props.svyId);
+    }, [props]);
+       
+    useEffect(() => {
+        if(svyId !== undefined){
+            setSvyId(props.svyId);
+            console.log(">> svyId : "+svyId)
+            getSurvey().then(r => {
+                let resultData = r.data;
+                let svyContent = resultData.svyContent;
+                setSvyContents(svyContent)
+                console.log(">> "+JSON.stringify(r.data))
+            });
+        }
+    }, [svyId]);
+    
+
+    // useEffect(() => {
+    //     console.log(">>>> "+ svyId)
+    //     if(svyId != "undefined"){
+    //         getSurvey().then(r => {
+    //             let resultData = r.data;
+    //             let svyContent = resultData.svyContent;
+    //             setSvyContents(svyContent)
+    //             console.log(">> "+JSON.stringify(r.data))
+    //         });
+    //     }
+    //     // getSurvey().then(r => {
+    //     // console.log(">> "+JSON.stringify(r.data))
+    //     // });
+    // }, [svyId]);
+    
+    // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
+    async function getSurvey(){
+      console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
+      try{
+          const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
+          console.log(svyContents);
+          return svyContents;         
+      }catch (e) {
+          console.log(e);
+      }
+    } 
+
+    // // 여기서 초기화된 SvyContents를 받아온 설문으로 넣어준다.
+    // getSurvey().then(r => {
+    //   console.log(JSON.stringify(r.data))
+    //   let resultData = r.data;
+    //   let svyContent = resultData.svyContent;
+    //   setSvyContents(svyContent)
+    // });
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)
@@ -103,26 +152,6 @@ export default function SurveyModify (props) {
         makeSvy(data);
     }
 
-    // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
-    async function getSurvey(){
-        let surveyID = svyID;
-        console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyID)
-        try{
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyID);
-            console.log(svyContents);
-            return svyContents;         
-        }catch (e) {
-            console.log(e);
-        }
-      } 
-
-      // 여기서 초기화된 SvyContents를 받아온 설문으로 넣어준다.
-      getSurvey().then(r => {
-        console.log(JSON.stringify(r.data))
-        let resultData = r.data;
-        let svyContent = resultData.svyContent;
-        setSvyContents(svyContent)
-      });
 
 
     async function makeSvy(data){
