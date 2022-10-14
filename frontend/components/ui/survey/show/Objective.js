@@ -1,22 +1,37 @@
-import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { respState } from "../../../../atoms/resp";
-import { qIdState } from "../../../../atoms/qId";
-import { qContentIdState } from "../../../../atoms/qContentId";
-
+import { useEffect, useState } from "react";
 
 export default function Objective(props) {
 
-  const [answer, setAnswer] = useState();
-  const onChange = (event) => {
-    setAnswer(event.target.value);
-    setQContentId(event.target.value);
-    setQId(props.qId);
-    setResp(props.qContents[event.target.value-1].qContentVal);
+  const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
+
+  const [tempAnsVal, setTempAnsVal] = useState([
+    {
+      qContentId: "",
+      resp: "",
+    }
+  ]);
+
+  useEffect(() => {
+    updatedSvyRespConents();
+  },
+    [tempAnsVal]
+  );
+
+  const updatedSvyRespConents = () => {
+    const newList = replaceItemAtIndex(props.svyRespContents, index, {
+      ...props.svyRespContents[index],
+      ansVal: tempAnsVal,
+    });
+    props.setSvyRespContents(newList);
   }
-  const [resp, setResp] = useRecoilState(respState);
-  const [qId, setQId] = useRecoilState(qIdState);
-  const [qContentId, setQContentId] = useRecoilState(qContentIdState);
+
+  function replaceItemAtIndex(arr, index, newValue) {
+    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+  }
+
+  const onChange = (event) => {
+    setTempAnsVal({ qContentId: event.target.value, resp: props.qContents[event.target.value - 1].qContentVal });
+  }
 
   return (
     <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">

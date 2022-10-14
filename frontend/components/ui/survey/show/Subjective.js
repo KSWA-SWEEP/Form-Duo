@@ -1,22 +1,41 @@
-import { list } from "postcss";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { respState } from "../../../../atoms/resp";
-import { qIdState } from "../../../../atoms/qId";
-import { qContentIdState } from "../../../../atoms/qContentId";
+import { useState, useEffect } from "react";
 
 export default function Subjective(props) {
 
-    const [answer, setAnswer] = useState("");
+    const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
+
+    const [answer, setAnswer] = useState();
+
+    const [tempAnsVal, setTempAnsVal] = useState([
+        {
+            qContentId: "",
+            resp: "",
+        }
+    ]);
+
+    useEffect(() => {
+        updatedSvyRespConents();
+    },
+        [tempAnsVal]
+    );
+
+    const updatedSvyRespConents = () => {
+        const newList = replaceItemAtIndex(props.svyRespContents, index, {
+            ...props.svyRespContents[index],
+            ansVal: tempAnsVal,
+        });
+        props.setSvyRespContents(newList);
+    }
+
+    function replaceItemAtIndex(arr, index, newValue) {
+        return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+    }
+
     const onChange = (event) => {
         setAnswer(event.target.value);
-        setResp(event.target.value);
-        setQId(props.qId);
-        setQContentId("");
+        setTempAnsVal({ resp: event.target.value });
     }
-    const [resp, setResp] = useRecoilState(respState);
-    const [qId, setQId] = useRecoilState(qIdState);
-    const [qContentId, setQContentId] = useRecoilState(qContentIdState);
+
 
     return (
         <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">

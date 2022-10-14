@@ -1,6 +1,5 @@
 import Layout from '../components/common/Layout'
 import '../styles/globals.css'
-import { RecoilRoot } from "recoil";
 import * as Sentry from "@sentry/nextjs"
 import { Integrations } from '@sentry/nextjs'
 import axios from 'axios';

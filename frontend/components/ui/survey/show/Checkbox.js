@@ -1,48 +1,59 @@
-import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { respState } from "../../../../atoms/resp";
-import { qIdState } from "../../../../atoms/qId";
-import { qContentIdState } from "../../../../atoms/qContentId";
+import { useState, useEffect } from "react";
 
 export default function Checkbox(props) {
 
+  const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
-  const [resp, setResp] = useRecoilState(respState);
-  const [qId, setQId] = useRecoilState(qIdState);
-  const [qContentId, setQContentId] = useRecoilState(qContentIdState);
+  const [tempAnsVal, setTempAnsVal] = useState([
+    {
+      qContentId: "",
+      resp: "",
+    }
+  ]);
 
-  // console.log("@@@ " + JSON.stringify(props.svyRespContents));
+  useEffect(() => {
+    updatedSvyRespConents();
+  },
+    [tempAnsVal]
+  );
+
+  const insertAnsVal = (tempQContentId, tempResp) => {
+    const ansVal = {
+      qContentId: tempQContentId,
+      resp: tempResp,
+    };
+    setTempAnsVal(tempAnsVal.concat(ansVal));
+  };
+
+  const deleteAnsVal = (tempQContentId) => {
+    setTempAnsVal(tempAnsVal.filter(temp => temp.qContentId !== tempQContentId));
+  }
+
+  const updatedSvyRespConents = () => {
+    const newList = replaceItemAtIndex(props.svyRespContents, index, {
+      ...props.svyRespContents[index],
+      ansVal: tempAnsVal,
+    });
+    props.setSvyRespContents(newList);
+  }
+
+  function replaceItemAtIndex(arr, index, newValue) {
+    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+  }
 
   const [checked, setChecked] = useState([]);
   const handleCheck = (event) => {
     const updatedList = [...checked];
-    const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
-
-      const ansVal = {
-        qContentId: qContentId,
-        resp: resp,
-      };
-
-      // console.log("created ansVal: " + JSON.stringify(ansVal));
-      let tempRespContents = [...(props.svyRespContents)];
-      let tempAnsVal = tempRespContents[index].ansVal;
-      // console.log("tempAnsVal before " + JSON.stringify(tempAnsVal));
-      Array.from(tempAnsVal).concat(ansVal);
-      // tempAnsVal = [...tempAnsVal, ansVal];
-      // console.log("tempAnsVal after " + JSON.stringify(tempAnsVal));
-      // props.setSvyRespContents((props.svyRespContents[index].ansVal).concat(ansVal));
-       
+      insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
     } else {
       updatedList.splice(checked.indexOf(event.target.value), 1);
+      deleteAnsVal(event.target.value);
     }
 
     setChecked(updatedList);
-    setQContentId(event.target.value);
-    setQId(props.qId);
-    setResp(props.qContents[event.target.value-1].qContentVal);
   }
 
   return (

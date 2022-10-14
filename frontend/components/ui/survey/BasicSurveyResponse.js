@@ -1,23 +1,20 @@
 import ShowQuestionList from "./show/ShowQuestionList";
-import React, { Fragment, useState, useRef, useCallback, useEffect } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
-import { useRecoilValue } from "recoil";
-import { respState } from "../../../atoms/resp";
-import { qIdState } from "../../../atoms/qId";
-import CreateRespContents from "./response/CreateRespContents";
-
+import axios from "axios";
+import { useRouter } from 'next/router'
+import SVY_CONTENT_1 from "../../../public/temp/SVY_CONTENT_1.json"
 
 export default function BasicSurveyResponse() {
 
+    const router = useRouter()
     const [svyRespDt, setSvyRespDt] = useState("")
     const [svyRespContents, setSvyRespContents] = useState([])
 
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+    const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
-
-    const resp = useRecoilValue(respState);
-    const qId = useRecoilValue(qIdState);
 
     function openSaveModal() {
         setIsSaveModalOpen(true)
@@ -25,6 +22,14 @@ export default function BasicSurveyResponse() {
 
     function closeSaveModal() {
         setIsSaveModalOpen(false)
+    }
+
+    function openFailModal() {
+        setIsFailModalOpen(true)
+    }
+
+    function closeFailModal() {
+        setIsFailModalOpen(false)
     }
 
     function openSettingModal() {
@@ -36,8 +41,25 @@ export default function BasicSurveyResponse() {
         setIsSettingModalOpen(false)
     }
 
-    function submitBasicSurvey() {
+    // 설문 응답 포맷 초기화
+    const resContent = useRef([]);
+    const initResContents = () => {
+        const newList = [];
+        SVY_CONTENT_1.svyContents.map(question => {
+            resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
+            newList = [...newList, resContent.current];
+        });
 
+        setSvyRespContents(newList);
+    }
+
+    useEffect(() => {
+        initResContents();
+    }, []);
+
+    console.log("SvyRespContents " + JSON.stringify(svyRespContents));
+
+    function submitBasicSurvey() {
         closeSettingModal;
 
         const data = new Object();
@@ -45,25 +67,22 @@ export default function BasicSurveyResponse() {
         data.svyRespContents = svyRespContents;
         console.log("제출되는 설문응답: " + JSON.stringify(data));
 
-        // axios.post('/api/v1/surveys', data)
-        // .then(res => {
-        //     console.log(res);
-        // })
+        // makeResp(data);
+    }
 
-        // API.post(
-        //         '/api/v1/surveys',
-        //         data,
-        //     )
-        //     .then((response) => {
-        //         console.log(response.status);
-        //         console.log(response.data);
-        //     })
-        //     .catch((e) => console.log('something went wrong :(', e));
+    async function makeResp(data) {
+        try {
+            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
+            setIsSettingModalOpen(false)
+            router.push('/survey/share/finish', undefined, { shallow: true })
+        } catch (e) {
+            console.log(e);
+            openFailModal();
+        }
     }
 
     return (
         <div>
-            <CreateRespContents svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} />
             <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             <div className="flex justify-center m-7 mx-2 rounded-md ">
                 <a
