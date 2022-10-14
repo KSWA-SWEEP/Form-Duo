@@ -19,12 +19,7 @@ import {refToken} from "../atoms/refToken";
 // console.log(process.env.NEXT_PUBLIC_API_URL);
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 //token 값 수정 필요
-<<<<<<< HEAD
-const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmNkZUBlbWFpbC5jb20iLCJhdXRoIjoiUk9MRV9VU0VSIiwiaWF0IjoxNjY1NTg5NTE4LCJleHAiOjE2NjU3Njk1MTh9.9aIlp14cpQ95Am3LrPuYpTV98OmFgx4d20HYkqLKU1exwTxgxndf7_Oibq-Fyve7U680WWfwokyx-WEOn93WMA";
-
-=======
 const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmdXJ5QHRlc3QuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImlhdCI6MTY2NTY2MjY1MywiZXhwIjoxNjY1ODQyNjUzfQ.wfM8s1J7rMjFWKQzMluThfUHqNsF_OVQhFeGmFisU4xKNQuVZWlOObNOnumxHxdg0g7anMdNEfwRYewzywVBHQ";
->>>>>>> def522682b2c9b795299ec654f7f374331c070bb
 axios.defaults.headers = {
     'Content-Type': "application/json",
     "Authorization": "Bearer " + token,
