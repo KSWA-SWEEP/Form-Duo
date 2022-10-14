@@ -11,7 +11,7 @@ import QR from "qrcode.react";
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
-  { name: '설문 수정', href: '/survey/create/' },
+  { name: '설문 수정', href: '/survey/modify/' },
   { name: '설문 분석', href: '/survey/result/' },
   { name: '설문 삭제', href: 'deleteSvy' },
   { name: '설문 공유', href: 'shareSvy' },

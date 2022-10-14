@@ -1,15 +1,20 @@
 import PageTitle from "../../../components/ui/PageTitle";
 import SurveyGridList from "../../../components/ui/survey/SurveyGridList";
 import { useRouter } from 'next/router'
+import SurveyModify from '../../../components/ui/survey/SurveyModify'
 
 
-const m = () => {
-
+const Modify = () => {
+    
+    const router = useRouter();
+    const { modifyid } = router.query
+    
     return (
         <>
-            <h1>"{surveyId}번" 설문 수정</h1>
+            <PageTitle title="설문 수정하기"/>
+            <SurveyModify surveyId={modifyid} />
         </>
     );
 };
 
-export default SurveyModify;
+export default Modify;
