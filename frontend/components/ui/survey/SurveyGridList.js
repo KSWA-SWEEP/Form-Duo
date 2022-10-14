@@ -171,8 +171,7 @@ export default function SurveyGridList() {
                                         : "진행중"
                                     }
                                 </span>
-                                <span className="text-xs text-gray-700">20XX. XX. XX 생성</span>
-                                {/* <span className="text-xs text-gray-700">{survey.regDt}</span> */}
+                                <span className="text-xs text-gray-700">{(survey.svyRegDt).substr(0, 10)} 생성됨</span>
                               </div>
                           </div>
                           <div>

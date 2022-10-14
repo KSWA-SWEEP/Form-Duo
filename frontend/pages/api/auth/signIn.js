@@ -1,5 +1,4 @@
 import {getCookie, setCookie} from "cookies-next";
-import {customAxios} from "../../utils/customAxios";
 import axios, { AxiosResponse } from "axios";
 import {useMemo, useState} from "react";
 

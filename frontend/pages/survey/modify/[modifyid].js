@@ -1,13 +1,12 @@
-import PageTitle from "../../../components/ui/PageTitle";
-import SurveyGridList from "../../../components/ui/survey/SurveyGridList";
 import { useRouter } from 'next/router'
 
-
-const m = () => {
+const SurveyModify = () => {
+    const router = useRouter();
+    let {modifyid} = router.query;
 
     return (
         <>
-            <h1>"{surveyId}번" 설문 수정</h1>
+            <h1>{modifyid}번 설문 수정</h1>
         </>
     );
 };
