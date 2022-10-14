@@ -10,14 +10,16 @@ export default function SurveyTitleInput(props) {
                             placeholder="설문 제목을 입력하세요"
                             className="block w-full font-bold text-gray-900 border-0 rounded-md shadow-sm bg-opacity-20 focus:border-gray-300 focus:ring-gray-300 sm:text-sm"
                             onChange={props.setSvyTitle}
+                            defaultValue={props.receiveTitle}
                         />
                         <textarea
                             id="svyIntro"
                             rows={3}
                             className="block w-full mt-4 text-gray-900 border-0 rounded-md shadow-sm bg-opacity-20 focus:border-gray-300 focus:ring-gray-300 sm:text-sm"
                             placeholder="설문 설명을 입력하세요"
-                            defaultValue={''}
+                            defaultValue={props.receiveIntro}
                             onChange={props.setSvyIntro}
+                            
                         />
                     </div>
                 </div>

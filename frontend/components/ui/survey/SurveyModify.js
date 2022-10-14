@@ -6,6 +6,7 @@ import SurveyTitleInput from "./SurveyTitleInput.js";
 import Respond from "./input/Respond";
 import Link from "next/link.js";
 import axios from "axios";
+import {useRouter} from 'next/router'
 
 
 const qTypes = [
@@ -20,12 +21,14 @@ const qTypes = [
 
 export default function SurveyModify (props) {
 
+    const router = useRouter()
     const [selected, setSelected] = useState(qTypes[0])
     const [svyContents, setSvyContents] = useState([])
+    const [svyData, setSvyData] = useState([])
     const [svyId, setSvyId] = useState(props.svyId)
 
-    const [svyTitle, setSvyTitle] = useState("")
-    const [svyIntro, setSvyIntro] = useState("")
+    const [svyTitle, setSvyTitle] = useState(svyData.svyTitle)
+    const [svyIntro, setSvyIntro] = useState(svyData.svyIntro)
     const [svyStartDt, setSvyStartDt] = useState("")
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
@@ -43,26 +46,12 @@ export default function SurveyModify (props) {
                 let resultData = r.data;
                 let svyContent = resultData.svyContent;
                 setSvyContents(svyContent)
+                setSvyData(resultData)
+                console.log(resultData.svyIntro)
                 console.log(">> "+JSON.stringify(r.data))
             });
         }
     }, [svyId]);
-    
-
-    // useEffect(() => {
-    //     console.log(">>>> "+ svyId)
-    //     if(svyId != "undefined"){
-    //         getSurvey().then(r => {
-    //             let resultData = r.data;
-    //             let svyContent = resultData.svyContent;
-    //             setSvyContents(svyContent)
-    //             console.log(">> "+JSON.stringify(r.data))
-    //         });
-    //     }
-    //     // getSurvey().then(r => {
-    //     // console.log(">> "+JSON.stringify(r.data))
-    //     // });
-    // }, [svyId]);
     
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
@@ -75,14 +64,6 @@ export default function SurveyModify (props) {
           console.log(e);
       }
     } 
-
-    // // 여기서 초기화된 SvyContents를 받아온 설문으로 넣어준다.
-    // getSurvey().then(r => {
-    //   console.log(JSON.stringify(r.data))
-    //   let resultData = r.data;
-    //   let svyContent = resultData.svyContent;
-    //   setSvyContents(svyContent)
-    // });
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)
@@ -137,10 +118,15 @@ export default function SurveyModify (props) {
 
     function saveUpdatedSurvey() {
         closeSettingModal;
-
         const data = new Object();
-        data.svyTitle = svyTitle;
-        data.svyIntro = svyIntro;
+        switch(svyTitle){
+            case "undefined": data.svyTitle = svyData.svyTitle;
+            default: data.svyTitle = svyTitle;
+        }
+        switch(svyIntro){
+            case "": data.svyIntro = svyData.svyIntro;
+            default: data.svyIntro = svyTitle;
+        }
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt;
         data.svyEndDt = svyEndDt;
@@ -149,14 +135,14 @@ export default function SurveyModify (props) {
         data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
         data.svyRespCount = 0;
 
-        makeSvy(data);
+        updateSvy(data);
     }
 
 
 
-    async function makeSvy(data){
+    async function updateSvy(data){
         try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',data);
+            const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId, data);
             setIsSettingModalOpen(false)
             router.push('/survey/create/finish', undefined, { shallow: true })
         }catch (e) {
@@ -181,18 +167,20 @@ export default function SurveyModify (props) {
         };
         setSvyContents(svyContents.concat(svyContent));
         questionId.current += 1; // nextId 1 씩 더하기
-    }
+    }  
 
     function onRemoveRespond(targetQId) {
         setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
     }
 
-
+    // props로 SurveyTitleInput에 넘겨주고 받아오면 됨.
     return (
         <div>
             <SurveyTitleInput bgColor="bg-fdyellowbright"
                     setSvyTitle={onTitleChange}
                     setSvyIntro={onIntroChange}
+                    receiveIntro={svyData.svyIntro}
+                    receiveTitle={svyData.svyTitle}
             />
 
             {/* 문항 목록 */}
@@ -203,13 +191,15 @@ export default function SurveyModify (props) {
                         key={respond.qId} 
                         qId={respond.qId}
                         qType={respond.comp} 
-                        qTitle=""
                         name={respond.name}
                         comp={respond.comp} 
-                        
                         contentYn={respond.contentYn}
                         onRemoveRespond={onRemoveRespond}
-                        setSvyContents={setSvyContents}/>
+                        setSvyContents={setSvyContents}
+                        
+                        receiveqTitle={respond.qTitle}
+                        receiveqInfo={respond.qInfo}
+                        />
                 ))}
             </div>
 
@@ -375,7 +365,6 @@ export default function SurveyModify (props) {
                         </Dialog>
                     </Transition>
 
-                    
                     <Transition appear show={isSettingModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
                         <Transition.Child

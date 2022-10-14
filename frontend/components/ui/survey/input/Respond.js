@@ -6,7 +6,7 @@ import { CheckIcon, ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
-const Respond = ({onRemoveRespond, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
+const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
 
     const router = useRouter();
     const { surveyId } = router.query;
@@ -130,6 +130,7 @@ const Respond = ({onRemoveRespond, qId, name, qType, contentYn, svyContents, set
                         placeholder="질문을 입력하세요"
                         className="block w-full font-semibold border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-md"
                         onChange={onChangeTitle}
+                        defaultValue={receiveqTitle}
                     />
 
                     {/* 설명 입력 */}
@@ -138,7 +139,7 @@ const Respond = ({onRemoveRespond, qId, name, qType, contentYn, svyContents, set
                         rows={2}
                         className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-sm"
                         placeholder="문항에 대한 설명을 입력하세요 (생략 가능)"
-                        defaultValue={''}
+                        defaultValue={receiveqInfo}
                         onChange={onChangeInfo}
                     />
                     
