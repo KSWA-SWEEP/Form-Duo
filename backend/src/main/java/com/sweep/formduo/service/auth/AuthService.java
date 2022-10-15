@@ -71,7 +71,7 @@ public class AuthService {
     }
 
     @Transactional
-    public ApiResponse login(LoginReqDTO loginReqDTO, HttpServletResponse response) {
+    public TokenDTO login(LoginReqDTO loginReqDTO, HttpServletResponse response) {
         CustomEmailPasswordAuthToken customEmailPasswordAuthToken = new CustomEmailPasswordAuthToken(loginReqDTO.getEmail(),loginReqDTO.getPassword());
         Authentication authenticate = authenticationManager.authenticate(customEmailPasswordAuthToken);
         String email = authenticate.getName();
@@ -101,12 +101,12 @@ public class AuthService {
 //                        .build()
 //        );
         TokenDTO tokenDTO = tokenProvider.createTokenDTO(accessToken,refreshToken);
-        return ApiResponse.success("token", tokenDTO.getAccessToken());
+        return tokenDTO;
 
     }
 
     @Transactional
-    public ApiResponse reissue(HttpServletRequest request,
+    public TokenDTO reissue(HttpServletRequest request,
                                        HttpServletResponse response) {
         /*
          *  accessToken 은 JWT Filter 에서 검증되고 옴
@@ -177,7 +177,8 @@ public class AuthService {
 //        refreshToken.updateValue(newRefreshToken);
 
         // 토큰 발급
-        return ApiResponse.success("token", newAccessToken);
+//        return ApiResponse.success("token", newAccessToken);
+        return tokenDto;
     }
 
 
