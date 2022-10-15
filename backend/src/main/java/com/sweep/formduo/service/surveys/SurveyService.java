@@ -1,8 +1,11 @@
 package com.sweep.formduo.service.surveys;
 
+import com.sweep.formduo.domain.members.MemberRepository;
+import com.sweep.formduo.domain.members.Members;
 import com.sweep.formduo.domain.surveys.Surveys;
 import com.sweep.formduo.domain.surveys.SurveysRepository;
 import com.sweep.formduo.service.members.MemberService;
+import com.sweep.formduo.util.SecurityUtil;
 import com.sweep.formduo.web.dto.surveys.SurveysRequestDto;
 import com.sweep.formduo.web.dto.surveys.SurveysResponseDto;
 import com.sweep.formduo.web.dto.surveys.SurveysUpdateRequestDto;
@@ -17,11 +20,15 @@ import java.util.stream.Collectors;
 @Service
 public class SurveyService {
     private final SurveysRepository surveysRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     @Transactional
     public Integer save(SurveysRequestDto requestDto) {
-        return surveysRepository.save(requestDto.toEntity()).getId();
+        Members members = memberRepository.findByEmail(SecurityUtil.getCurrentMemberEmail())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다. " + SecurityUtil.getCurrentMemberEmail()));
+
+        return surveysRepository.save(requestDto.toEntity(members)).getId();
     }
 
     @Transactional

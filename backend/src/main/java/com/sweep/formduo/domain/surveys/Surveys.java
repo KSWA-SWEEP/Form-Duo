@@ -1,5 +1,6 @@
 package com.sweep.formduo.domain.surveys;
 
+import com.sweep.formduo.domain.members.Members;
 import com.sweep.formduo.domain.survey_resps.SurveyResps;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Builder;
@@ -72,12 +73,17 @@ public class Surveys {
     @OneToMany(mappedBy = "survey")
     List<SurveyResps> surveyResps = new ArrayList<SurveyResps>();
 
+    @ManyToOne(targetEntity = Members.class)
+    @JoinColumn(name = "REG_ID")
+    private Members members;
+
+
     @Builder
     public Surveys(String svySt, String email, String svyTitle,
                    String svyIntro, List<Map<String, Object>> svyContent, char delYn,
                    String svyEndMsg, int svyRespCount, int svyRespMax,
                    Instant regDt, Instant svyEndDt, Instant svyStartDt,
-                   Instant updDt){
+                   Instant updDt, Members members){
         this.svySt = svySt;
         this.email = email;
         this.svyTitle = svyTitle;
@@ -91,6 +97,7 @@ public class Surveys {
         this.svyRespMax = svyRespMax;
         this.svyRespCount = svyRespCount;
         this.updDt = updDt;
+        this.members = members;
     }
 
     public void update(String svyTitle, String svyIntro, List<Map<String, Object>> svyContent, Instant svyStartDt,

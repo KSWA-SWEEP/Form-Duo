@@ -2,6 +2,8 @@ package com.sweep.formduo.domain.members;
 
 import com.sweep.formduo.domain.auth.Authority;
 import com.sweep.formduo.domain.auth.MemberAuth;
+import com.sweep.formduo.domain.survey_resps.SurveyResps;
+import com.sweep.formduo.domain.surveys.Surveys;
 import com.sweep.formduo.web.dto.members.MemberUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,6 +71,9 @@ public class Members {
             inverseJoinColumns = {@JoinColumn(name = "authority_name",referencedColumnName = "authority_name")}
     )
     private Set<Authority> authorities = new HashSet<>();
+
+    @OneToMany(mappedBy = "members")
+    List<Surveys> surveysList = new ArrayList<Surveys>();
 
 
     @Builder
