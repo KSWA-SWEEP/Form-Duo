@@ -93,10 +93,6 @@ public class Surveys {
         this.updDt = updDt;
     }
 
-
-
-
-
     public void update(String svyTitle, String svyIntro, List<Map<String, Object>> svyContent, Instant svyStartDt,
                        Instant svyEndDt, Instant updDt, String svyEndMsg,
                        int svyRespCount, int svyRespMax){
@@ -115,5 +111,8 @@ public class Surveys {
     public void remove() {
         this.delYn = 'Y';
     }
+
+    public void countUp(int svyRespCount) {
+        this.svyRespCount = svyRespCount;}
 
 }

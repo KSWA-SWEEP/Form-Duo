@@ -76,11 +76,8 @@ const SurveyResult = () => {
                     )}
                 </div>
 
-            <div>
-                <h1>총 응답 수 : {resPeople}</h1>
-            </div>
                 <div>
-                    {viewChart ?  <SurveyResults resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
+                    {viewChart ?  <SurveyResults resPeople = {resPeople} resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
                 </div>
             </div>
         );
