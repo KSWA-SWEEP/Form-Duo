@@ -8,6 +8,8 @@ import Image from "next/image"
 import Router, { useRouter } from "next/router"
 import ReactDOM from 'react-dom';
 import QR from "qrcode.react";
+import { getCookie } from "cookies-next"
+import Loading from "../../common/Loading"
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
@@ -37,19 +39,23 @@ export default function SurveyGridList() {
   const [shareUrl, setShareUrl] = useState("")
   const [showQr, setShowQr] = useState(false)
   const [showCopyMsg, setShowCopyMsg] = useState(false)
+  const [isTokenExist, setIsTokenExist] =useState(false)
+  const [data, setData] = useState(null)
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-      getSvyList().then(r => {
-        setSvyList(r.data)
-        console.log(">> "+JSON.stringify(r.data))
-      });
-   }, []);
-   
+    setLoading(true)
+    getSvyList()  
+  }, [])
+
+  if (isLoading) return <Loading/>
+  if (svyList.length == 0) return <div className="flex justify-center mt-20"><p>표시할 설문 목록이 없습니다</p></div>
 
   async function getSvyList(){
     try{
         const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
-        return result;
+        setSvyList(result.data)
+        setLoading(false)
     }catch (e) {
         console.log(e);
     }

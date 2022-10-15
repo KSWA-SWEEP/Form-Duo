@@ -11,15 +11,16 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     const [qInfo, setQInfo] = useState("");
     const index = svyContents.findIndex((svyContent) => svyContent.qId === qId);
 
-    const [qContents, setQContents] = useState([
-        {
-        qContentId: 0,
-        qContentVal: ""
-        }
-    ]);
     
     // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
     const nextId = useRef(1);
+
+    const [qContents, setQContents] = useState([
+        {
+        qContentId: nextId.current,
+        qContentVal: ""
+        }
+    ]);
 
     useEffect(() => {
         updateSvyContents();
@@ -29,12 +30,12 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
 
     const onInsert = useCallback(    
         e => {
+        nextId.current += 1;
         const qContent = {
             qContentId: nextId.current,
             qContentVal: "",
         };
         setQContents(qContents.concat(qContent));
-        nextId.current += 1; // nextId 1 씩 더하기
         e.preventDefault();
         },
         [qContents],
@@ -53,8 +54,10 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     }
     
     const onUpdate = qContentId => e => {
+        
+        const idx = qContents.findIndex((qContent) => qContent.qContentId === qContentId);
         let tempContents = [...qContents]; 
-        tempContents[index].qContentVal = e.target.value; 
+        tempContents[idx].qContentVal = e.target.value; 
 
         setQContents(tempContents);
     }
