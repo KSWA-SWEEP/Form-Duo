@@ -15,8 +15,8 @@ const qTypes = [
     { name: '체크박스', comp: "Checkbox", contentYn: true },
     { name: '드롭박스', comp: "Dropbox", contentYn: true },
     { name: '날짜', comp: "Date", contentYn: false },
-    { name: '평점', comp: "Rating", contentYn: false },
-    { name: '파일', comp: "File", contentYn: false },
+    // { name: '평점', comp: "Rating", contentYn: false },
+    // { name: '파일', comp: "File", contentYn: false },
 ]
 
 export default function BasicSurveyCreate () {
