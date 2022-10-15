@@ -8,6 +8,7 @@ import Image from "next/image"
 import Router, { useRouter } from "next/router"
 import ReactDOM from 'react-dom';
 import QR from "qrcode.react";
+import { getCookie } from "cookies-next"
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
@@ -37,13 +38,26 @@ export default function SurveyGridList() {
   const [shareUrl, setShareUrl] = useState("")
   const [showQr, setShowQr] = useState(false)
   const [showCopyMsg, setShowCopyMsg] = useState(false)
+  const [isTokenExist, setIsTokenExist] =useState(false)
 
-  useEffect(() => {
+  useEffect(() => {    
+    if(getCookie("accessToken")){
+      setIsTokenExist(true);
+    }
+    console.log(">>>>> cookie "+getCookie("accessToken"));
+    
+   }, []);
+   
+  useEffect(() => {    
+    if(isTokenExist){
       getSvyList().then(r => {
         setSvyList(r.data)
         console.log(">> "+JSON.stringify(r.data))
       });
-   }, []);
+    }
+  }, [isTokenExist]);
+  
+  console.log(">>>>> isTokenExist "+isTokenExist);
    
 
   async function getSvyList(){
