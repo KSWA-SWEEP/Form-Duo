@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 public class MemberRespDTO {
 
     private String email;
+    private String username;
 
     public static MemberRespDTO of(Members members) {
-        return new MemberRespDTO(members.getEmail());
+        return new MemberRespDTO(members.getEmail(), members.getUsername());
     }
 }

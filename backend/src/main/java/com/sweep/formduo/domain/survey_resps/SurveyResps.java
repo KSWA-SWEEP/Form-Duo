@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.Instant;
