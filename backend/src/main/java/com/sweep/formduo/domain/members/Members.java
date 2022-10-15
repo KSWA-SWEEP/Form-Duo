@@ -104,13 +104,13 @@ public class Members {
         if(dto.getPassword() != null) this.password = passwordEncoder.encode(dto.getPassword());
         if(dto.getUsername() != null) this.username = dto.getUsername();
         this.upd_dt = Instant.now();
-        if(dto.getAuthorities().size() > 0) {
-            this.authorities = dto.getAuthorities().stream()
-                    .filter(MemberAuth::containsKey)
-                    .map(MemberAuth::get)
-                    .map(Authority::new)
-                    .collect(Collectors.toSet());
-        }
+//        if(dto.getAuthorities().size() > 0) {
+//            this.authorities = dto.getAuthorities().stream()
+//                    .filter(MemberAuth::containsKey)
+//                    .map(MemberAuth::get)
+//                    .map(Authority::new)
+//                    .collect(Collectors.toSet());
+//        }
     }
 
     public void remove(char delYn){

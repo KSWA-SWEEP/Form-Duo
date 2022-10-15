@@ -53,7 +53,8 @@ public class SurveyService {
         Surveys entity = surveysRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 설문이 없습니다. id ="+ id));
 
-        surveysRepository.deleteById(id);
+//        surveysRepository.deleteById(id);
+        entity.remove();
         return entity.getSvyTitle();}
 
 

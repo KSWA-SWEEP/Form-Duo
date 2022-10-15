@@ -112,4 +112,8 @@ public class Surveys {
         this.updDt = updDt;
     }
 
+    public void remove() {
+        this.delYn = 'Y';
+    }
+
 }
