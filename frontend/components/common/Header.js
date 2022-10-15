@@ -27,11 +27,6 @@ const navigationBeforeLogin = [
   // { name: '고객 지원', href: '/', current: false },
 ]
 
-const userNavigation = [
-  { name: '마이 페이지', href: '/mypage/'+userId},
-  { name: '로그아웃', href: '/' },
-]
-
 const svyType = [
   { name: '일반 설문', href: '/survey/create/basic', icon: 'DocumentTextIcon' },
   { name: '듀오 설문', href: '/survey/create/duo', icon: 'MicrophoneIcon' },
@@ -220,8 +215,25 @@ export default function Header () {
                     </div>
                     <>
                       {/*로그인 여부에 따라 login 버튼 설정*/}
-                      {isLogin ?
-                      <button onClick={openModal}>로그아웃</button> :
+                      {isLogin 
+                      ?
+                      
+                      <div className="hidden md:block">
+                        <div className="flex items-center ml-4 md:ml-6">
+                          <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
+                            <Link href='/account/myPage'>
+                              <button className="text-sm font-normal text-gray-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">
+                                마이페이지
+                              </button>
+                            </Link>
+                            
+                            <button onClick={openModal}  className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
+                              로그아웃
+                            </button> 
+                          </div>
+                        </div>
+                      </div>
+                      :
                       <div className="hidden md:block">
                         <div className="flex items-center ml-4 md:ml-6">
                           <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
