@@ -30,7 +30,9 @@ export default function Dropdox(props) {
   }
 
   const onChange = (event) => {
-    setTempAnsVal({ qContentId: event.target.value, resp: props.qContents[event.target.value - 1].qContentVal });
+
+    var idx = event.target.selectedIndex;
+    setTempAnsVal({ qContentId: event.target.value, resp: event.target[idx].text });
   }
 
   return (
@@ -52,7 +54,7 @@ export default function Dropdox(props) {
             >
               {props.qContents && props.qContents.map((qContent) => {
                 return (
-                  <option key={qContent.qContentId} value={qContent.qContentId}>{qContent.qContentVal}</option>
+                  <option key={qContent.qContentId}  value={qContent.qContentId} >{qContent.qContentVal}</option>
                 )
               })}
             </select>

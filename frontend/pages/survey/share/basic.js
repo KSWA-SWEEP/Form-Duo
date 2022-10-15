@@ -1,13 +1,13 @@
 import PageTitle from "../../../components/ui/PageTitle";
 import React from "react"
-import BasicSurveyResponse from "../../../components/ui/survey/BasicSurveyResponse";
+import SurveyResponse from "../../../components/ui/survey/SurveyResponse";
 
 const Basic = () => {
     return (
         <div>
             <PageTitle title="Basic 설문 응답"/>
             <div className="mx-8">
-                <BasicSurveyResponse/>
+                <SurveyResponse/>
             </div>
         </div>
     );

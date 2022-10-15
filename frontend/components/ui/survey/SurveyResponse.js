@@ -1,26 +1,53 @@
+import React, { Fragment, useState, useRef, useEffect, useCallback } from "react";
 import ShowQuestionList from "./show/ShowQuestionList";
-import React, { Fragment, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from 'next/router'
-import SVY_CONTENT_1 from "../../../public/temp/SVY_CONTENT_1.json"
 
-export default function BasicSurveyResponse() {
+export default function SurveyResponse(props) {
 
     const router = useRouter()
     const [svyRespDt, setSvyRespDt] = useState("")
     const [svyRespContents, setSvyRespContents] = useState([])
     const [svyRespEmail, setSvyRespEmail] = useState("")
+    const [svyContents, setSvyContents] = useState([])
+    const [svyId, setSvyId] = useState(props.svyId)
+    const [svyTitle, setSvyTitle] = useState("")
+    const [svyIntro, setSvyIntro] = useState("")
+    const [initContent, setInitContent] = useState("false");
 
     const onRespEmailChange = (e) => {
         setSvyRespEmail(e.target.value)
     };
-    
 
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
+
+    useEffect(() => {
+        setSvyId(props.svyId);
+    }, [props]);
+
+    useEffect(() => {
+        if (svyId !== undefined) {
+            setSvyId(props.svyId);
+            getSurvey();
+        }
+    }, [svyId]);
+
+    async function getSurvey() {
+        console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
+        try {
+            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
+            setSvyContents(svyContents.data);
+            setSvyTitle(svyContents.data.svyTitle);
+            setSvyIntro(svyContents.data.svyIntro);
+            return svyContents;
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     function openSaveModal() {
         setIsSaveModalOpen(true)
@@ -50,20 +77,25 @@ export default function BasicSurveyResponse() {
     // 설문 응답 포맷 초기화
     const resContent = useRef([]);
     const initResContents = () => {
+
         const newList = [];
-        SVY_CONTENT_1.svyContents.map(question => {
+        svyContents.svyContent && svyContents.svyContent.map(question => {
             resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
             newList = [...newList, resContent.current];
         });
-
         setSvyRespContents(newList);
     }
 
     useEffect(() => {
-        initResContents();
-    }, []);
+        console.log("Changed svyRespContents: " + JSON.stringify(svyRespContents));
+        if (svyRespContents.length != 0) {
+            setInitContent("true");
+        }
+    }, [svyRespContents]);
 
-    console.log("SvyRespContents " + JSON.stringify(svyRespContents));
+    useEffect(() => {
+        initResContents();
+    }, [svyTitle, svyIntro]);
 
     function submitBasicSurvey() {
         closeSettingModal;
@@ -89,7 +121,10 @@ export default function BasicSurveyResponse() {
 
     return (
         <div>
-            <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} />
+            <h1>설문 제목: {svyTitle}</h1>
+            <h1>설문 인트로: {svyIntro}</h1>
+            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} /> : <h1>세팅전</h1>}
+
             <div className="flex justify-center m-7 mx-2 rounded-md ">
                 <a
                     onClick={openSaveModal}
@@ -198,9 +233,9 @@ export default function BasicSurveyResponse() {
                                         </div>
                                         <div className="px-2 py-5 bg-white">
                                             <div className="grid grid-cols-7 gap-2">
-                                               
 
-                                          
+
+
 
                                                 <div className="col-span-7 mt-2">
                                                     <label htmlFor="svyRespEmail" className="block text-xs font-medium text-gray-500">

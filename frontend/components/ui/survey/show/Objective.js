@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function Objective(props) {
 
-  const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
-
+const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);  
   const [tempAnsVal, setTempAnsVal] = useState([
     {
       qContentId: "",
