@@ -6,7 +6,7 @@ import Objective from "./Objective";
 import Rating from "./Rating";
 import Subjective from "./Subjective";
 
-const ShowQuestionListItem = ({ svyRespContents, setSvyRespContents, qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents }) => {
+const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents, svyRespContents, setSvyRespContents }) => {
 
     function questionAsType() {
         switch (qType) {

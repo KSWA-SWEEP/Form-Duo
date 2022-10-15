@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function Objective(props) {
 
-  const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
-
+const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);  
   const [tempAnsVal, setTempAnsVal] = useState([
     {
       qContentId: "",
@@ -16,10 +15,6 @@ export default function Objective(props) {
   },
     [tempAnsVal]
   );
-
-  console.log("svy: " + JSON.stringify(props));
-  console.log("svyRespContents: " + JSON.stringify(props.svyRespContents));
-
 
   const updatedSvyRespConents = () => {
     const newList = replaceItemAtIndex(props.svyRespContents, index, {

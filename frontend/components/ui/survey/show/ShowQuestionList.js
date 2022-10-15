@@ -1,9 +1,6 @@
-import SVY_CONTENT_1 from "../../../../public/temp/SVY_CONTENT_1.json"
 import ShowQuestionListItem from "./ShowQuestionListItem";
 
 const ShowQuestionList = (props) => {
-
-    console.log("####svyContents: " + JSON.stringify(props.svyRespContents));
 
     return (
         <div>

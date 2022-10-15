@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function Checkbox(props) {
-  console.log("svyrespcont: "  + JSON.stringify(props.svyRespContents));
+  // console.log("svyrespcont: "  + JSON.stringify(props.svyRespContents));
   const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
   const [tempAnsVal, setTempAnsVal] = useState([
@@ -45,9 +45,17 @@ export default function Checkbox(props) {
   const handleCheck = (event) => {
     const updatedList = [...checked];
 
+    console.log("value: " + event.target.value);
+  
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
-      insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
+      var idx = event.target.value;
+      var targetIdx = props.qContents.findIndex((content) => content.qContentId === idx);
+
+      console.log("idx: " + idx);
+      console.log("targetIdx: " + targetIdx);
+      // insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
+      insertAnsVal(event.target.value, props.qContents[targetIdx].qContentVal);
     } else {
       updatedList.splice(checked.indexOf(event.target.value), 1);
       deleteAnsVal(event.target.value);
@@ -82,7 +90,7 @@ export default function Checkbox(props) {
                         />
                       </div>
                       <div className="ml-3 text-sm">
-                        <label htmlFor="comments" className="font-medium text-gray-700">
+                        <label id="qContent" htmlFor="comments" className="font-medium text-gray-700">
                           {qContent.qContentVal}
                         </label>
                       </div>

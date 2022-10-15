@@ -4,9 +4,8 @@ import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from 'next/router'
-import SVY_CONTENT_1 from "../../../public/temp/SVY_CONTENT_1.json"
 
-export default function BasicSurveyResponse(props) {
+export default function SurveyResponse(props) {
 
     const router = useRouter()
     const [svyRespDt, setSvyRespDt] = useState("")
@@ -16,6 +15,7 @@ export default function BasicSurveyResponse(props) {
     const [svyId, setSvyId] = useState(props.svyId)
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
+    const [initContent, setInitContent] = useState("false");
 
     const onRespEmailChange = (e) => {
         setSvyRespEmail(e.target.value)
@@ -81,12 +81,17 @@ export default function BasicSurveyResponse(props) {
         const newList = [];
         svyContents.svyContent && svyContents.svyContent.map(question => {
             resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
-            // console.log("resContent: " + JSON.stringify(resContent.current));
             newList = [...newList, resContent.current];
         });
-        console.log("newList: " + JSON.stringify(newList));
         setSvyRespContents(newList);
     }
+
+    useEffect(() => {
+        console.log("Changed svyRespContents: " + JSON.stringify(svyRespContents));
+        if (svyRespContents.length != 0) {
+            setInitContent("true");
+        }
+    }, [svyRespContents]);
 
     useEffect(() => {
         initResContents();
@@ -118,7 +123,8 @@ export default function BasicSurveyResponse(props) {
         <div>
             <h1>설문 제목: {svyTitle}</h1>
             <h1>설문 인트로: {svyIntro}</h1>
-            <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents}/>
+            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} /> : <h1>세팅전</h1>}
+
             <div className="flex justify-center m-7 mx-2 rounded-md ">
                 <a
                     onClick={openSaveModal}
