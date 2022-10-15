@@ -58,13 +58,13 @@ const BasicPreview = () => {
     return (
         <>
             <PageTitle title="설문 미리보기"/>
-            <h1>svyContents : {JSON.stringify(svyContents)}</h1>
+            {/* <h1>svyContents : {JSON.stringify(svyContents)}</h1>
             <h1>query: {JSON.stringify(query)}</h1>
             <h1>key: {Object.keys(query)}</h1>
 
             <h1>콘텐츠: {JSON.stringify(query.svyContents)}</h1>
-            <h1>아이디: {JSON.stringify(query.svyId)}</h1>
-            {/* <SurveyPreview svyContents={svyContents} /> */}
+            <h1>아이디: {JSON.stringify(query.svyId)}</h1> */}
+            <SurveyPreview svyContents={svyContents} />
 
         </>
     );
