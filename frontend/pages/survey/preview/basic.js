@@ -16,17 +16,19 @@ const BasicPreview = () => {
         getQuery();
     }, [query])
 
-    if(isLoading) return <div>Loading</div>;
-    if(query == undefined) return <div>Loading</div>;
-    if(svyContents.length === 0) return <div>Loading</div>;
+    if (isLoading) return <div>Loading</div>;
+    if (query == undefined) return <div>Loading</div>;
+    if (svyContents === undefined || svyContents.length === 0) return <div>Loading</div>;
 
-    async function getQuery(){
-        try{
+    async function getQuery() {
+        try {
             // 쿼리 가져오기
             console.log("###### query: " + JSON.stringify(router.query));
+            console.log("###### svyContents: " + JSON.stringify(router.query.svyContents));
+            
             setQuery(router.query);
 
-            if(Object.keys(query) == "svyId") {
+            if (Object.keys(query) == "svyId") {
                 // 설문 목록에서 실행한 미리보기인 경우
                 getSurvey(query.svyId);
                 console.log("목록인 경우");
@@ -34,15 +36,15 @@ const BasicPreview = () => {
             }
             else {
                 // 설문 생성에서 실행한 미리보기인 경우
-                setSvyContents(query.svyContents);
+                getCreateSurvey();
                 console.log("미리보기인 경우");
                 setLoading(false);
             }
             setLoading(false);
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
-      } 
+    }
 
     async function getSurvey() {
         try {
@@ -55,17 +57,21 @@ const BasicPreview = () => {
         }
     }
 
+    async function getCreateSurvey() {
+        try {
+            setSvyContents(JSON.parse(JSON.parse(JSON.stringify(query)).svyContent));
+            setLoading(false);
+            return svyContents;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <>
-            <PageTitle title="설문 미리보기"/>
-            {/* <h1>svyContents : {JSON.stringify(svyContents)}</h1>
-            <h1>query: {JSON.stringify(query)}</h1>
-            <h1>key: {Object.keys(query)}</h1>
-
-            <h1>콘텐츠: {JSON.stringify(query.svyContents)}</h1>
-            <h1>아이디: {JSON.stringify(query.svyId)}</h1> */}
+            <PageTitle title="설문 미리보기" />
+            {/* <h1>svyContent : {JSON.stringify(svyContents)}</h1> */}
             <SurveyPreview svyContents={svyContents} />
-
         </>
     );
 };

@@ -52,14 +52,13 @@ export default function SurveyPreview(contents) {
 
     return (
         <div>
-            {/* <h1>******* contents: {JSON.stringify(svyContents)}</h1>
-            <h1>******* 설문 내용: {JSON.stringify(svyContents)}</h1>
-            <h1>******* 설문 제목: {svyContents.svyTitle}</h1>
-            <h1>******* 설문 인트로: {svyContents.svyIntro}</h1> */}
+            {/* <h1>******* 설문 내용: {JSON.stringify(svyContents)}</h1> */}
+            <h1>설문 제목: {svyContents.svyTitle}</h1>
+            <h1>설문 인트로: {svyContents.svyIntro}</h1>
             <ShowQuestionList svyContents={svyContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} />
 
             <div className="flex justify-center m-7 mx-2 rounded-md ">
-                <a onClick={ () => router.back()}
+                <a onClick={ () => router.back()}   // TODO: router.push({pathname: 이전페이지, query: svyContents})
                     className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
                 >
                     뒤로가기

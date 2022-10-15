@@ -84,7 +84,6 @@ export default function BasicSurveyCreate () {
     }
 
     function saveBasicSurvey() {
-        closeSettingModal();
 
         const data = new Object();
         data.svyTitle = svyTitle;
@@ -98,7 +97,12 @@ export default function BasicSurveyCreate () {
         data.svyRespCount = 0;
         console.log(data);
 
-        makeSvy(data);
+        if(isSettingModalOpen) {
+            closeSettingModal();
+            makeSvy(data);
+        }
+
+        return data;
     }
 
     async function makeSvy(data){
@@ -134,10 +138,16 @@ export default function BasicSurveyCreate () {
         setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
     }
 
+    function showPreview() {
+        const data = saveBasicSurvey();
+        router.push({
+            pathname: '/survey/preview/basic',
+            query: {svyContent: JSON.stringify(data)}});
+    }
+
     return (
         <div>
-            {JSON.stringify(svyContents)}
-
+            {/* {JSON.stringify(svyContents)} */}
             {/* 제목 입력 */}
             <SurveyTitleInput bgColor="bg-fdyellowbright"
                               setSvyTitle={onTitleChange}
@@ -244,16 +254,11 @@ export default function BasicSurveyCreate () {
                     </Link>
                 </div>
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
-                    <Link 
-                        href={{
-                            pathname: '/survey/preview/basic',
-                            query: {svyContents: JSON.stringify(svyContents)}
-                        }} 
-                    > 
+                    <button onClick={showPreview}> 
                     <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
                         설문 미리보기
                     </div>
-                    </Link>
+                    </button>
                 </div>
                 <div className="inline-flex mx-2 rounded-md shadow">
                     <a
