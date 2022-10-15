@@ -1,6 +1,7 @@
 package com.sweep.formduo.web.dto.survey_resps;
 
 import com.sweep.formduo.domain.survey_resps.SurveyResps;
+import com.sweep.formduo.domain.surveys.Surveys;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,20 +20,17 @@ public class SurveyRespsRequestDto{
 
     @Schema(description = "설문 아이디", defaultValue = "1")
     private Integer svyId;
-    private Instant svyRespDt;
     private List<Map<String, Object>> svyRespContent;
 
     @Builder
     public SurveyRespsRequestDto(int svyId, Instant svyRespDt, List<Map<String, Object>> svyRespContent){
-        this.svyId = svyId;
-        this.svyRespDt = svyRespDt;
         this.svyRespContent = svyRespContent;
     }
 
-    public SurveyResps toEntity() {
+    public SurveyResps toEntity(Surveys survey) {
         return SurveyResps.builder()
-                .svyId(svyId)
-                .svyRespDt(svyRespDt)
+                .survey(survey)
+                .svyRespDt(Instant.now())
                 .svyRespContent(svyRespContent)
                 .build();
     }

@@ -32,7 +32,7 @@ public class SurveyRespService {
         // 기간이 지났는지 확인
         // 응답수가 최대 수를 넘었는지 확인
 
-        return surveyRespsRepository.save(requestDto.toEntity()).getId();
+        return surveyRespsRepository.save(requestDto.toEntity(surveys)).getId();
     }
 
     public SurveyRespsResponseDto findById(int id){
@@ -44,8 +44,10 @@ public class SurveyRespService {
         // 설문이 있는지 없는지 확인
         Surveys surveys = surveysRepository.findById(svyId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 설문이 없습니다. 설문 id =" + svyId));
-        Sort sort = Sort.by(Sort.Direction.DESC, "id", "svyRespDt");
-        List<SurveyResps> list = surveyRespsRepository.findAll(sort);
+//        Sort sort = Sort.by(Sort.Direction.DESC, "id", "svyRespDt");
+
+        List<SurveyResps> list = surveys.getSurveyResps();
+
         return list.stream().map(SurveyRespsResponseDto::new).collect(Collectors.toList());
     }
 }

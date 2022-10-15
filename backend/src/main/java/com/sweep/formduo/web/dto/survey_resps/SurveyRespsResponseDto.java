@@ -22,7 +22,7 @@ public class SurveyRespsResponseDto {
 
     public SurveyRespsResponseDto(SurveyResps entity){
         this.id = entity.getId();
-        this.svyId = entity.getSvyId();
+        this.svyId = entity.getSurvey().getId();
         this.svyRespDt = entity.getSvyRespDt();
         this.svyRespContent = entity.getSvyRespContent();
     }

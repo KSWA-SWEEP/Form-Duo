@@ -1,5 +1,6 @@
 package com.sweep.formduo.domain.surveys;
 
+import com.sweep.formduo.domain.survey_resps.SurveyResps;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +69,9 @@ public class Surveys {
     @Column(name = "SVY_RESP_COUNT")
     private Integer svyRespCount;
 
+    @OneToMany(mappedBy = "survey")
+    List<SurveyResps> surveyResps = new ArrayList<SurveyResps>();
+
     @Builder
     public Surveys(String svySt, String email, String svyTitle,
                    String svyIntro, List<Map<String, Object>> svyContent, char delYn,
@@ -87,6 +92,9 @@ public class Surveys {
         this.svyRespCount = svyRespCount;
         this.updDt = updDt;
     }
+
+
+
 
 
     public void update(String svyTitle, String svyIntro, List<Map<String, Object>> svyContent, Instant svyStartDt,
