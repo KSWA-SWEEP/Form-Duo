@@ -11,6 +11,7 @@ const ContentItem = ({ qContentId, qContentVal, onRemoveContent, onUpdate }) => 
                             type="text"
                             className="block w-full text-sm border-0 rounded sm:text-sm text-fdblue focus:ring-fdblue"
                             onChange={onUpdate(qContentId)}
+                            defaultValue={qContentVal}
                         />
                     </div>
                 </div>

@@ -15,8 +15,8 @@ const qTypes = [
     { name: '체크박스', comp: "Checkbox", contentYn: true },
     { name: '드롭박스', comp: "Dropbox", contentYn: true },
     { name: '날짜', comp: "Date", contentYn: false },
-    { name: '평점', comp: "Rating", contentYn: false },
-    { name: '파일', comp: "File", contentYn: false },
+    // { name: '평점', comp: "Rating", contentYn: false },
+    // { name: '파일', comp: "File", contentYn: false },
 ]
 
 export default function SurveyModify (props) {
@@ -27,13 +27,17 @@ export default function SurveyModify (props) {
     const [svyData, setSvyData] = useState([])
     const [svyId, setSvyId] = useState(props.svyId)
 
-    const [svyTitle, setSvyTitle] = useState(svyData.svyTitle)
-    const [svyIntro, setSvyIntro] = useState(svyData.svyIntro)
+    const [svyTitle, setSvyTitle] = useState("")
+    const [svyIntro, setSvyIntro] = useState("")
     const [svyStartDt, setSvyStartDt] = useState("")
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState("")
     
+
+    // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
+    const questionId = useRef(1);
+
     useEffect(() => {
         setSvyId(props.svyId);
     }, [props]);
@@ -45,10 +49,19 @@ export default function SurveyModify (props) {
             getSurvey().then(r => {
                 let resultData = r.data;
                 let svyContent = resultData.svyContent;
+                let savedSvyTitle = resultData.svyTitle;
+                let savedSvyIntro = resultData.svyIntro;
+
                 setSvyContents(svyContent)
                 setSvyData(resultData)
+                setSvyTitle(savedSvyTitle)
+                setSvyIntro(savedSvyIntro)
                 console.log(resultData.svyIntro)
                 console.log(">> "+JSON.stringify(r.data))
+                
+                const lastSvyContent = svyContent.slice(-1)[0];
+                const lastQId = lastSvyContent.qId;
+                questionId.current = lastQId;
             });
         }
     }, [svyId]);
@@ -63,7 +76,7 @@ export default function SurveyModify (props) {
       }catch (e) {
           console.log(e);
       }
-    } 
+    }
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)
@@ -117,16 +130,12 @@ export default function SurveyModify (props) {
     }
 
     function saveUpdatedSurvey() {
-        closeSettingModal;
+        closeSettingModal();
+        
         const data = new Object();
-        switch(svyTitle){
-            case "undefined": data.svyTitle = svyData.svyTitle;
-            default: data.svyTitle = svyTitle;
-        }
-        switch(svyIntro){
-            case "": data.svyIntro = svyData.svyIntro;
-            default: data.svyIntro = svyTitle;
-        }
+       
+        data.svyTitle = svyTitle;
+        data.svyIntro = svyTitle;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt;
         data.svyEndDt = svyEndDt;
@@ -134,28 +143,24 @@ export default function SurveyModify (props) {
         data.svySt = "";
         data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
         data.svyRespCount = 0;
-
         updateSvy(data);
     }
-
 
 
     async function updateSvy(data){
         try{
             const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId, data);
             setIsSettingModalOpen(false)
-            router.push('/survey/create/finish', undefined, { shallow: true })
+            document.location.href = "/survey/create/finish"
         }catch (e) {
             console.log(e);
             openFailModal();
         }
     }
-
-    // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
-    const questionId = useRef(1);
     
     function addSelected(e) {
         e.preventDefault();
+        questionId.current += 1; // nextId 1 씩 더하기
         const svyContent = {
             key: questionId.current,
             qId: questionId.current,
@@ -166,7 +171,6 @@ export default function SurveyModify (props) {
             contentYn: selected.contentYn,
         };
         setSvyContents(svyContents.concat(svyContent));
-        questionId.current += 1; // nextId 1 씩 더하기
     }  
 
     function onRemoveRespond(targetQId) {
