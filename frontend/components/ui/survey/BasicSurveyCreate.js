@@ -105,7 +105,7 @@ export default function BasicSurveyCreate () {
         try{
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',data);
             setIsSettingModalOpen(false)
-            router.push('/survey/create/finish', undefined, { shallow: true })
+            document.location.href = "/survey/create/finish"
         }catch (e) {
             console.log(e);
             openFailModal();
