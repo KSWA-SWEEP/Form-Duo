@@ -134,9 +134,10 @@ export default function BasicSurveyCreate () {
         setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
     }
 
-
     return (
         <div>
+            {JSON.stringify(svyContents)}
+
             {/* 제목 입력 */}
             <SurveyTitleInput bgColor="bg-fdyellowbright"
                               setSvyTitle={onTitleChange}
@@ -245,7 +246,8 @@ export default function BasicSurveyCreate () {
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
                     <Link 
                         href={{
-                            pathname: '/survey/preview/basic'
+                            pathname: '/survey/preview/basic',
+                            query: {svyContents: JSON.stringify(svyContents)}
                         }} 
                     > 
                     <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">

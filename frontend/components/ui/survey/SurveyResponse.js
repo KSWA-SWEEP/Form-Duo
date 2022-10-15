@@ -101,16 +101,16 @@ export default function SurveyResponse(props) {
         closeSettingModal;
 
         const data = new Object();
-        data.svyRespDt = svyRespDt;
-        data.svyRespContents = svyRespContents;
-        console.log("제출되는 설문응답: " + JSON.stringify(data));
 
+        data.svyId = svyId;
+        data.svyRespContent = svyRespContents;
+        console.log("제출되는 설문 응답" + svyRespContents);
         makeResp(data);
     }
 
     async function makeResp(data) {
         try {
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
+            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
             setIsSettingModalOpen(false)
             router.push('/survey/share/finish', undefined, { shallow: true })
         } catch (e) {
