@@ -8,6 +8,7 @@ import com.sweep.formduo.web.dto.login.LoginReqDTO;
 import com.sweep.formduo.web.dto.members.MemberReqDTO;
 import com.sweep.formduo.web.dto.members.MemberRespDTO;
 import com.sweep.formduo.service.auth.AuthService;
+import jdk.nashorn.internal.parser.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +47,7 @@ public class AuthApisController {
     }
 
     @PostMapping("/login")
-    public ApiResponse login(
+    public TokenDTO login(
             HttpServletResponse response,
             @RequestBody LoginReqDTO loginReqDTO) {
         return authService.login(loginReqDTO, response);
@@ -65,7 +66,7 @@ public class AuthApisController {
 //    }
 
     @PostMapping("/reissue")
-    public ApiResponse reissue( HttpServletRequest request,
+    public TokenDTO reissue( HttpServletRequest request,
                             HttpServletResponse response
     ) {
         return authService.reissue(request, response);
