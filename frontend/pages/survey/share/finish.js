@@ -1,9 +1,40 @@
 import PageTitle from "../../../components/ui/PageTitle";
 import React from "react";
 import Link from "next/link";
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react';
 import LazyShow from "../../../components/common/LazyShow"
+import Loading from "../../../components/common/Loading";
 
 const Basic = () => {
+
+    const router = useRouter();
+    const [query, setQuery] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+    const [endMessage, setEndMessage] = useState("감사합니다👍");
+
+    useEffect(() => {
+        setLoading(true)
+        getQuery();
+    }, [query])
+
+    if (isLoading) return <Loading />;
+    if (query == undefined) return <Loading />;
+
+    async function getQuery() {
+        try {
+            // 쿼리 가져오기
+            console.log("###### query: " + JSON.stringify(router.query));
+            console.log("###### endMessage: " + router.query.endMsg);
+            
+            setQuery(router.query)
+            setEndMessage(JSON.parse(query.endMsg));
+            setLoading(false);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <div>
             <LazyShow>
@@ -13,7 +44,7 @@ const Basic = () => {
                             설문 응답이 완료되었습니다
                         </p>
                         <p className="max-w-2xl mt-4 text-xl text-gray-500 lg:mx-auto">
-                            감사합니다👍
+                            {endMessage}
                         </p>
 
                         <div className="flex justify-center mt-8 md:mt-14 lg:flex-shrink-0">

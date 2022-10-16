@@ -138,7 +138,11 @@ export default function SurveyResponse(props) {
         try {
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
             setIsSettingModalOpen(false)
-            router.push('/survey/share/finish', undefined, { shallow: true })
+            router.push({
+                pathname: '/survey/share/finish', 
+                shallow: true, 
+                query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
+            });
         } catch (e) {
             console.log(e);
             openFailModal();
