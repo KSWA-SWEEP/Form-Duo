@@ -30,6 +30,7 @@ const closedSurveyMenu = [
 
 export default function SurveyGridList() {
   const router = useRouter(); 
+  const currentURL = router.asPath;
   const [svyList, setSvyList] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
@@ -203,7 +204,7 @@ export default function SurveyGridList() {
                                                     ?
                                                     ({ active }) => (
                                                       <Link
-                                                        href={{pathname :item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: {svyId: survey.id}}}
+                                                      href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, preURL: currentURL } }}
                                                         className={classNames(
                                                         active ? 'bg-neutral-100' : '',
                                                         'block px-4 py-2 text-sm text-gray-700 border-b-2 border-gray-100'

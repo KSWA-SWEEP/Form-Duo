@@ -24,11 +24,13 @@ const BasicPreview = () => {
         try {
             // 쿼리 가져오기
             console.log("###### query: " + JSON.stringify(router.query));
-            console.log("###### svyContents: " + JSON.stringify(router.query.svyContents));
-            
+            console.log("###### svyContents: " + JSON.stringify(router.query.svyContent));
+            console.log("###### svyId: " + router.query.svyId);
+            console.log("###### preURL: " + router.query.preURL);
+        
             setQuery(router.query);
 
-            if (Object.keys(query) == "svyId") {
+            if (Object.keys(query)[0] == "svyId") {
                 // 설문 목록에서 실행한 미리보기인 경우
                 getSurvey(query.svyId);
                 console.log("목록인 경우");
@@ -71,7 +73,7 @@ const BasicPreview = () => {
         <>
             <PageTitle title="설문 미리보기" />
             {/* <h1>svyContent : {JSON.stringify(svyContents)}</h1> */}
-            <SurveyPreview svyContents={svyContents} />
+            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} />
         </>
     );
 };
