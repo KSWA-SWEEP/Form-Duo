@@ -225,13 +225,14 @@ export default function SurveyGridList() {
                                                     ({ active }) => (
                                                       <Link
                                                       href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, preURL: currentURL } }}
-                                                        className={classNames(
+                                                    >
+                                                      <div className={classNames(
                                                         active ? 'bg-neutral-100' : '',
-                                                        'block px-4 py-2 text-sm text-gray-700 border-b-2 border-gray-100'
-                                                        )}
-                                                      >
-                                                          {item.name}
-                                                      </Link> 
+                                                        'block px-4 py-2 text-sm  text-gray-700 border-b-2 border-gray-100'
+                                                      )}>
+                                                        {item.name}
+                                                      </div>
+                                                    </Link>
                                                     )
                                                     :
                                                     <a
