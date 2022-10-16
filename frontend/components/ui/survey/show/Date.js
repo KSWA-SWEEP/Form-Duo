@@ -1,24 +1,35 @@
 import { useState } from "react";
+import DatePicker from "react-datepicker";
 
-export default function Date(props) {
+import "react-datepicker/dist/react-datepicker.css";
 
-    const [answer, setAnswer] = useState(1);
+
+export default function DateInput (props) {
+    const Today = new Date();
+    const [inputDate, setInputDate] = useState(Today);
+
     const onChange = (event) => {
         setAnswer(event.target.value);
     }
 
     return (
-        <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
-            <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
+        <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
+            <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
                 Question. {props.qId}
             </div>
             <div className="overflow-hidden shadow rounded-2xl">
-                <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
-                    <legend className="contents text-base font-medium text-gray-900">{props.qTitle}</legend>
+                <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                    <legend className="text-base font-medium text-gray-900 contents">{props.qTitle}</legend>
                     <p className="text-sm text-gray-500">{props.qInfo}</p>
-                    <h2>Date 입력 추가 예정</h2>
+                    <DatePicker
+                        selected={inputDate}
+                        onChange={(date) => setInputDate(date)}
+                        dateFormat="yyyy-MM-dd"
+                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
+                    />
                 </div>
             </div>
         </div>
     )
 }
+  
