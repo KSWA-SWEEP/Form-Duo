@@ -158,7 +158,7 @@ export default function SurveyModify (props) {
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
 
-        if(isSaveModalOpen) {
+        if(isSettingModalOpen) {
             closeSettingModal();
             updateSvy(data);
         }
