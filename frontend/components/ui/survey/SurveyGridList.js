@@ -8,7 +8,7 @@ import Image from "next/image"
 import Router, { useRouter } from "next/router"
 import ReactDOM from 'react-dom';
 import QR from "qrcode.react";
-import { getCookie } from "cookies-next"
+import { getCookie, getCookies } from "cookies-next"
 import Loading from "../../common/Loading"
 
 // 진행중 설문 세부 메뉴
@@ -39,14 +39,20 @@ export default function SurveyGridList() {
   const [shareUrl, setShareUrl] = useState("")
   const [showQr, setShowQr] = useState(false)
   const [showCopyMsg, setShowCopyMsg] = useState(false)
-  const [isTokenExist, setIsTokenExist] =useState(false)
-  const [data, setData] = useState(null)
+  const [isTokenExist, setIsTokenExist] =useState("")
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
-    getSvyList()  
+    // getSvyList()
+    setIsTokenExist(getCookies("accessToken"))
   }, [])
+
+  useEffect(() => {
+    if(isTokenExist != ""){
+      getSvyList()
+    }
+  }, [isTokenExist])
 
   if (isLoading) return <Loading/>
   if (svyList.length == 0) return <div className="flex justify-center mt-20"><p>표시할 설문 목록이 없습니다</p></div>
@@ -59,7 +65,7 @@ export default function SurveyGridList() {
     }catch (e) {
         console.log(e);
     }
-  } 
+  }
 
   function openDeleteModal() {
     setIsDeleteModalOpen(true)
