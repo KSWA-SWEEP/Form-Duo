@@ -51,6 +51,9 @@ const SurveyResult = () => {
         return (
             <div>
                 <div>
+                    <div><h1>총 응답 수 : {resPeople}</h1></div>
+                    <br/>
+                    <div align="center">
                     {viewChart ? (
                         <>
                             <button onClick={() => setViewChart(true)}
@@ -74,13 +77,10 @@ const SurveyResult = () => {
                             </button>
                         </>
                     )}
+                    </div>
                 </div>
-
-            <div>
-                <h1>총 응답 수 : {resPeople}</h1>
-            </div>
                 <div>
-                    {viewChart ?  <SurveyResults resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
+                    {viewChart ?  <SurveyResults resPeople = {resPeople} resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
                 </div>
             </div>
         );

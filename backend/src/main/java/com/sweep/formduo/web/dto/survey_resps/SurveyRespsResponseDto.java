@@ -16,6 +16,9 @@ import java.util.Map;
 public class SurveyRespsResponseDto {
     private Integer id;
     private Integer svyId;
+    private Integer svyRespsCount;
+
+    private Integer svyRespsMax;
     private Instant svyRespDt;
     private List<Map<String, Object>> svyRespContent;
 
@@ -23,6 +26,8 @@ public class SurveyRespsResponseDto {
     public SurveyRespsResponseDto(SurveyResps entity){
         this.id = entity.getId();
         this.svyId = entity.getSurvey().getId();
+        this.svyRespsCount = entity.getSurvey().getSvyRespCount();
+        this.svyRespsMax = entity.getSurvey().getSvyRespMax();
         this.svyRespDt = entity.getSvyRespDt();
         this.svyRespContent = entity.getSvyRespContent();
     }

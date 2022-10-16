@@ -13,6 +13,6 @@ public class MemberUpdateDTO {
     private String email;
     private String password;
     private String username;
-    private List<String> authorities;
+//    private List<String> authorities;
 
 }

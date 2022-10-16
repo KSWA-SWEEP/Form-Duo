@@ -2,6 +2,8 @@ package com.sweep.formduo.domain.members;
 
 import com.sweep.formduo.domain.auth.Authority;
 import com.sweep.formduo.domain.auth.MemberAuth;
+import com.sweep.formduo.domain.survey_resps.SurveyResps;
+import com.sweep.formduo.domain.surveys.Surveys;
 import com.sweep.formduo.web.dto.members.MemberUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -14,10 +16,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 
 @Getter
 @NoArgsConstructor
@@ -69,6 +72,9 @@ public class Members {
     )
     private Set<Authority> authorities = new HashSet<>();
 
+    @OneToMany(mappedBy = "members")
+    List<Surveys> surveysList = new ArrayList<Surveys>();
+
 
     @Builder
     public Members(String username, String email, String password, boolean activated, char delYn,
@@ -105,13 +111,13 @@ public class Members {
         if(dto.getPassword() != null) this.password = passwordEncoder.encode(dto.getPassword());
         if(dto.getUsername() != null) this.username = dto.getUsername();
         this.upd_dt = Instant.now();
-        if(dto.getAuthorities().size() > 0) {
-            this.authorities = dto.getAuthorities().stream()
-                    .filter(MemberAuth::containsKey)
-                    .map(MemberAuth::get)
-                    .map(Authority::new)
-                    .collect(Collectors.toSet());
-        }
+//        if(dto.getAuthorities().size() > 0) {
+//            this.authorities = dto.getAuthorities().stream()
+//                    .filter(MemberAuth::containsKey)
+//                    .map(MemberAuth::get)
+//                    .map(Authority::new)
+//                    .collect(Collectors.toSet());
+//        }
     }
 
     public void remove(char delYn){

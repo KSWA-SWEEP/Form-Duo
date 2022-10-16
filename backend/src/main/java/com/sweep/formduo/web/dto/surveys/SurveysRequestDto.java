@@ -1,5 +1,6 @@
 package com.sweep.formduo.web.dto.surveys;
 
+import com.sweep.formduo.domain.members.Members;
 import com.sweep.formduo.domain.surveys.Surveys;
 import com.sweep.formduo.util.SecurityUtil;
 import lombok.Builder;
@@ -44,10 +45,10 @@ public class SurveysRequestDto {
         this.svyRespCount = svyRespCount;
     }
 
-    public Surveys toEntity() {
+    public Surveys toEntity(Members members) {
         return Surveys.builder()
                 .svySt(svySt)
-                .email(SecurityUtil.getCurrentMemberEmail())
+                .email(members.getEmail())
                 .svyTitle(svyTitle)
                 .svyIntro(svyIntro)
                 .svyContent(svyContent)
@@ -59,6 +60,7 @@ public class SurveysRequestDto {
                 .svyEndDt(svyEndDt)
                 .svyRespCount(svyRespCount)
                 .svyRespMax(svyRespMax)
+                .members(members)
                 .build();
     }
 }
