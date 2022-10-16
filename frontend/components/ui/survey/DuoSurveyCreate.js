@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const qTypes = [
     { name: '음성', comp: "Voice", contentYn: false },
-    { name: '영상', comp: "Video", contentYn: false },
+    // { name: '영상', comp: "Video", contentYn: false },
 ]
 
 export default function BasicSurveyCreate () {
@@ -31,7 +31,7 @@ export default function BasicSurveyCreate () {
     const [svyStartDt, setSvyStartDt] = useState(Today)
     const [svyEndDt, setSvyEndDt] = useState(Today)
     const [svyEndMsg, setSvyEndMsg] = useState("")
-    const [svyRespMax, setSvyRespMax] = useState("")
+    const [svyRespMax, setSvyRespMax] = useState(100)
 
     useEffect(() => {
         if (svyStartDt > svyEndDt) {
@@ -119,7 +119,7 @@ export default function BasicSurveyCreate () {
         data.svyEndDt = svyEndDt.toISOString();
         data.svyEndMsg = svyEndMsg;
         data.svySt = "";
-        data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
+        data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
         console.log(data);
 
@@ -464,11 +464,13 @@ export default function BasicSurveyCreate () {
                                             설문 응답자수 제한
                                         </label>
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="svyRespMax"
                                             id="svyRespMax"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onRespMaxChange}
+                                            min={1}
+                                            defaultValue={svyRespMax}
                                         />
                                         </div>
                                     </div>
