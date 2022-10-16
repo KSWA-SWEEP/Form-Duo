@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import PageTitle from '../../../components/ui/PageTitle';
 import SurveyPreview from "../../../components/ui/survey/SurveyPreview";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 
 // 설문 참여 페이지
 const BasicPreview = () => {
@@ -10,6 +12,7 @@ const BasicPreview = () => {
     const [query, setQuery] = useState(null);
     const [isLoading, setLoading] = useState(false);
     const [svyContents, setSvyContents] = useState([]);
+    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState);
 
     useEffect(() => {
         setLoading(true)
@@ -23,23 +26,20 @@ const BasicPreview = () => {
     async function getQuery() {
         try {
             // 쿼리 가져오기
-            console.log("###### query: " + JSON.stringify(router.query));
-            console.log("###### svyContents: " + JSON.stringify(router.query.svyContent));
-            console.log("###### svyId: " + router.query.svyId);
-            console.log("###### preURL: " + router.query.preURL);
+            // console.log("###### query: " + JSON.stringify(router.query));
+            // console.log("###### svyContents: " + JSON.stringify(router.query.svyContent));
+            // console.log("###### svyId: " + router.query.svyId);
         
             setQuery(router.query);
 
             if (Object.keys(query)[0] == "svyId") {
                 // 설문 목록에서 실행한 미리보기인 경우
                 getSurvey(query.svyId);
-                console.log("목록인 경우");
                 setLoading(false);
             }
             else {
                 // 설문 생성에서 실행한 미리보기인 경우
                 getCreateSurvey();
-                console.log("미리보기인 경우");
                 setLoading(false);
             }
             setLoading(false);
@@ -72,7 +72,6 @@ const BasicPreview = () => {
     return (
         <>
             <PageTitle title="설문 미리보기" />
-            {/* <h1>svyContent : {JSON.stringify(svyContents)}</h1> */}
             <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} />
         </>
     );

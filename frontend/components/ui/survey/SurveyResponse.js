@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from 'next/router'
+import SurveyTitleShow from "./SurveyTitleShow";
 
 export default function SurveyResponse(props) {
 
@@ -121,8 +122,12 @@ export default function SurveyResponse(props) {
 
     return (
         <div>
-            <h1>설문 제목: {svyTitle}</h1>
-            <h1>설문 인트로: {svyIntro}</h1>
+            {/* 제목 입력 */}
+            <SurveyTitleShow bgColor="bg-fdyellowbright"
+                svyTitle={svyTitle}
+                svyIntro={svyIntro}
+            />
+
             {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} /> : <h1>세팅전</h1>}
 
             <div className="flex justify-center m-7 mx-2 rounded-md ">

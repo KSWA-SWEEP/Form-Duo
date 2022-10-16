@@ -10,7 +10,6 @@ const Survey = () => {
     return (
         <>
             <PageTitle title="설문 참여하기"/>
-            <h1>Survey : {surveyId}</h1>
             <SurveyResponse svyId={surveyId} />
         </>
     );

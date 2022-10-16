@@ -7,6 +7,9 @@ import Respond from "./input/Respond";
 import Link from "next/link.js";
 import axios from "axios";
 import {useRouter} from 'next/router'
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const qTypes = [
@@ -85,11 +88,11 @@ export default function SurveyModify (props) {
         setSvyIntro(e.target.value)
     };
     
-    const onStartDtChange = (e) => {
-        setSvyStartDt(e.target.value)
+    const onStartDtChange = (date) => {
+        setSvyStartDt(date)
     };
-    const onEndDtChange = (e) => {
-        setSvyEndDt(e.target.value)
+    const onEndDtChange = (date) => {
+        setSvyEndDt(date)
     };
     
     const onEndMsgChange = (e) => {
@@ -413,13 +416,21 @@ export default function SurveyModify (props) {
                                         <label htmlFor="svyStartDt" className="block text-xs font-medium text-gray-500">
                                             설문 시작일 <span className="text-red-600">*</span>
                                         </label>
-                                        <input
+                                        {/* <input
                                             type="text"
                                             name="svyStartDt"
                                             id="svyStartDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onStartDtChange}
-                                            defaultValue={svyData.svyStartDt}
+                                            defaultValue={svyData.svyStartDt ? svyData.svyStartDt.substring(0, 10) : svyData.svyStartDt}
+                                        /> */}
+                                        <DatePicker
+                                            selected={svyStartDt}
+                                            onChange={(date) => onStartDtChange(date)}
+                                            showTimeSelect
+                                            dateFormat="yyyy-MM-dd h:mm aa"
+                                            defaultValue={svyData.svyStartDt ? svyData.svyStartDt.substring(0, 10) : svyData.svyStartDt}
+                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
 
@@ -431,13 +442,23 @@ export default function SurveyModify (props) {
                                         <label htmlFor="svyEndDt" className="block text-xs font-medium text-gray-500">
                                             설문 마감일
                                         </label>
-                                        <input
+                                        {/* <input
                                             type="text"
                                             name="svyEndDt"
                                             id="svyEndDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onEndDtChange}
-                                            defaultValue={svyData.svyEndDt}
+                                            defaultValue={svyData.svyEndDt ? svyData.svyEndDt.substring(0, 10) : svyData.svyEndDt}
+
+                                        /> */}
+
+                                        <DatePicker
+                                            selected={svyEndDt}
+                                            onChange={(date) => onEndDtChange(date)}
+                                            showTimeSelect
+                                            dateFormat="yyyy-MM-dd h:mm aa"
+                                            defaultValue={svyData.svyEndDt ? svyData.svyEndDt.substring(0, 10) : svyData.svyEndDt}
+                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
 
