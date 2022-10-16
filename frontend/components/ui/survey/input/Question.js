@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import ContentList from './ContentList';
 
-import { CheckIcon, ChevronDoubleDownIcon, MicrophoneIcon, VideoCameraIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
@@ -104,9 +104,7 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                                 'Dropbox': <ChevronDoubleDownIcon className='w-4 h-4'/>,
                                 'Date': <CalendarDaysIcon className='w-4 h-4'/>,
                                 'Rating': <StarIcon className='w-4 h-4'/>,
-                                'File': <DocumentIcon className='w-4 h-4'/>,
-                                'Voice': <MicrophoneIcon className='w-4 h-4'/>,
-                                'Video': <VideoCameraIcon className='w-4 h-4'/>
+                                'File': <DocumentIcon className='w-4 h-4'/>
                                 }[qType]
                             }
                             <p className='ml-2 text-xs'>

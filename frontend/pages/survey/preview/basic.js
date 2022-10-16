@@ -11,12 +11,8 @@ const BasicPreview = () => {
     const router = useRouter();
     const [query, setQuery] = useState(null);
     const [isLoading, setLoading] = useState(false);
-    const [svyContents, setSvyContents] = useState(null);
-    const [svyResContents, setSvyResContents] = useState(null);
-    const [isModify, setIsModify] = useState(false);
+    const [svyContents, setSvyContents] = useState([]);
     const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState);
-
-
 
     useEffect(() => {
         setLoading(true)
@@ -25,42 +21,32 @@ const BasicPreview = () => {
 
     if (isLoading) return <div>Loading</div>;
     if (query == undefined) return <div>Loading</div>;
-    if (svyContents === undefined || !svyContents) return <div>Loading</div>;
+    if (svyContents === undefined || svyContents.length === 0) return <div>Loading</div>;
 
-    async function getQuery(){
-        try{
-            console.log("###### query: " + JSON.stringify(router.query));
+    async function getQuery() {
+        try {
+            // 쿼리 가져오기
+            // console.log("###### query: " + JSON.stringify(router.query));
+            // console.log("###### svyContents: " + JSON.stringify(router.query.svyContent));
+            // console.log("###### svyId: " + router.query.svyId);
+        
             setQuery(router.query);
-            if(query){
-                if (!query.hasOwnProperty("svyResId") && !query.hasOwnProperty("svyContent")) {
-                    // 설문 목록에서 실행한 미리보기인 경우
-                    await getSurvey(query.svyId);
-                    console.log("목록 미리보기인 경우");
-                    setLoading(false);
-                } else if (query.hasOwnProperty("svyResId")) {
-                    // 설문 결과에서 실행한 미리보기인 경우
-                    await getSurvey(query.svyId);
-                    setSvyResContents(JSON.parse(query.svyResContents));
-                    console.log(query.svyResContents);
-                    console.log("결과분석인 경우");
-                    setLoading(false);
-                } else {
-                    // 설문 생성에서 실행한 미리보기인 경우
-                    setSvyContents(JSON.parse(query.svyContent));
-                    console.log(svyContents);
-                    console.log("생성에서 미리보기인 경우");
-                    setLoading(false);
-                    setIsModify(true);
-                }
+
+            if (Object.keys(query)[0] == "svyId") {
+                // 설문 목록에서 실행한 미리보기인 경우
+                getSurvey(query.svyId);
+                setLoading(false);
+            }
+            else {
+                // 설문 생성에서 실행한 미리보기인 경우
+                getCreateSurvey();
+                setLoading(false);
             }
             setLoading(false);
-
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
-      }
-
-    console.log(router.query.preURL);
+    }
 
     async function getSurvey() {
         try {
@@ -85,8 +71,8 @@ const BasicPreview = () => {
 
     return (
         <>
-            <PageTitle title="설문 미리보기"/>
-            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} svyResContents = {svyResContents} isModify ={isModify}/>
+            <PageTitle title="설문 미리보기" />
+            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} />
         </>
     );
 };

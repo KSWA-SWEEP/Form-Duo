@@ -16,30 +16,30 @@ export default function SurveyResults(props) {
     }
 
     // console.log(props);
-    function createData(id, date, svyResId, svyRespContent) {
-        return { id, date, svyResId, svyRespContent};
+    function createData(id, date) {
+        return { id, date};
     }
 
 
     function createExcelData(id, contents, date){
+        console.log(tmp);
         const tmp = JSON.parse(contents);
         let data = {id, date}
 
-
-        // const tmp_qType = tmp.qType;
+        const tmp_qType = tmp.qType;
         tmp.map((ans) =>{
-            // console.log("ans" + JSON.stringify(ans.ansVal));
-            if (ans.ansVal[0].hasOwnProperty('qContentId') && ans.ansVal[0].qContentId === '')
+            if (ans.ansVal[0].qContentId === '')
                 data[ans.qId]=ans.ansVal[0].resp
             else
                 data[ans.qId]=ans.ansVal[0].qContentId
         });
 
+
         // console.log(ans_tmp);
         return data
     }
 
-    const rows = props.resContents.map((item) => createData(getNum(), item.svyRespDt, item.id, item.svyRespContent))
+    const rows = props.resContents.map((item) => createData(getNum(), item.svyRespDt))
     const excelData = props.resContents.map((item) => createExcelData(getExcelNum(), JSON.stringify(item.svyRespContent), item.svyRespDt))
     const excelHeader = () => {
         const temp = [{ label: "번호", key: "id" },
@@ -51,14 +51,14 @@ export default function SurveyResults(props) {
         return temp;
     };
 
-    // console.log(excelData);
-    // console.log(excelHeader());
+    console.log(excelData);
+    console.log(excelHeader());
 
     return (
         <>
             <Stack alignItems="center">
-                <h1>총 응답 수 : {props.resPeople} / {props.maxResPeople}</h1>
-                <ResponseTable surveyId = {props.resContents[0].svyId} contents = {rows} />
+                <h1>총 응답 수 : {props.resPeople}</h1>
+                <ResponseTable contents = {rows} />
                 <br/>
                 <div align="center">
                     <CSVLink
