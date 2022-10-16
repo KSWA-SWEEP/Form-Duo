@@ -35,7 +35,7 @@ export default function SurveyModify (props) {
     const [svyStartDt, setSvyStartDt] = useState("")
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
-    const [svyRespMax, setSvyRespMax] = useState("")
+    const [svyRespMax, setSvyRespMax] = useState(100)
     
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -144,7 +144,7 @@ export default function SurveyModify (props) {
         data.svyEndDt = svyEndDt;
         data.svyEndMsg = svyEndMsg;
         data.svySt = "";
-        data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
+        data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
         updateSvy(data);
     }
@@ -481,12 +481,13 @@ export default function SurveyModify (props) {
                                             설문 응답자수 제한
                                         </label>
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="svyRespMax"
                                             id="svyRespMax"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onRespMaxChange}
                                             defaultValue={svyData.svyRespMax}
+                                            min={1}
                                         />
                                         </div>
                                     </div>

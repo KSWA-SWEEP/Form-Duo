@@ -39,16 +39,17 @@ export default function BasicSurveyCreate() {
     // const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndDt, setSvyEndDt] = useState(Today)
     const [svyEndMsg, setSvyEndMsg] = useState("")
-    const [svyRespMax, setSvyRespMax] = useState("")
-    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState);
-    const [isLoading, setLoading] = useState(false);
+    const [svyRespMax, setSvyRespMax] = useState(100)
+    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState)
+    const [isLoading, setLoading] = useState(false)
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+    const [isFailModalOpen, setIsFailModalOpen] = useState(false)
+    const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
 
     useEffect(() => {
         setLoading(true)
         reinitSvyContents();
     }, [])
-
-    if (isLoading) return <Loading />;
 
     useEffect(() => {
         if (svyStartDt > svyEndDt) {
@@ -68,6 +69,11 @@ export default function BasicSurveyCreate() {
         }
         console.log(svyStartDt)
     }, [svyStartDt])
+
+    // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
+    const questionId = useRef(1);
+
+    if (isLoading) return <Loading />;
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)
@@ -89,13 +95,6 @@ export default function BasicSurveyCreate() {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
-
-    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
-    const [isFailModalOpen, setIsFailModalOpen] = useState(false)
-    const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
-
-    // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
-    const questionId = useRef(1);
 
     function openSaveModal() {
         setIsSaveModalOpen(true)
@@ -132,7 +131,7 @@ export default function BasicSurveyCreate() {
         data.svyEndDt = svyEndDt.toISOString();
         data.svyEndMsg = svyEndMsg;
         data.svySt = "";
-        data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
+        data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
         console.log(data);
 
@@ -509,11 +508,13 @@ export default function BasicSurveyCreate() {
                                                             설문 응답자수 제한
                                                         </label>
                                                         <input
-                                                            type="text"
+                                                            type="number"
                                                             name="svyRespMax"
                                                             id="svyRespMax"
                                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                             onChange={onRespMaxChange}
+                                                            min={1}
+                                                            defaultValue={svyRespMax}
                                                         />
                                                     </div>
                                                 </div>

@@ -126,7 +126,6 @@ export default function SurveyResponse(props) {
         if (isValidEmail()) {
             // 유효한 이메일인 경우 제출 허용
             closeSettingModal;
-
             const data = new Object();
             data.svyId = svyId;
             data.svyRespContent = svyRespContents;
@@ -156,7 +155,7 @@ export default function SurveyResponse(props) {
 
             {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} /> : <h1>세팅전</h1>}
 
-            <div className="flex justify-center m-7 mx-2 rounded-md ">
+            <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a
                     onClick={openSaveModal}
                     className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
