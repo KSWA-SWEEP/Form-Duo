@@ -48,7 +48,7 @@ export default function BasicSurveyCreate() {
         reinitSvyContents();
     }, [])
 
-    if (isLoading) return <Loading />; 
+    if (isLoading) return <Loading />;
 
     useEffect(() => {
         if (svyStartDt > svyEndDt) {
@@ -150,11 +150,11 @@ export default function BasicSurveyCreate() {
             setSvyContents(glbSvyContents.svyContent);
             setSvyTitle(glbSvyContents.svyTitle);
             setSvyIntro(glbSvyContents.svyIntro);
-            
+
             const lastSvyContent = glbSvyContents.svyContent.slice(-1)[0];
             if(lastSvyContent != undefined) {
                 questionId.current = lastSvyContent.qId + 1;
-            }   
+            }
         }
         setLoading(false);
     }
@@ -212,7 +212,7 @@ export default function BasicSurveyCreate() {
             />
 
             {/* 문항 목록 */}
-            {(glbSvyContents.length == 0) ? 
+            {(glbSvyContents.length == 0) ?
                 <div>
                 {svyContents.map(question => (
                     <Question
@@ -229,7 +229,7 @@ export default function BasicSurveyCreate() {
                         setSvyContents={setSvyContents} />
                 ))}
                 </div>
-             : 
+             :
              <div>
                 {Array.isArray(svyContents) ? svyContents.map(question => (
                     <Respond
@@ -242,7 +242,7 @@ export default function BasicSurveyCreate() {
                         contentYn={question.contentYn}
                         onRemoveQuestion={onRemoveQuestion}
                         setSvyContents={setSvyContents}
-                        
+
                         receiveqTitle={question.qTitle}
                         receiveqInfo={question.qInfo}
                         />
@@ -461,7 +461,7 @@ export default function BasicSurveyCreate() {
                                                             selected={svyStartDt}
                                                             onChange={(date) => onStartDtChange(date)}
                                                             showTimeSelect
-                                                            dateFormat="yyyy/MM/dd h:mm aa"
+                                                            dateFormat="yyyy-MM-dd h:mm aa"
                                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                                         />
                                                     </div>
@@ -486,7 +486,7 @@ export default function BasicSurveyCreate() {
                                                             selected={svyEndDt}
                                                             onChange={(date) => onEndDtChange(date)}
                                                             showTimeSelect
-                                                            dateFormat="yyyy/MM/dd h:mm aa"
+                                                            dateFormat="yyyy-MM-dd h:mm aa"
                                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                                         />
                                                     </div>
