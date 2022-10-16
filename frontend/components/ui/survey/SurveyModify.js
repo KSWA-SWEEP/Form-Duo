@@ -8,7 +8,9 @@ import Link from "next/link.js";
 import axios from "axios";
 import {useRouter} from 'next/router'
 import DatePicker from "react-datepicker";
-
+import { useRecoilState } from "recoil";
+import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
+import Loading from "../../common/Loading.js";
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -25,6 +27,7 @@ const qTypes = [
 export default function SurveyModify (props) {
 
     const router = useRouter()
+    const currentURL = router.asPath;
     const [selected, setSelected] = useState(qTypes[0])
     const [svyContents, setSvyContents] = useState([])
     const [svyData, setSvyData] = useState([])
@@ -36,6 +39,8 @@ export default function SurveyModify (props) {
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState(100)
+    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState)
+    const [isLoading, setLoading] = useState(false)
     
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -46,7 +51,7 @@ export default function SurveyModify (props) {
     }, [props]);
        
     useEffect(() => {
-        if(svyId !== undefined){
+        if(svyId !== undefined && glbSvyContents.length == 0){
             setSvyId(props.svyId);
             console.log(">> svyId : "+svyId)
             getSurvey().then(r => {
@@ -68,6 +73,13 @@ export default function SurveyModify (props) {
             });
         }
     }, [svyId]);
+
+    useEffect(() => {
+        setLoading(true)
+        reinitSvyContents();
+    }, [])
+
+    if (isLoading) return <Loading />;
     
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
@@ -133,8 +145,7 @@ export default function SurveyModify (props) {
     }
 
     function saveUpdatedSurvey() {
-        closeSettingModal();
-        
+       
         const data = new Object();
        
         data.svyTitle = svyTitle;
@@ -146,9 +157,13 @@ export default function SurveyModify (props) {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
-        updateSvy(data);
-    }
 
+        if(isSaveModalOpen) {
+            closeSettingModal();
+            updateSvy(data);
+        }
+        return data;
+    }
 
     async function updateSvy(data){
         try{
@@ -180,6 +195,34 @@ export default function SurveyModify (props) {
         setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
     }
 
+    function initGlbSvyContents() {
+
+        // addSelected();
+        const data = saveUpdatedSurvey();
+        setGlbSvyContents(data);
+        router.push({
+            pathname: '/survey/preview/basic',
+            query: { svyContent: JSON.stringify(data), preURL: currentURL }
+        });
+    }
+
+    function reinitSvyContents() {
+
+        if(glbSvyContents.length !== 0) {
+            setSvyContents(glbSvyContents.svyContent);
+            setSvyTitle(glbSvyContents.svyTitle);
+            setSvyIntro(glbSvyContents.svyIntro);
+
+            const lastSvyContent = glbSvyContents.svyContent.slice(-1)[0];
+            if(lastSvyContent != undefined) {
+                questionId.current = lastSvyContent.qId + 1;
+            }
+        }
+        setLoading(false);
+    }
+
+    // console.log("glbSvyContents: " + JSON.stringify(glbSvyContents));
+
     // props로 SurveyTitleInput에 넘겨주고 받아오면 됨.
     return (
         <div>
@@ -192,7 +235,8 @@ export default function SurveyModify (props) {
 
             {/* 문항 목록 */}
             <div>
-                {svyContents.map(respond => (
+                {/* {JSON.stringify(svyContents)} */}
+                {svyContents && svyContents.map(respond => (
                     <Respond 
                         svyContents={svyContents}
                         key={respond.qId} 
@@ -292,15 +336,13 @@ export default function SurveyModify (props) {
                     </Link>
                 </div>
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
-                    <Link 
-                        href={{
-                            pathname: '/survey/preview/basic'
-                        }} 
+                    <a 
+                        onClick={initGlbSvyContents}
                     > 
                     <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
                         설문 미리보기
                     </div>
-                    </Link>
+                    </a>
                 </div>
                 <div className="inline-flex mx-2 rounded-md shadow">
                     <a
