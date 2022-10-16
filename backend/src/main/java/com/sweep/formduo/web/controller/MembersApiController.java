@@ -45,7 +45,7 @@ public class MembersApiController {
     }
 
     @Operation(summary = "내 비밀번호 검증(확인)", description = "이메일과 비밀번호 입력 시 비밀번호가 맞는지 확인")
-    @GetMapping("/valid-pw")
+    @PostMapping("/valid-pw")
     public boolean isMyPw(@RequestBody MemberIsMyPwDTO dto) {return memberService.isMyPassword(dto);}
 
 //    /**

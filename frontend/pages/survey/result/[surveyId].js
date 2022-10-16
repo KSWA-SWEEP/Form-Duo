@@ -79,9 +79,8 @@ const SurveyResult = () => {
                     )}
                     </div>
                 </div>
-                <br/><br/>
                 <div>
-                    {viewChart ?  <SurveyResults resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
+                    {viewChart ?  <SurveyResults resPeople = {resPeople} resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
                 </div>
             </div>
         );

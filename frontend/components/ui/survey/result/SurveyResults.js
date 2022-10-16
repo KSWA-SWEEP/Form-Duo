@@ -57,6 +57,7 @@ export default function SurveyResults(props) {
     return (
         <>
             <Stack alignItems="center">
+                <h1>총 응답 수 : {props.resPeople}</h1>
                 <ResponseTable contents = {rows} />
                 <br/>
                 <div align="center">

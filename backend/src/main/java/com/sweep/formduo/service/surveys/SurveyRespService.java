@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,16 @@ public class SurveyRespService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 설문이 없습니다. id =" + requestDto.getSvyId()));
 
         // 기간이 지났는지 확인
+        if(surveys.getSvyEndDt().isBefore(Instant.now()))
+        {
+            return -2;
+        }
         // 응답수가 최대 수를 넘었는지 확인
-
+        if(surveys.getSvyRespMax() < surveys.getSvyRespCount()+1)
+        {
+            return -1;
+        }
+        surveys.countUp(surveys.getSvyRespCount()+1);
         return surveyRespsRepository.save(requestDto.toEntity(surveys)).getId();
     }
 

@@ -65,6 +65,4 @@ public class SurveysApiController {
         return surveyService.findAll();
     }
 
-
-
 }
