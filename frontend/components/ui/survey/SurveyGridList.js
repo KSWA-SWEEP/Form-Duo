@@ -60,6 +60,10 @@ export default function SurveyGridList() {
 
   async function getSvyList(){
     try{
+        axios.defaults.headers = {
+          'Content-Type': "application/json",
+          "Authorization": "Bearer " + getCookie("accessToken"),
+        };
         const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
         setSvyList(result.data)
         setLoading(false)
