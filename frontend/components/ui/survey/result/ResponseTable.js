@@ -40,9 +40,7 @@ const ResponseTable = (props) => {
     if (!data) return <p>Loading...</p>
     return (
         <Stack alignItems="center">
-            <Pagination count={LAST_PAGE} defaultPage={1} boundaryCount={2}
-                        size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)}
-                        className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap  hover:scale-105"/>
+            
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -61,6 +59,7 @@ const ResponseTable = (props) => {
                                 <TableCell component="th" scope="row" align="center">
                                     {row.id}
                                 </TableCell>
+                                
                                 <TableCell align="center">{row.date}</TableCell>
                                 <TableCell align="center">
                                     <button onClick={() => router.push('/', undefined, { shallow: true })}
@@ -72,7 +71,9 @@ const ResponseTable = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-
+            <Pagination count={LAST_PAGE} defaultPage={1} boundaryCount={2}
+                        size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)}
+                        className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap  hover:scale-105"/>
         </Stack>
     );
 };

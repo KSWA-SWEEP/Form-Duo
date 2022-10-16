@@ -59,15 +59,16 @@ export default function SurveyResults(props) {
             <Stack alignItems="center">
                 <ResponseTable contents = {rows} />
                 <br/>
-                <br/>
-                <CSVLink
-                    className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105"
-                    headers={excelHeader()} // header
-                    data={excelData} // data
-                    filename="설문결과"
-                >
-                    CSV 다운로드
-                </CSVLink>
+                <div align="center">
+                    <CSVLink
+                        className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105"
+                        headers={excelHeader()} // header
+                        data={excelData} // data
+                        filename="설문결과"
+                    >
+                        CSV 다운로드
+                    </CSVLink>
+                </div>
             </Stack>
 
         </>

@@ -136,8 +136,6 @@ export default function BasicSurveyCreate () {
 
     return (
         <div>
-            {JSON.stringify(svyContents)}
-
             {/* 제목 입력 */}
             <SurveyTitleInput bgColor="bg-fdyellowbright"
                               setSvyTitle={onTitleChange}
