@@ -1,6 +1,10 @@
+import { useRef } from "react";
 import ShowQuestionListItem from "./ShowQuestionListItem";
 
 const ShowQuestionList = (props) => {
+
+    // 설문지에 매겨질 질문 번호
+    var questionNum = 1;
 
     return (
         <div>
@@ -15,7 +19,8 @@ const ShowQuestionList = (props) => {
                     qIsMulti={question.isMulti}
                     qContents={question.qContents}
                     svyRespContents={props.svyRespContents}
-                    setSvyRespContents={props.setSvyRespContents} />
+                    setSvyRespContents={props.setSvyRespContents}
+                    qNumber={questionNum++} />
             ))}
         </div>
     );
