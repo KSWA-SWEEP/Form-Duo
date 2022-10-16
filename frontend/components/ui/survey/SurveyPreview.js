@@ -11,23 +11,25 @@ export default function SurveyPreview(props) {
     const [svyTitle, setSvyTitle] = useState(props.svyContents.svyTitle);
     const [svyIntro, setSvyIntro] = useState(props.svyContents.svyIntro);
     const [isLoading, setLoading] = useState(false);
-    const [preURL, setPreURL] = useState("");
+    const [preURL, setPreURL] = useState(props.preURL);
     const router = useRouter();
 
 
     useEffect( () => {
         if (!props.svyResContents) {
             initResContents();
+            // initPreURL();
+            console.log(preURL);
         }
         else {
             setSvyRespContents(props.svyResContents);
         }
     }, [])
 
-    useEffect(() => {
-        setLoading(true)
-        initPreURL();
-    }, [preURL])
+    // useEffect(() => {
+    //     setLoading(true)
+    //
+    // }, [preURL])
 
     // 설문 응답 포맷 초기화
     function initResContents() {
@@ -43,7 +45,7 @@ export default function SurveyPreview(props) {
     }
 
     if (isLoading) return <div>Loading</div>;
-    if (!svyContents || !svyRespContents || preURL) return <div>Data is not exist.</div>;
+    if (!svyContents || !svyRespContents || !preURL) return <div>Data is not exist.</div>;
 
 
     function initPreURL() {

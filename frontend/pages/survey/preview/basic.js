@@ -16,6 +16,8 @@ const BasicPreview = () => {
     const [isModify, setIsModify] = useState(false);
     const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState);
 
+
+
     useEffect(() => {
         setLoading(true)
         getQuery();
@@ -23,19 +25,19 @@ const BasicPreview = () => {
 
     if (isLoading) return <div>Loading</div>;
     if (query == undefined) return <div>Loading</div>;
-    if (svyContents === undefined || svyContents.length === 0) return <div>Loading</div>;
+    if (svyContents === undefined || !svyContents) return <div>Loading</div>;
 
     async function getQuery(){
         try{
             console.log("###### query: " + JSON.stringify(router.query));
             setQuery(router.query);
             if(query){
-                if (Object.keys(query)[0] === "svyId" && Object.keys(query).length === 1) {
+                if (!query.hasOwnProperty("svyResId") && !query.hasOwnProperty("svyContent")) {
                     // 설문 목록에서 실행한 미리보기인 경우
                     await getSurvey(query.svyId);
                     console.log("목록 미리보기인 경우");
                     setLoading(false);
-                } else if (Object.keys(query)[1] === "svyResId") {
+                } else if (query.hasOwnProperty("svyResId")) {
                     // 설문 결과에서 실행한 미리보기인 경우
                     await getSurvey(query.svyId);
                     setSvyResContents(JSON.parse(query.svyResContents));
@@ -44,7 +46,8 @@ const BasicPreview = () => {
                     setLoading(false);
                 } else {
                     // 설문 생성에서 실행한 미리보기인 경우
-                    setSvyContents({svyContent: JSON.parse(query.svyContents)});
+                    setSvyContents(JSON.parse(query.svyContent));
+                    console.log(svyContents);
                     console.log("생성에서 미리보기인 경우");
                     setLoading(false);
                     setIsModify(true);
@@ -55,7 +58,9 @@ const BasicPreview = () => {
         }catch (e) {
             console.log(e);
         }
-      } 
+      }
+
+    console.log(router.query.preURL);
 
     async function getSurvey() {
         try {
