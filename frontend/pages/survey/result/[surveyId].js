@@ -9,49 +9,47 @@ const SurveyResult = () => {
 
     const router = useRouter();
     // const { surveyId } = router.query;
-    const surveyId = 206;
-    console.log(" " + surveyId);
-
+    const [surveyId, setSurveyId] = useState(0);
     // 설문 전체 데이터
     const [data, setData] = useState(null)
-
     // 설문 응답자 수
-    const [resPeople, setResPeople] = useState(0);
-
     const [isLoading, setLoading] = useState(false)
     const [viewChart, setViewChart] = useState(true);
 
     useEffect(() => {
         setLoading(true)
-        axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/reps')
-            // .then((res) => res.json())
-            .then((res) => {
-                setData(res.data)
-                setResPeople(Object.values(res.data).length);
-                setLoading(false)
-            })
-    }, []);
+        setSurveyId(Object.values(router.query)[0]);
+        console.log(router.query)
+        if (surveyId !== 0) getContents(surveyId);
+    }, [surveyId]);
     // alert(message + " " + surveyId);
 
+
+    async function getContents(surveyId) {
+        try {
+            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/reps')
+            setData(svyContents.data);
+            console.log(svyContents.data);
+            setLoading(false);
+
+            return svyContents;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    if (surveyId === 0) return <p> Loading ...</p>
     if (isLoading) return <p> Loading...</p>
     if (!data) return <p> 아직 응답이 없구만유</p>
 
     if(data) {
-        console.log(data);
-        console.log(typeof data);
-        // console.log(Object.values(data));
-        // const dataPreprocess = (data) => {
-        //     // setResPeople(Object.values(data).length);
-        //     Object.values(data).map((item) => console.log(item));
-        // }
 
-        // dataPreprocess(data);
 
 
         return (
             <div>
                 <div>
-                    <div><h1>총 응답 수 : {resPeople}</h1></div>
+                    {/*<div><h1>총 응답 수 : {resPeople}</h1></div>*/}
                     <br/>
                     <div align="center">
                     {viewChart ? (
@@ -80,7 +78,10 @@ const SurveyResult = () => {
                     </div>
                 </div>
                 <div>
-                    {viewChart ?  <SurveyResults resPeople = {resPeople} resContents = {Object.values(data)} />: <SurveyAnalysis resContents = {Object.values(data)} />}
+                    {viewChart ?  <SurveyResults resPeople = {data.length} maxResPeople ={data[0].svyRespsMax} resContents = {Object.values(data)}
+                                                />
+                        :
+                        <SurveyAnalysis resContents = {Object.values(data)} />}
                 </div>
             </div>
         );
