@@ -50,7 +50,7 @@ export default function SurveyGridList() {
   }, [])
 
   useEffect(() => {
-    if(isTokenExist != ""){
+    if((isTokenExist != "")&&(isTokenExist !== undefined)){
       getSvyList()
     }
   }, [isTokenExist])

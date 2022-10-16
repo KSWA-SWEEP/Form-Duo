@@ -32,10 +32,10 @@ export default function BasicSurveyCreate () {
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
     // const [svyStartDt, setSvyStartDt] = useState("")
-    const Today = new Date();
+    let Today = new Date();
     const [svyStartDt, setSvyStartDt] = useState(Today)
     // const [svyEndDt, setSvyEndDt] = useState("")
-    const [svyEndDt, setSvyEndDt] = useState(Today.setDate(Today.getDate() + 7))
+    const [svyEndDt, setSvyEndDt] = useState(Today)
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState("")
 
@@ -112,7 +112,14 @@ export default function BasicSurveyCreate () {
     function saveBasicSurvey() {
 
         const data = new Object();
-        data.svyTitle = svyTitle;
+        if(svyTitle != "") {
+            data.svyTitle = svyTitle
+        } else {
+            Today = new Date();
+            let tempTitle = Today.toISOString().substring(0, 10) + " " + Today.toISOString().substring(12, 16) + " 생성 설문";
+            data.svyTitle = tempTitle
+        }
+        console.log(data.svyTitle)
         data.svyIntro = svyIntro;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt.toISOString();
@@ -412,7 +419,7 @@ export default function BasicSurveyCreate () {
                                             selected={svyStartDt}
                                             onChange={(date) => onStartDtChange(date)}
                                             showTimeSelect
-                                            dateFormat="yyyy/MM/dd h:mm aa"
+                                            dateFormat="yyyy-MM-dd h:mm aa"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
@@ -437,7 +444,7 @@ export default function BasicSurveyCreate () {
                                             selected={svyEndDt}
                                             onChange={(date) => onEndDtChange(date)}
                                             showTimeSelect
-                                            dateFormat="yyyy/MM/dd h:mm aa"
+                                            dateFormat="yyyy-MM-dd h:mm aa"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
