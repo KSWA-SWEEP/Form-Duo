@@ -5,6 +5,8 @@ import File from "./File";
 import Objective from "./Objective";
 import Rating from "./Rating";
 import Subjective from "./Subjective";
+import Video from "./Video";
+import Voice from "./Voice";
 
 const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents, svyRespContents, setSvyRespContents }) => {
 
@@ -24,6 +26,10 @@ const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMu
                 return <Rating qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
             case 'Subjective':
                 return <Subjective qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
+            case 'Voice':
+                return <Voice qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
+            case 'Video':
+                return <Video qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents}/>
         }
     }
 
