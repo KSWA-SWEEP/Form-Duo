@@ -6,8 +6,10 @@ import logoby from '../../../public/img/blue-yellow@3x.png'
 import logoblack from '../../../public/img/black@3x.png'
 import Image from 'next/future/image'
 import LazyShow from '../../common/LazyShow'
+import Link from "next/link"
 
 export default function AboutFormDuo() {
+
   return (
     <div className="bg-white">
       <div className="flex items-center bg-white md:h-56">
@@ -121,6 +123,7 @@ export default function AboutFormDuo() {
           />
         </div>
       </div> */}
+      <Link href="/survey/emotion/conversation">Emotion Testing.. </Link>
     </div>
   )
 }

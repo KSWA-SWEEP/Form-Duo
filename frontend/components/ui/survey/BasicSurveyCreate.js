@@ -35,7 +35,7 @@ export default function BasicSurveyCreate () {
     const Today = new Date();
     const [svyStartDt, setSvyStartDt] = useState(Today)
     // const [svyEndDt, setSvyEndDt] = useState("")
-    const [svyEndDt, setSvyEndDt] = useState(Today.setDate(Today.getDate() + 7))
+    const [svyEndDt, setSvyEndDt] = useState(Today)
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState("")
 
