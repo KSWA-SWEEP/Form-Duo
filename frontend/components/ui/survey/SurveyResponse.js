@@ -105,7 +105,7 @@ export default function SurveyResponse(props) {
 
         data.svyId = svyId;
         data.svyRespContent = svyRespContents;
-        console.log("제출되는 설문 응답" + JSON.stringify(svyRespContents));
+        console.log("제출되는 설문 응답" + svyRespContents);
         makeResp(data);
     }
 

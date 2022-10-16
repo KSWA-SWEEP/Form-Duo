@@ -15,7 +15,8 @@ const ShowQuestionList = (props) => {
                     qIsMulti={question.isMulti}
                     qContents={question.qContents}
                     svyRespContents={props.svyRespContents}
-                    setSvyRespContents={props.setSvyRespContents} />
+                    setSvyRespContents={props.setSvyRespContents}
+                    isModify = {props.isModify}/>
             ))}
         </div>
     );
