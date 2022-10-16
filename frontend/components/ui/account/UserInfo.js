@@ -89,6 +89,7 @@ export default function UserInfo() {
         setUserData(result.data)
         setLoading(false)
         setUserEmail(result.data.email)
+        setUserName(result.data.username)
     }catch (e) {
         console.log(e);
     }
@@ -162,11 +163,6 @@ export default function UserInfo() {
                   >
                       개인정보 수정
                   </Dialog.Title>
-                  {/* <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                      잠깐만요! 설문을 내보내기 전에 간단한 설정하고 가실게요😊
-                      </p>
-                  </div> */}
                   <div className="px-2 py-5 bg-white">
                       <div className="grid grid-cols-6 gap-2">
                           <div className="col-span-6">
@@ -193,7 +189,8 @@ export default function UserInfo() {
                               id="userEmail"
                               className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                               onChange={(e) => setUserEmail(e.target.value)}
-                              defaultValue={userEmail}
+                              value={userEmail}
+                              readOnly
                           />
                           </div>
 
