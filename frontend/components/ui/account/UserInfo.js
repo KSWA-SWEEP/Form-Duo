@@ -72,7 +72,7 @@ export default function UserInfo() {
   async function updateUser(data){
       try{
           const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data);
-          isUserInfoChgModalOpen(false)
+          setIsUserInfoChgModalOpen(false)
           location.reload();
       }catch (e) {
           console.log(e);

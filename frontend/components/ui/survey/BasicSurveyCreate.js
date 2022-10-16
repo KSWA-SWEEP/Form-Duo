@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useCallback } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
@@ -7,6 +7,9 @@ import Question from "./input/Question.js";
 import Link from "next/link.js";
 import axios from "axios";
 import { useRouter } from 'next/router'
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const qTypes = [
@@ -27,10 +30,32 @@ export default function BasicSurveyCreate () {
 
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
-    const [svyStartDt, setSvyStartDt] = useState("")
-    const [svyEndDt, setSvyEndDt] = useState("")
+    // const [svyStartDt, setSvyStartDt] = useState("")
+    const Today = new Date();
+    const [svyStartDt, setSvyStartDt] = useState(Today)
+    // const [svyEndDt, setSvyEndDt] = useState("")
+    const [svyEndDt, setSvyEndDt] = useState(Today.setDate(Today.getDate() + 7))
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState("")
+
+    useEffect(() => {
+        if (svyStartDt > svyEndDt) {
+            setSvyStartDt(svyEndDt)
+            let newEndDt = new Date();
+            newEndDt.setDate(svyStartDt.getDate() + 7)
+            setSvyEndDt(newEndDt)
+        }
+        console.log(svyEndDt)
+    }, [svyEndDt])
+
+    useEffect(() => {
+        if (svyStartDt > svyEndDt) {
+            let newEndDt = new Date();
+            newEndDt.setDate(svyStartDt.getDate() + 7)
+            setSvyEndDt(newEndDt)
+        }
+        console.log(svyStartDt)
+    }, [svyStartDt])
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)
@@ -39,11 +64,11 @@ export default function BasicSurveyCreate () {
         setSvyIntro(e.target.value)
     };
     
-    const onStartDtChange = (e) => {
-        setSvyStartDt(e.target.value)
+    const onStartDtChange = (date) => {
+        setSvyStartDt(date)
     };
-    const onEndDtChange = (e) => {
-        setSvyEndDt(e.target.value)
+    const onEndDtChange = (date) => {
+        setSvyEndDt(date)
     };
     
     const onEndMsgChange = (e) => {
@@ -90,8 +115,8 @@ export default function BasicSurveyCreate () {
         data.svyTitle = svyTitle;
         data.svyIntro = svyIntro;
         data.svyContent = svyContents;
-        data.svyStartDt = svyStartDt;
-        data.svyEndDt = svyEndDt;
+        data.svyStartDt = svyStartDt.toISOString();
+        data.svyEndDt = svyEndDt.toISOString();
         data.svyEndMsg = svyEndMsg;
         data.svySt = "";
         data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
@@ -369,12 +394,19 @@ export default function BasicSurveyCreate () {
                                         <label htmlFor="svyStartDt" className="block text-xs font-medium text-gray-500">
                                             설문 시작일 <span className="text-red-600">*</span>
                                         </label>
-                                        <input
+                                        {/* <input
                                             type="text"
                                             name="svyStartDt"
                                             id="svyStartDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onStartDtChange}
+                                        /> */}
+                                        <DatePicker 
+                                            selected={svyStartDt}
+                                            onChange={(date) => onStartDtChange(date)}
+                                            showTimeSelect
+                                            dateFormat="yyyy/MM/dd h:mm aa"
+                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
 
@@ -386,12 +418,20 @@ export default function BasicSurveyCreate () {
                                         <label htmlFor="svyEndDt" className="block text-xs font-medium text-gray-500">
                                             설문 마감일
                                         </label>
-                                        <input
+                                        {/* <input
                                             type="text"
                                             name="svyEndDt"
                                             id="svyEndDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onEndDtChange}
+                                        /> */}
+                                        
+                                        <DatePicker 
+                                            selected={svyEndDt}
+                                            onChange={(date) => onEndDtChange(date)}
+                                            showTimeSelect
+                                            dateFormat="yyyy/MM/dd h:mm aa"
+                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
 
