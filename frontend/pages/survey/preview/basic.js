@@ -14,6 +14,7 @@ const BasicPreview = () => {
     const [svyContents, setSvyContents] = useState(null);
     const [svyResContents, setSvyResContents] = useState(null);
     const [isModify, setIsModify] = useState(false);
+    const [isResult, setIsResult] = useState(false);
     const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState);
 
 
@@ -41,6 +42,7 @@ const BasicPreview = () => {
                     // 설문 결과에서 실행한 미리보기인 경우
                     await getSurvey(query.svyId);
                     setSvyResContents(JSON.parse(query.svyResContents));
+                    setIsResult(true);
                     console.log(query.svyResContents);
                     console.log("결과분석인 경우");
                     setLoading(false);
@@ -85,7 +87,7 @@ const BasicPreview = () => {
 
     return (
         <>
-            <PageTitle title="설문 미리보기"/>
+            <PageTitle title={isResult ? "설문결과" : "설문 미리보기"}/>
             <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} svyResContents = {svyResContents} isModify ={isModify}/>
         </>
     );
