@@ -14,7 +14,7 @@ export default function MainContent() {
               <div className="inline-flex rounded-md shadow">
                 <Link 
                     href={{
-                      pathname: '/survey/tutorial'
+                      pathname: '/survey/create/basic'
                     }} 
                   > 
                   <div

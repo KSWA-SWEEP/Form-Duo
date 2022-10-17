@@ -46,6 +46,8 @@ export default function BasicSurveyCreate() {
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
+
+    //Qbox
     const [isQboxOpen, setIsQboxOpen] = useState(false)
 
     useEffect(() => {
@@ -97,8 +99,6 @@ export default function BasicSurveyCreate() {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
-    
-    //Qbox
     function openQboxModal() {
         setIsQboxOpen(true)
     }

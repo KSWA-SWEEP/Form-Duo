@@ -4,8 +4,7 @@ import TalkSvg from '../icon/TalkSvg';
 
 const Product = () => {
   return (
-    <section className='py-8 mb-24 bg-background' id="product">
-      <div className='container max-w-5xl m-8 mx-auto'>
+    <section className='py-8 mt-20 mb-24 bg-background' id="product">      <div className='container max-w-5xl m-8 mx-auto'>
         <div className='flex flex-wrap items-center'>
           <div className='w-5/6 p-6 sm:w-1/2'>
             <h3 className='mb-3 text-3xl font-bold leading-snug text-gray-800'>

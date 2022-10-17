@@ -187,8 +187,16 @@ export default function Header () {
                                                     'px-3 py-2 rounded-lg text-base font-semibold hover:scale-105 duration-200'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
-                                            >
-                                              {item.name}
+                                                >
+                                                <div
+                                                  className={classNames(
+                                                      item.current
+                                                          ? 'text-fdblue'
+                                                          : 'text-gray-700 hover:bg-fdbluelight hover:opacity-70 hover:text-white',
+                                                      'px-3 py-2 rounded-lg text-base font-semibold hover:scale-105 duration-200'
+                                                  )}>
+                                                  {item.name}
+                                                </div>
                                             </Link>
                                     )
                                 )):
@@ -199,14 +207,16 @@ export default function Header () {
                                             href={{
                                               pathname: item.href
                                             }}
+                                            >
+                                            <div
                                             className={classNames(
                                                 item.current
                                                     ? 'text-fdblue'
                                                     : 'text-gray-700 hover:bg-fdbluelight hover:opacity-70 hover:text-white',
                                                 'px-3 py-2 rounded-lg text-base font-semibold hover:scale-105 duration-200'
-                                            )}
-                                        >
-                                          {item.name}
+                                            )}>
+                                            {item.name}
+                                          </div>
                                         </Link>
                                     )
                                 ))}
