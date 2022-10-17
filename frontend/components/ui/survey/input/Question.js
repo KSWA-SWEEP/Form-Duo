@@ -14,16 +14,15 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     const index = svyContents.findIndex((svyContent) => svyContent.qId === qId);
     //Qbox check
     // console.log("QBconts" + JSON.stringify(qbContents))
+    // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
+    const nextId = useRef(qNextId);
     const [qContents, setQContents] = useState(
         qbContents?qbContents:[
         {
-        qContentId: 0,
+        qContentId: qNextId.current,
         qContentVal: ""
         }
     ]);
-    
-    // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
-    const nextId = useRef(qNextId);
 
     useEffect(() => {
         updateSvyContents();

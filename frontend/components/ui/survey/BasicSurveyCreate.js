@@ -563,6 +563,7 @@ export default function BasicSurveyCreate() {
                             </div>
                         </Dialog>
                     </Transition>
+                    {/*Qbox*/}
                     <Qbox show={isQboxOpen} onHide={()=>{closeQboxModal()}} svyContents={svyContents} setSvyContents={setSvyContents} questionId={questionId} />
                     <Transition appear show={isFailModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
