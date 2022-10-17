@@ -116,8 +116,8 @@ export default function SurveyGridList() {
     else if (type == "설문 공유"){
       // 수정 필요 - table 에 svy 타입 (duo / basic) 구분하는 column 가져오기
       console.log(">>>>>>>>>>>>>")
-      console.log(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/basic/"+svyId);
-      setShareUrl(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/basic/"+svyId)
+      console.log(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/"+svyId);
+      setShareUrl(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/"+svyId)
       openShareModal();
     }
   }
