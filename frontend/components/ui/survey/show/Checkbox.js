@@ -41,7 +41,7 @@ export default function Checkbox(props) {
     const updatedList = [...checked];
 
     console.log("value: " + event.target.value);
-  
+
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
       var idx = event.target.value;
@@ -50,7 +50,7 @@ export default function Checkbox(props) {
       console.log("idx: " + idx);
       console.log("targetIdx: " + targetIdx);
       // insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
-      insertAnsVal(event.target.value, props.qContents[targetIdx].qContentVal);
+      insertAnsVal(event.target.value, targetIdx != -1 ? props.qContents[targetIdx].qContentVal : props.qContents[event.target.value - 1].qContentVal);
     } else {
       updatedList.splice(checked.indexOf(event.target.value), 1);
       deleteAnsVal(event.target.value);
