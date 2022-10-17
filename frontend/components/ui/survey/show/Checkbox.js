@@ -70,7 +70,7 @@ export default function Checkbox(props) {
     let kk = false;
     props.svyRespContents[index].ansVal.map(item => {
       // console.log(idx.toString(), item.qContentId)
-      if((idx+1).toString() === item.qContentId) {
+      if(idx.toString() === item.qContentId) {
         kk = true;
       }
     })
