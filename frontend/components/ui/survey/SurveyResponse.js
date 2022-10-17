@@ -94,6 +94,8 @@ export default function SurveyResponse(props) {
     const resContent = useRef([]);
     const initResContents = () => {
 
+        console.log("svyContents: " + JSON.stringify(svyContents.svyEndMsg));
+
         const newList = [];
         svyContents.svyContent && svyContents.svyContent.map(question => {
             resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
@@ -129,7 +131,7 @@ export default function SurveyResponse(props) {
             const data = new Object();
             data.svyId = svyId;
             data.svyRespContent = svyRespContents;
-            console.log("제출되는 설문 응답" + svyRespContents);
+            console.log("제출되는 설문 응답" + JSON.stringify(svyRespContents));
             makeResp(data);
         }
     }
