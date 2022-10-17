@@ -19,8 +19,8 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     const [qContents, setQContents] = useState(
         qbContents?qbContents:[
         {
-        qContentId: qNextId.current,
-        qContentVal: ""
+            qContentId: 1,
+            qContentVal: ""
         }
     ]);
 
@@ -59,7 +59,7 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     const onUpdate = qContentId => e => {
         const idx = qContents.findIndex((qContent) => qContent.qContentId === qContentId);
         let tempContents = [...qContents];
-        tempContents[index].qContentVal = e.target.value; 
+        tempContents[idx].qContentVal = e.target.value;
 
         setQContents(tempContents);
     }

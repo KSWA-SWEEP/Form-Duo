@@ -157,7 +157,7 @@ export default function SurveyModify (props) {
         const data = new Object();
        
         data.svyTitle = svyTitle;
-        data.svyIntro = svyTitle;
+        data.svyIntro = svyIntro;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt;
         data.svyEndDt = svyEndDt;
