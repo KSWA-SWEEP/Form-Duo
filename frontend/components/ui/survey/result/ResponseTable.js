@@ -13,8 +13,8 @@ import { Stack, Pagination } from "@mui/material";
 import { useState, useEffect } from "react";
 
 const ResponseTable = (props) => {
-    const LAST_PAGE = props.contents.length % 5 === 0 ?
-        props.contents.length / 5 : props.contents.length / 5 + 1; // 마지막 페이지
+    const LAST_PAGE = props.contents.length % 10 === 0 ?
+        props.contents.length / 10 : props.contents.length / 10 + 1; // 마지막 페이지
 
     const router = useRouter();
     const [page, setPage] = useState(1); // 처음 페이지는 1이다.
@@ -26,9 +26,9 @@ const ResponseTable = (props) => {
         // setData(/* fetch(또는 전체 데이터에서 slice)로 현재 page의 데이터를 가져온다. */);
         // 한 페이지에 5개씩 보여준다.
         if(page === LAST_PAGE){ // 마지막 페이지는 데이터가 5개보다 부족할 수도 있다.
-            setData(props.contents.slice(5 * (page - 1)));
+            setData(props.contents.slice(10 * (page - 1)));
         } else {
-            setData(props.contents.slice(5 * (page - 1), 5 * (page - 1) + 5));
+            setData(props.contents.slice(10 * (page - 1), 10 * (page - 1) + 10));
         }
     }, [page]);
 
