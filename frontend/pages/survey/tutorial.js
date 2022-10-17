@@ -1,9 +1,11 @@
+import TutorialConent from "../../components/ui/survey/TutorialContent";
+
 const Tutorial = () => {
-    return (
-        <>
-            <h1>Tutorial</h1>
-        </>
-    );
+  return (
+
+    <TutorialConent />
+
+  );
 };
 
 export default Tutorial;
