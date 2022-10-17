@@ -1,6 +1,6 @@
-import axios from "Axios";
-import React, { Fragment, useState, useRef, useEffect } from "React";
-import {getCookie} from "Cookies-next";
+import axios from "axios";
+import React, { Fragment, useState, useRef, useEffect } from "react";
+import {getCookie} from "cookies-next";
 
 export default function conversation() {
     

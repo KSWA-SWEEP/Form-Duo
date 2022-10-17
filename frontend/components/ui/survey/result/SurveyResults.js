@@ -2,6 +2,7 @@
 import ResponseTable from "./ResponseTable";
 import { CSVLink } from "react-csv";
 import {Stack} from "@mui/material";
+import Link from "next/link";
 
 export default function SurveyResults(props) {
 
@@ -68,6 +69,12 @@ export default function SurveyResults(props) {
                     >
                         CSV 다운로드
                     </CSVLink>
+                    <Link href="/survey/emotion/conversation">
+                        <button
+                            className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
+                            설문 발화 분석
+                        </button>
+                    </Link>
                 </div>
             </Stack>
 
