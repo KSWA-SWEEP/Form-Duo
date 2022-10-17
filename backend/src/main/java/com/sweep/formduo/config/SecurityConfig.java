@@ -43,7 +43,7 @@ public class SecurityConfig { // WebSecurityConfigurerAdapter 를 확장하면 �
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/api/v1/resp", "/api/v1/auth/**", "/swagger-ui/**", "/api-docs/**");
+        return (web) -> web.ignoring().antMatchers("/", "/api/v1/auth/**", "/swagger-ui/**", "/api-docs/**");
     }
 
     @Bean
@@ -57,7 +57,7 @@ public class SecurityConfig { // WebSecurityConfigurerAdapter 를 확장하면 �
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/surveys/**", "/api/v1/resp", "/api/v1/auth/**", "/api/v1/resp").permitAll()
+                .antMatchers("/api/v1/auth/**", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
