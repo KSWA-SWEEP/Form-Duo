@@ -41,7 +41,7 @@ const ResponseTable = (props) => {
 
     return (
         <Stack alignItems="center">
-            
+
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -60,7 +60,7 @@ const ResponseTable = (props) => {
                                 <TableCell component="th" scope="row" align="center">
                                     {row.id}
                                 </TableCell>
-                                
+
                                 <TableCell align="center">{row.date}</TableCell>
                                 <TableCell align="center">
                                     <button onClick={() =>

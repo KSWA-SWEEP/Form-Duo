@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, {Fragment, useState, useRef, useCallback, useEffect} from "react";
 import ReactDOM from "react-dom";
 import { Dialog, Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
@@ -7,6 +7,7 @@ import Question from "./input/Question.js";
 import Link from "next/link.js";
 import axios from "axios";
 import { useRouter } from 'next/router'
+import Qbox from "./Qbox";
 import DatePicker from "react-datepicker";
 import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
@@ -95,6 +96,15 @@ export default function BasicSurveyCreate() {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
+    
+    //Qbox
+    const [isQboxOpen, setIsQboxOpen] = useState(false)
+    function openQboxModal() {
+        setIsQboxOpen(true)
+    }
+    function closeQboxModal() {
+        setIsQboxOpen(false)
+    }
 
     function openSaveModal() {
         setIsSaveModalOpen(true)
@@ -219,13 +229,16 @@ export default function BasicSurveyCreate() {
                         key={question.qId}
                         qId={question.qId}
                         qType={question.comp}
-                        qTitle=""
+                        qbTitle={question.qTitle?question.qTitle:""}
+                        qbInfo={question.qInfo?question.qInfo:""}
+                        qbContents={question.qContents?question.qContents:""}
+                        qNextId={question.nextId?question.nextId:1}
                         name={question.name}
-                        comp={question.comp}
-
+                        comp={question.comp} 
+                        
                         contentYn={question.contentYn}
                         onRemoveQuestion={onRemoveQuestion}
-                        setSvyContents={setSvyContents} />
+                        setSvyContents={setSvyContents}/>
                 ))}
                 </div>
              :
@@ -254,17 +267,17 @@ export default function BasicSurveyCreate() {
                 <div className="overflow-hidden shadow bg-neutral-200 rounded-2xl">
                     <div className="px-4 py-5 space-y-6 sm:p-6">
                         <h2 className="font-bold">문항 추가</h2>
-                        <div className="grid grid-cols-6 gap-4">
+                        <div className="grid grid-cols-7 gap-4">
                             <div className="col-span-6 sm:col-span-5">
                                 <Listbox value={selected} onChange={setSelected}>
                                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                        <span className="block truncate">{selected.name}</span>
-                                        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                            <span className="block truncate">{selected.name}</span>
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                             <ChevronUpDownIcon
                                                 className="w-5 h-5 text-gray-400"
                                                 aria-hidden="true"
                                             />
-                                        </span>
+                                            </span>
                                     </Listbox.Button>
                                     <Transition
                                         as={Fragment}
@@ -310,6 +323,13 @@ export default function BasicSurveyCreate() {
                             >
                                 추가하기
                             </button>
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center col-span-6 text-sm font-medium text-white duration-200 border border-transparent rounded-md shadow-sm sm:col-span-1 bg-fdblue hover:bg-fdbluedark hover:scale-105"
+                                onClick={openQboxModal}
+                            >
+                                Q-Box
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -318,14 +338,14 @@ export default function BasicSurveyCreate() {
             {/* 하단 버튼 */}
             <div className="flex justify-center m-7">
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
-                    <Link
+                    <Link 
                         href={{
                             pathname: '/'
-                        }}
-                    >
-                        <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md bg-neutral-300 hover:bg-neutral-400">
-                            취소
-                        </div>
+                        }} 
+                    > 
+                    <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md bg-neutral-300 hover:bg-neutral-400">
+                        취소
+                    </div>
                     </Link>
                 </div>
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
@@ -543,8 +563,8 @@ export default function BasicSurveyCreate() {
                             </div>
                         </Dialog>
                     </Transition>
-
-
+                    {/*Qbox*/}
+                    <Qbox show={isQboxOpen} onHide={()=>{closeQboxModal()}} svyContents={svyContents} setSvyContents={setSvyContents} questionId={questionId} />
                     <Transition appear show={isFailModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
                             <Transition.Child

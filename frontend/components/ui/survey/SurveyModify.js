@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import "react-datepicker/dist/react-datepicker.css";
+import Qbox from "./Qbox";
 
 
 const qTypes = [
@@ -113,11 +114,18 @@ export default function SurveyModify (props) {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
-    
+
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
-
+    //Qbox
+    const [isQboxOpen, setIsQboxOpen]= useState(false)
+    function openQboxModal() {
+        setIsQboxOpen(true)
+    }
+    function closeQboxModal() {
+        setIsQboxOpen(false)
+    }
 
     function openSaveModal() {
         setIsSaveModalOpen(true)
@@ -259,7 +267,7 @@ export default function SurveyModify (props) {
                 <div className="overflow-hidden shadow bg-neutral-200 rounded-2xl">
                     <div className="px-4 py-5 space-y-6 sm:p-6">
                         <h2 className="font-bold">문항 추가</h2>
-                        <div className="grid grid-cols-6 gap-4">
+                        <div className="grid grid-cols-7 gap-4">
                             <div className="col-span-6 sm:col-span-5">
                                 <Listbox value={selected} onChange={setSelected}>
                                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -316,6 +324,13 @@ export default function SurveyModify (props) {
                                 onClick={addSelected}
                             >
                                 추가하기
+                            </button>
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center col-span-6 text-sm font-medium text-white duration-200 border border-transparent rounded-md shadow-sm sm:col-span-1 bg-fdblue hover:bg-fdbluedark hover:scale-105"
+                                onClick={openQboxModal}
+                            >
+                                Q-Box
                             </button>
                         </div>
                     </div>
@@ -413,8 +428,6 @@ export default function SurveyModify (props) {
                         </div>
                         </Dialog>
                     </Transition>
-
-              
                     <Transition appear show={isSettingModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
                         <Transition.Child
@@ -559,7 +572,9 @@ export default function SurveyModify (props) {
                         </Dialog>
                     </Transition>
 
-                    
+                    {/*Qbox*/}
+                    <Qbox show={isQboxOpen} onHide={()=>{closeQboxModal()}} svyContents={svyContents} setSvyContents={setSvyContents} questionId={questionId} />
+
                     <Transition appear show={isFailModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
                         <Transition.Child

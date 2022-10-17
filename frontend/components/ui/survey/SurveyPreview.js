@@ -65,7 +65,7 @@ export default function SurveyPreview(props) {
 
             <div className="flex justify-center m-7 mx-2 rounded-md ">
                 <a onClick={ () => router.push({pathname : preURL})}
-                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
+                   className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
                 >
                     뒤로가기
                 </a>

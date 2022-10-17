@@ -8,10 +8,10 @@ const ContentItem = ({ qContentId, qContentVal, onRemoveContent, onUpdate }) => 
                     <div className="w-full">
                         <input
                             placeholder="선택지를 입력하세요"
+                            defaultValue={qContentVal?qContentVal:""}
                             type="text"
                             className="block w-full text-sm border-0 rounded sm:text-sm text-fdblue focus:ring-fdblue"
                             onChange={onUpdate(qContentId)}
-                            defaultValue={qContentVal}
                         />
                     </div>
                 </div>
