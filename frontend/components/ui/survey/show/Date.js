@@ -36,7 +36,7 @@ export default function DateInput(props) {
 
     const onChange = (date) => {
         setAnswer(date);
-        setTempAnsVal({ resp: date.toISOString()});
+        setTempAnsVal([{ resp: date.toISOString()}]);
     }
 
     return (

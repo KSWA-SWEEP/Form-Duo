@@ -159,7 +159,7 @@ export default function SurveyResponse(props) {
                 svyIntro={svyIntro}
             />
 
-            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} /> : <h1>세팅전</h1>}
+            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
 
             <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a
