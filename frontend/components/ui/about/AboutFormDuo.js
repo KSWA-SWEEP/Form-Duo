@@ -123,7 +123,6 @@ export default function AboutFormDuo() {
           />
         </div>
       </div> */}
-      <Link href="/survey/emotion/conversation">Emotion Testing.. </Link>
     </div>
   )
 }

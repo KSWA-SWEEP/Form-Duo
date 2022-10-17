@@ -15,8 +15,8 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
         QBox: [
             {
                 qId: 1,
-                qTitle: '객관식 입니다.',
-                qInfo: '설명',
+                qTitle: '본인의 직업은 무엇입니까?',
+                qInfo: '',
                 qType: 'Objective',
                 name: '객관식',
                 qImage: '',
@@ -24,16 +24,34 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '객관식1',
-                },{
                     qContentId: 1,
-                    qContentVal: '객관식2',
+                    qContentVal: '학생',
+                },{
+                    qContentId: 2,
+                    qContentVal: '주부',
+                },{
+                    qContentId: 3,
+                    qContentVal: '회사원',
+                },{
+                    qContentId: 4,
+                    qContentVal: '자영업자',
+                },{
+                    qContentId: 5,
+                    qContentVal: '농부',
+                },{
+                    qContentId: 6,
+                    qContentVal: '공무원',
+                },{
+                    qContentId: 7,
+                    qContentVal: '엔지니어',
+                },{
+                    qContentId: 8,
+                    qContentVal: '무직',
                 }],
             },
             {
                 qId: 2,
-                qTitle: '주관식 입니다.',
+                qTitle: '나이를 입력하세요',
                 qInfo: '설명',
                 qType: 'Subjective',
                 name: '주관식',
@@ -42,47 +60,41 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: false,
                 qContents: [{
-                    qContentId: 0,
+                    qContentId: 1,
                     qContentVal: '',
                 }],
             },
             {
                 qId: 3,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '생일을 입력하세요.',
+                qInfo: '',
+                qType: 'Date',
+                name: '날짜',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
-                contentYn: true,
+                contentYn: false,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '',
                 }],
             },{
                 qId: 4,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '이메일을 입력하세요',
+                qInfo: 'ex) test@gmail.com',
+                qType: 'Subjective',
+                name: '주관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '',
                 }],
             },{
                 qId: 5,
-                qTitle: '체크박스 입니다.',
+                qTitle: '오늘 점심 메뉴는?',
                 qInfo: '설명',
                 qType: 'Checkbox',
                 name: '체크박스',
@@ -91,104 +103,169 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '한식',
+                },{
+                    qContentId: 2,
+                    qContentVal: '양식',
+                },{
+                    qContentId: 3,
+                    qContentVal: '중식',
+                },{
+                    qContentId: 4,
+                    qContentVal: '일식',
                 }],
             },{
                 qId: 6,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '본인의 소속을 선택하세요.',
+                qInfo: '정확히 일치하는 대학명이 없다면, 비슷한 계열의 대학을 선택하세요.',
+                qType: 'Dropbox',
+                name: '드롭박스',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
-                }],
+                    qContentVal: '경영대학',
+                },{
+                    qContentId: 2,
+                    qContentVal: '사회과학대학',
+                },{
+                    qContentId: 3,
+                    qContentVal: '법과대학',
+                },{
+                    qContentId: 4,
+                    qContentVal: 'IT융합대학',
+                },{
+                    qContentId: 5,
+                    qContentVal: '사회과학대학',
+                },{
+                    qContentId: 6,
+                    qContentVal: '예술체육대학',
+                },{
+                    qContentId: 7,
+                    qContentVal: '공과대학',
+                },{
+                    qContentId: 8,
+                    qContentVal: '의과대학',
+                },{
+                    qContentId: 9,
+                    qContentVal: '인문대학',
+                },],
             },{
                 qId: 7,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '본인의 직책을 선택하세요.',
+                qInfo: '객관식',
+                qType: 'Objective',
+                name: '객관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '사장',
+                },{
+                    qContentId: 2,
+                    qContentVal: '부사장',
+                },{
+                    qContentId: 3,
+                    qContentVal: '전무',
+                },{
+                    qContentId: 4,
+                    qContentVal: '상무',
+                },{
+                    qContentId: 5,
+                    qContentVal: '이사',
+                },{
+                    qContentId: 6,
+                    qContentVal: '부장',
+                },{
+                    qContentId: 7,
+                    qContentVal: '차장',
+                },{
+                    qContentId: 8,
+                    qContentVal: '과장',
+                },{
+                    qContentId: 9,
+                    qContentVal: '대리',
+                },{
+                    qContentId: 10,
+                    qContentVal: '주임',
+                },{
+                    qContentId: 11,
+                    qContentVal: '사원',
+                },{
+                    qContentId: 12,
+                    qContentVal: '인턴',
                 }],
             },{
                 qId: 8,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '본인의 MBTI를 선택하세요.',
+                qInfo: '',
+                qType: 'Subjective',
+                name: '주관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
-                }],
-            },{
-                qId: 9,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
+                    qContentVal: 'INFJ',
                 },{
-                    qContentId: 1,
-                    qContentVal: '체크2',
-                }],
-            },{
-                qId: 10,
-                qTitle: '체크박스 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
+                    qContentId: 2,
+                    qContentVal: 'INFP',
                 },{
-                    qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentId: 3,
+                    qContentVal: 'INTJ',
+                },{
+                    qContentId: 4,
+                    qContentVal: 'INTP',
+                },{
+                    qContentId: 5,
+                    qContentVal: 'ISFJ',
+                },{
+                    qContentId: 6,
+                    qContentVal: 'ISFP',
+                },{
+                    qContentId: 7,
+                    qContentVal: 'ISTJ',
+                },{
+                    qContentId: 8,
+                    qContentVal: 'ISTP',
+                },{
+                    qContentId: 9,
+                    qContentVal: 'ENFJ',
+                },{
+                    qContentId: 10,
+                    qContentVal: 'ENFP',
+                },{
+                    qContentId: 11,
+                    qContentVal: 'ENTJ',
+                },{
+                    qContentId: 12,
+                    qContentVal: 'ENTP',
+                },{
+                    qContentId: 13,
+                    qContentVal: 'ESFJ',
+                },{
+                    qContentId: 14,
+                    qContentVal: 'ESFP',
+                },{
+                    qContentId: 15,
+                    qContentVal: 'ESTJ',
+                },{
+                    qContentId: 16,
+                    qContentVal: 'ESTP',
                 }],
             },
         ],
         내가했던질문: [
             {
                 qId: 1,
-                qTitle: '객관식2 입니다.',
-                qInfo: '설명',
+                qTitle: '오늘 내가 작성한 질문1',
+                qInfo: '첫 설문 질문1',
                 qType: 'Objective',
                 name: '객관식',
                 qImage: '',
@@ -196,17 +273,17 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '객관식1',
-                },{
                     qContentId: 1,
-                    qContentVal: '객관식2',
+                    qContentVal: '선택지 1번',
+                },{
+                    qContentId: 2,
+                    qContentVal: '선택지 2번',
                 }],
             },
             {
                 qId: 2,
-                qTitle: '주관식2 입니다.',
-                qInfo: '설명',
+                qTitle: '오늘 내가 작성한 질문2',
+                qInfo: '첫 설문 질문2',
                 qType: 'Subjective',
                 name: '주관식',
                 qImage: '',
@@ -214,14 +291,14 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: false,
                 qContents: [{
-                    qContentId: 0,
+                    qContentId: 1,
                     qContentVal: '',
                 }],
             },
             {
                 qId: 3,
-                qTitle: '체크박스2 입니다.',
-                qInfo: '설명',
+                qTitle: '오늘 내가 작성한 질문3',
+                qInfo: '첫 설문 질문3',
                 qType: 'Checkbox',
                 name: '체크박스',
                 qImage: '',
@@ -229,67 +306,79 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '선택지 1번',
+                },{
+                    qContentId: 2,
+                    qContentVal: '선택지 2번',
                 }],
             },{
                 qId: 4,
-                qTitle: '체크박스3 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '점심 메뉴 조사',
+                qInfo: '오늘 점심 메뉴는?',
+                qType: 'Objective',
+                name: '객관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '한식',
+                },{
+                    qContentId: 2,
+                    qContentVal: '양식',
+                },{
+                    qContentId: 3,
+                    qContentVal: '중식',
+                },{
+                    qContentId: 4,
+                    qContentVal: '일식',
                 }],
             },{
                 qId: 5,
-                qTitle: '체크박스4 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '어제 저녁 메뉴는?',
+                qInfo: '',
+                qType: 'Subjective',
+                name: '주관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
-                contentYn: true,
+                contentYn: false,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '',
                 }],
             },{
                 qId: 6,
-                qTitle: '체크박스5 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '장소를 선택해주세요',
+                qInfo: '',
+                qType: 'Objective',
+                name: '객관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '한강',
+                },{
+                    qContentId: 2,
+                    qContentVal: '롯데월드',
+                },{
+                    qContentId: 3,
+                    qContentVal: '성수',
+                },{
+                    qContentId: 4,
+                    qContentVal: '집콕',
+                },{
+                    qContentId: 5,
+                    qContentVal: '학교',
                 }],
             },{
                 qId: 7,
-                qTitle: '체크박스6 입니다.',
-                qInfo: '설명',
+                qTitle: '체크체크체크',
+                qInfo: '',
                 qType: 'Checkbox',
                 name: '체크박스',
                 qImage: '',
@@ -297,64 +386,33 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 qMulti: '',
                 contentYn: true,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '111',
+                },{
+                    qContentId: 2,
+                    qContentVal: '222',
+                },{
+                    qContentId: 3,
+                    qContentVal: '333',
+                },{
+                    qContentId: 4,
+                    qContentVal: '444',
                 }],
             },{
                 qId: 8,
-                qTitle: '체크박스7 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
+                qTitle: '주말에 먹고 싶은 메뉴',
+                qInfo: '신중하게 답변해 주세요',
+                qType: 'Subjective',
+                name: '주관식',
                 qImage: '',
                 qVideo: '',
                 qMulti: '',
-                contentYn: true,
+                contentYn: false,
                 qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
                     qContentId: 1,
-                    qContentVal: '체크2',
+                    qContentVal: '',
                 }],
-            },{
-                qId: 9,
-                qTitle: '체크박스8 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
-                    qContentId: 1,
-                    qContentVal: '체크2',
-                }],
-            },{
-                qId: 10,
-                qTitle: '체크박스9 입니다.',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 0,
-                    qContentVal: '체크1',
-                },{
-                    qContentId: 1,
-                    qContentVal: '체크2',
-                }],
-            },
+            }
         ],
     })
     //페이지 설정

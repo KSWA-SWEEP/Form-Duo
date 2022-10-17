@@ -54,7 +54,6 @@ export default function SurveyModify (props) {
     useEffect(() => {
         if(svyId !== undefined && glbSvyContents.length == 0){
             setSvyId(props.svyId);
-            console.log(">> svyId : "+svyId)
             getSurvey().then(r => {
                 let resultData = r.data;
                 let svyContent = resultData.svyContent;
