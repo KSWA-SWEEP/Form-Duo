@@ -32,7 +32,7 @@ export default function SurveyResults(props) {
                 trash += item.resp + " "
             })
             data[ans.qId] = trash
-            console.log(trash)
+            // console.log(trash)
         });
 
         return data

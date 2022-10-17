@@ -59,9 +59,9 @@ export default function Header () {
   const router = useRouter();
 
   //check
-  console.log("accToken? " + acctoken)
-  console.log("refToken? " + reftoken)
-  console.log("Cookies : "+JSON.stringify(getCookies()));
+  // console.log("accToken? " + acctoken)
+  // console.log("refToken? " + reftoken)
+  // console.log("Cookies : "+JSON.stringify(getCookies()));
 
   //로그아웃 함수
   async function logOut() {

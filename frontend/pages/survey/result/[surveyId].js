@@ -9,20 +9,31 @@ const SurveyResult = () => {
 
     const router = useRouter();
     // const { surveyId } = router.query;
-    const [surveyId, setSurveyId] = useState(0);
+    const [surveyId, setSurveyId] = useState(null);
     // 설문 전체 데이터
-    const [data, setData] = useState(null)
+    const [data, setData] = useState(null);
     // 설문 응답자 수
     const [isLoading, setLoading] = useState(false)
     const [viewChart, setViewChart] = useState(true);
 
+    console.log(router.query)
+    // if (!isLoading) getContents(Object.values(router.query))
+
+
     useEffect(() => {
-        setLoading(true)
-        setSurveyId(Object.values(router.query)[0]);
-        console.log(router.query)
-        if (surveyId !== 0) getContents(surveyId);
-    }, [surveyId]);
+        //
+        if(!router.isReady) return;
+        else {
+            setSurveyId(Object.values(router.query));
+            // getContents(surveyId).then(r => setLoading(false));
+            console.log(router.query)
+        }
+    }, [router.isReady]);
     // alert(message + " " + surveyId);
+
+    useEffect(() => {
+        if (surveyId) getContents(surveyId);
+    }, [surveyId])
 
 
     async function getContents(surveyId) {
@@ -30,15 +41,14 @@ const SurveyResult = () => {
             const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/reps')
             setData(svyContents.data);
             console.log(svyContents.data);
-            setLoading(false);
-
-            return svyContents;
+            // setLoading(false);
+            // return svyContents;
         } catch (e) {
             console.log(e);
         }
     }
 
-    if (surveyId === 0) return <p> Loading ...</p>
+    if (!surveyId) return <p> Loading ...</p>
     if (isLoading) return <p> Loading...</p>
     if (!data) return <p> 아직 응답이 없구만유</p>
 

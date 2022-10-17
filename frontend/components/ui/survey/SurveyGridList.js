@@ -52,7 +52,7 @@ export default function SurveyGridList() {
   useEffect(() => {
       getSvyList().then(r => {
         setSvyList(r.data)
-        console.log(">> "+JSON.stringify(r.data))
+        // console.log(">> "+JSON.stringify(r.data))
       });
    }, []);
    
