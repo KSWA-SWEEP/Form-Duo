@@ -4,15 +4,16 @@ export default function Dropdox(props) {
 
   const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
-  const [tempAnsVal, setTempAnsVal] = useState([
-    {
-      qContentId: "",
-      resp: "",
-    }
-  ]);
+  const [tempAnsVal, setTempAnsVal] = useState(
+      props.svyRespContents[index].ansVal[0].qContentId === "" && props.svyRespContents[index].ansVal[0].resp === ""
+          ? [{
+            qContentId: "",
+            resp: "",
+          }] : props.svyRespContents.ansVal);
 
   useEffect(() => {
-    updatedSvyRespConents();
+        if (tempAnsVal === [])
+            updatedSvyRespConents();
   },
     [tempAnsVal]
   );
@@ -68,7 +69,7 @@ export default function Dropdox(props) {
     )
   }
   else {
-    console.log(props);
+    // console.log(props);
     return (
 
       <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
@@ -85,11 +86,13 @@ export default function Dropdox(props) {
                 name="country"
                 autoComplete="country-name"
                 className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                disabled={true}
+                defaultValue={props.svyRespContents[index].ansVal[0].qContentId}
+                // disabled={true}
               >
-                {props.qContents && props.qContents.map((qContent) => {
+                {props.qContents && props.qContents.map((qContent, idx) => {
+                  // console.log(props.svyRespContents[index].ansVal[0].qContentId, idx);
                   return (
-                    <option key={qContent.qContentId} value={qContent.qContentId} selected={props.svyRespContents[index].ansVal[0].qContentId === qContent.qContentId} >{qContent.qContentVal}</option>
+                    <option key={qContent.qContentId} value={qContent.qContentId} selected={props.svyRespContents[index].ansVal[0].qContentId === (idx+1).toString()} >{qContent.qContentVal}</option>
                   )
                 })}
               </select>
