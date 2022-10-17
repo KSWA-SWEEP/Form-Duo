@@ -51,7 +51,6 @@ const QboxQuestion = ({qId, qTitle, qInfo, name, qType, qImage, qVideo, qMulti, 
                             </p>
                         </div>
                     </div>
-
                     {/* 질문 입력 */}
                     <div className="grid grid-cols-12 gap-4 my-2 place-content-between">
                         <div className="flex col-span-11 border-gray-900">
