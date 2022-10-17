@@ -5,6 +5,8 @@ import com.sweep.formduo.domain.auth.Authority;
 import com.sweep.formduo.domain.auth.AuthorityRepository;
 import com.sweep.formduo.domain.members.Members;
 import com.sweep.formduo.domain.members.MemberRepository;
+import com.sweep.formduo.domain.token.RefreshToken;
+import com.sweep.formduo.domain.token.RefreshTokenRepository;
 import com.sweep.formduo.util.HeaderUtil;
 import com.sweep.formduo.service.members.CustomUserDetailsService;
 import com.sweep.formduo.util.ApiResponse;
@@ -33,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Slf4j
@@ -44,7 +47,7 @@ public class AuthService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-//    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final CustomUserDetailsService customUserDetailsService;
     private final RedisService redisService;
     @Value("${jwt.refresh-token-expire-time}")
@@ -94,14 +97,14 @@ public class AuthService {
 //        System.out.println("redis " + redisService.getValues(email));
 
         //mysql에 refresh token 저장
-//        refreshTokenRepository.save(
-//                RefreshToken.builder()
-//                        .email(email)
-//                        .value(refreshToken)
-//                        .build()
-//        );
-        TokenDTO tokenDTO = tokenProvider.createTokenDTO(accessToken,refreshToken);
-        return tokenDTO;
+        refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .email(email)
+                        .value(refreshToken)
+                        .build()
+        );
+
+        return tokenProvider.createTokenDTO(accessToken,refreshToken);
 
     }
 
@@ -134,52 +137,52 @@ public class AuthService {
 
         // 2. Access Token 에서 Member Email 가져오기
         Authentication authentication = tokenProvider.getAuthentication(originAccessToken);
+        log.debug("Authentication = {}", authentication);
 
-        log.debug("Authentication = {}",authentication);
-
-//        // 3. 저장소에서 Member Email 를 기반으로 Refresh Token 값 가져옴
-//        RefreshToken refreshToken = refreshTokenRepository.findByEmail(authentication.getName())
-//                .orElseThrow(() -> new BizException(MemberExceptionType.LOGOUT_MEMBER)); // 로그 아웃된 사용자
 
         // Redis에서 mail기반으로 refresh token을 가져옴.
         String rtkInRedis = redisService.getValues(authentication.getName());
 
+        // Cache miss가 일어났을 경우
         if (!rtkInRedis.equals(originRefreshToken)) {
-            throw new BizException(JwtExceptionType.BAD_TOKEN); // 토큰이 일치하지 않습니다.
+            // DB에서 Member Email 를 기반으로 Refresh Token 값 가져옴
+            RefreshToken refreshToken = refreshTokenRepository.findByEmail(authentication.getName())
+                    .orElseThrow(() -> new BizException(MemberExceptionType.LOGOUT_MEMBER)); // 로그 아웃된 사용자
+
+            // Refresh Token 일치하는지 검사
+            if (!refreshToken.getValue().equals(originRefreshToken)) {
+                throw new BizException(JwtExceptionType.BAD_TOKEN); // 토큰이 일치하지 않습니다.
+            }
         }
 
-//        // 4. Refresh Token 일치하는지 검사
-//        if (!refreshToken.getValue().equals(originRefreshToken)) {
-//            throw new BizException(JwtExceptionType.BAD_TOKEN); // 토큰이 일치하지 않습니다.
+
 //        }
 
-        // 5. 새로운 토큰 생성
-        String email = tokenProvider.getMemberEmailByToken(originAccessToken);
-        Members members = customUserDetailsService.getMember(email);
+            // 5. 새로운 토큰 생성
+            String email = tokenProvider.getMemberEmailByToken(originAccessToken);
+            Members members = customUserDetailsService.getMember(email);
 
-        String newAccessToken = tokenProvider.createAccessToken(email, members.getAuthorities());
-        String newRefreshToken = tokenProvider.createRefreshToken(email, members.getAuthorities());
-        TokenDTO tokenDto = tokenProvider.createTokenDTO(newAccessToken, newRefreshToken);
+            String newAccessToken = tokenProvider.createAccessToken(email, members.getAuthorities());
+            String newRefreshToken = tokenProvider.createRefreshToken(email, members.getAuthorities());
+            TokenDTO tokenDto = tokenProvider.createTokenDTO(newAccessToken, newRefreshToken);
 
-        log.debug("refresh Origin = {}",originRefreshToken);
-        log.debug("refresh New = {} ",newRefreshToken);
+            log.debug("refresh Origin = {}", originRefreshToken);
+            log.debug("refresh New = {} ", newRefreshToken);
 
-        // 6. Redis 정보 업데이트
-        redisService.setValues(email, newRefreshToken, Duration.ofMillis(rtkLive));
+            // 6. Redis 정보 업데이트
+            redisService.setValues(email, newRefreshToken, Duration.ofMillis(rtkLive));
 
-        int cookieMaxAge = (int) rtkLive / 60;
-        CookieUtil.deleteCookie(request, response, "access_token");
-        CookieUtil.deleteCookie(request, response, "refresh_token");
-        CookieUtil.addCookie(response, "access_token", newAccessToken, cookieMaxAge);
-        CookieUtil.addCookie(response, "refresh_token", newRefreshToken, cookieMaxAge);
+            int cookieMaxAge = (int) rtkLive / 60;
+            CookieUtil.deleteCookie(request, response, "access_token");
+            CookieUtil.deleteCookie(request, response, "refresh_token");
+            CookieUtil.addCookie(response, "access_token", newAccessToken, cookieMaxAge);
+            CookieUtil.addCookie(response, "refresh_token", newRefreshToken, cookieMaxAge);
 //
 //        // 6. 저장소 정보 업데이트 (dirtyChecking으로 업데이트)
 //        refreshToken.updateValue(newRefreshToken);
 
-        // 토큰 발급
+            // 토큰 발급
 //        return ApiResponse.success("token", newAccessToken);
-        return tokenDto;
-    }
-
-
+            return tokenDto;
+        }
 }

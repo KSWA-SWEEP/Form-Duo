@@ -17,14 +17,29 @@ export default function SurveyResponse(props) {
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
     const [initContent, setInitContent] = useState("false");
+    const [emailInfoMsg, setEmailInfoMsg] = useState("이메일 주소");
+    const [checked, setChecked] = useState(false);
 
     const onRespEmailChange = (e) => {
         setSvyRespEmail(e.target.value)
     };
 
+    const handleCheck = (event) => {
+        if (event.target.checked) {
+            setChecked(true);
+        }
+        else {
+            setChecked(false);
+        }
+
+    }
+
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
+
+    const emailRegex =
+        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
     useEffect(() => {
         setSvyId(props.svyId);
@@ -79,6 +94,8 @@ export default function SurveyResponse(props) {
     const resContent = useRef([]);
     const initResContents = () => {
 
+        console.log("svyContents: " + JSON.stringify(svyContents.svyEndMsg));
+
         const newList = [];
         svyContents.svyContent && svyContents.svyContent.map(question => {
             resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
@@ -98,22 +115,36 @@ export default function SurveyResponse(props) {
         initResContents();
     }, [svyTitle, svyIntro]);
 
+    function isValidEmail() {
+        if (checked && !emailRegex.test(svyRespEmail)) {
+            setEmailInfoMsg("올바른 이메일 형식으로 입력해 주세요.");
+            return false;
+        }
+        return true;
+    }
+
     function submitBasicSurvey() {
-        closeSettingModal;
 
-        const data = new Object();
-
-        data.svyId = svyId;
-        data.svyRespContent = svyRespContents;
-        console.log("제출되는 설문 응답" + svyRespContents);
-        makeResp(data);
+        if (isValidEmail()) {
+            // 유효한 이메일인 경우 제출 허용
+            closeSettingModal;
+            const data = new Object();
+            data.svyId = svyId;
+            data.svyRespContent = svyRespContents;
+            console.log("제출되는 설문 응답" + JSON.stringify(svyRespContents));
+            makeResp(data);
+        }
     }
 
     async function makeResp(data) {
         try {
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
             setIsSettingModalOpen(false)
-            router.push('/survey/share/finish', undefined, { shallow: true })
+            router.push({
+                pathname: '/survey/share/finish',
+                shallow: true,
+                query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
+            });
         } catch (e) {
             console.log(e);
             openFailModal();
@@ -124,13 +155,13 @@ export default function SurveyResponse(props) {
         <div>
             {/* 제목 입력 */}
             <SurveyTitleShow bgColor="bg-fdyellowbright"
-                svyTitle={svyTitle}
-                svyIntro={svyIntro}
+                             svyTitle={svyTitle}
+                             svyIntro={svyIntro}
             />
 
-            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} /> : <h1>세팅전</h1>}
+            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
 
-            <div className="flex justify-center m-7 mx-2 rounded-md ">
+            <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a
                     onClick={openSaveModal}
                     className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
@@ -229,22 +260,32 @@ export default function SurveyResponse(props) {
                                             as="h3"
                                             className="text-lg font-extrabold leading-6 text-gray-900"
                                         >
-                                            설문 결과 받기
+                                            응답 내역 받기
                                         </Dialog.Title>
                                         <div className="mt-2">
                                             <p className="text-sm text-gray-500">
-                                                이메일을 입력해 주시면 설문 결과를 보내드립니다😚
+                                                이메일을 입력해 주시면 설문 응답 내역을 보내드립니다😚
                                             </p>
                                         </div>
                                         <div className="px-2 py-5 bg-white">
-                                            <div className="grid grid-cols-7 gap-2">
-
-
-
-
-                                                <div className="col-span-7 mt-2">
-                                                    <label htmlFor="svyRespEmail" className="block text-xs font-medium text-gray-500">
-                                                        이메일 주소
+                                            <div className="\">
+                                                <div className="flex">
+                                                    {/* 이메일 수신 여부 체크박스 */}
+                                                    <input
+                                                        id="email"
+                                                        type="checkbox"
+                                                        className="w-4 h-4 mr-2 border-gray-300 rounded text-fdblue focus:ring-fdblue"
+                                                        onChange={handleCheck}
+                                                    />
+                                                    <div className="w-4/5">
+                                                        <p className="text-xs text-gray-500">
+                                                            메일로 받기
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-2">
+                                                    <label htmlFor="svyRespEmail" className="mt-6 block text-xs font-medium text-gray-500">
+                                                        {emailInfoMsg}
                                                     </label>
                                                     <input
                                                         type="text"

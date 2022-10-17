@@ -16,30 +16,29 @@ export default function SurveyResults(props) {
     }
 
     // console.log(props);
-    function createData(id, date) {
-        return { id, date};
+    function createData(id, date, svyResId, svyRespContent) {
+        return { id, date, svyResId, svyRespContent};
     }
 
 
     function createExcelData(id, contents, date){
-        console.log(tmp);
         const tmp = JSON.parse(contents);
         let data = {id, date}
 
-        const tmp_qType = tmp.qType;
+        // console.log("tmp" + JSON.stringify(tmp));
         tmp.map((ans) =>{
-            if (ans.ansVal[0].qContentId === '')
-                data[ans.qId]=ans.ansVal[0].resp
-            else
-                data[ans.qId]=ans.ansVal[0].qContentId
+            let trash = ""
+            ans.ansVal.map(item => {
+                trash += item.resp + " "
+            })
+            data[ans.qId] = trash
+            console.log(trash)
         });
 
-
-        // console.log(ans_tmp);
         return data
     }
 
-    const rows = props.resContents.map((item) => createData(getNum(), item.svyRespDt))
+    const rows = props.resContents.map((item) => createData(getNum(), item.svyRespDt, item.id, item.svyRespContent))
     const excelData = props.resContents.map((item) => createExcelData(getExcelNum(), JSON.stringify(item.svyRespContent), item.svyRespDt))
     const excelHeader = () => {
         const temp = [{ label: "번호", key: "id" },
@@ -51,14 +50,14 @@ export default function SurveyResults(props) {
         return temp;
     };
 
-    console.log(excelData);
-    console.log(excelHeader());
+    // console.log(excelData);
+    // console.log(excelHeader());
 
     return (
         <>
             <Stack alignItems="center">
-                <h1>총 응답 수 : {props.resPeople}</h1>
-                <ResponseTable contents = {rows} />
+                <h1>총 응답 수 : {props.resPeople} / {props.maxResPeople}</h1>
+                <ResponseTable surveyId = {props.resContents[0].svyId} contents = {rows} />
                 <br/>
                 <div align="center">
                     <CSVLink

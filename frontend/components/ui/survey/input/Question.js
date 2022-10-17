@@ -1,24 +1,26 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import ContentList from './ContentList';
 
-import { CheckIcon, ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, ChevronDoubleDownIcon, MicrophoneIcon, VideoCameraIcon } from '@heroicons/react/20/solid';
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
-const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
+const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, setSvyContents, qbContents, qbTitle, qbInfo, qNextId}) => {
 
-    const [qTitle, setQTitle] = useState("");
-    const [qInfo, setQInfo] = useState("");
+    //Qbox check
+    // console.log("QB : " + qbTitle + " " + qbInfo)
+    const [qTitle, setQTitle] = useState(qbTitle?qbTitle:"");
+    const [qInfo, setQInfo] = useState(qbInfo?qbInfo:"");
     const index = svyContents.findIndex((svyContent) => svyContent.qId === qId);
-
-    
+    //Qbox check
+    // console.log("QBconts" + JSON.stringify(qbContents))
     // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
-    const nextId = useRef(1);
-
-    const [qContents, setQContents] = useState([
+    const nextId = useRef(qNextId);
+    const [qContents, setQContents] = useState(
+        qbContents?qbContents:[
         {
-        qContentId: nextId.current,
-        qContentVal: ""
+            qContentId: 1,
+            qContentVal: ""
         }
     ]);
 
@@ -28,15 +30,16 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     [qContents]
     );
 
-    const onInsert = useCallback(    
+    const onInsert = useCallback(
         e => {
-        nextId.current += 1;
-        const qContent = {
-            qContentId: nextId.current,
-            qContentVal: "",
-        };
-        setQContents(qContents.concat(qContent));
-        e.preventDefault();
+            console.log("Q next Id : "+ nextId.current)
+            nextId.current += 1; // nextId 1 씩 더하기
+            const qContent = {
+                qContentId: nextId.current,
+                qContentVal: "",
+            };
+            setQContents(qContents.concat(qContent));
+            e.preventDefault();
         },
         [qContents],
     );
@@ -54,10 +57,9 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     }
     
     const onUpdate = qContentId => e => {
-        
         const idx = qContents.findIndex((qContent) => qContent.qContentId === qContentId);
-        let tempContents = [...qContents]; 
-        tempContents[idx].qContentVal = e.target.value; 
+        let tempContents = [...qContents];
+        tempContents[idx].qContentVal = e.target.value;
 
         setQContents(tempContents);
     }
@@ -104,7 +106,9 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                                 'Dropbox': <ChevronDoubleDownIcon className='w-4 h-4'/>,
                                 'Date': <CalendarDaysIcon className='w-4 h-4'/>,
                                 'Rating': <StarIcon className='w-4 h-4'/>,
-                                'File': <DocumentIcon className='w-4 h-4'/>
+                                'File': <DocumentIcon className='w-4 h-4'/>,
+                                'Voice': <MicrophoneIcon className='w-4 h-4'/>,
+                                'Video': <VideoCameraIcon className='w-4 h-4'/>
                                 }[qType]
                             }
                             <p className='ml-2 text-xs'>
@@ -122,6 +126,7 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                         type="text"
                         id="qTitle"
                         placeholder="질문을 입력하세요"
+                        defaultValue={qTitle}
                         className="block w-full font-semibold border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-md"
                         onChange={onChangeTitle}
                     />
@@ -132,7 +137,7 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                         rows={2}
                         className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-sm"
                         placeholder="문항에 대한 설명을 입력하세요 (생략 가능)"
-                        defaultValue={''}
+                        defaultValue={qInfo}
                         onChange={onChangeInfo}
                     />
                     
@@ -141,6 +146,8 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                         contentYn &&
                             <div>
                                 <div className="mt-4 space-y-4">
+                                    {/*Qbox check*/}
+                                    {/*{console.log("QCONT : "+JSON.stringify(qContents))}*/}
                                 <ContentList qContents={qContents} onRemoveContent={onRemoveContent} onUpdate={onUpdate}/>
                                 </div>
                                 <div className='flex justify-center'>

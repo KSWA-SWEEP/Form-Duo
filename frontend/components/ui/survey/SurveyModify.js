@@ -8,8 +8,11 @@ import Link from "next/link.js";
 import axios from "axios";
 import {useRouter} from 'next/router'
 import DatePicker from "react-datepicker";
-
+import { useRecoilState } from "recoil";
+import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
+import Loading from "../../common/Loading.js";
 import "react-datepicker/dist/react-datepicker.css";
+import Qbox from "./Qbox";
 
 
 const qTypes = [
@@ -25,6 +28,7 @@ const qTypes = [
 export default function SurveyModify (props) {
 
     const router = useRouter()
+    const currentURL = router.asPath;
     const [selected, setSelected] = useState(qTypes[0])
     const [svyContents, setSvyContents] = useState([])
     const [svyData, setSvyData] = useState([])
@@ -35,7 +39,9 @@ export default function SurveyModify (props) {
     const [svyStartDt, setSvyStartDt] = useState("")
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
-    const [svyRespMax, setSvyRespMax] = useState("")
+    const [svyRespMax, setSvyRespMax] = useState(100)
+    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState)
+    const [isLoading, setLoading] = useState(false)
     
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -46,7 +52,7 @@ export default function SurveyModify (props) {
     }, [props]);
        
     useEffect(() => {
-        if(svyId !== undefined){
+        if(svyId !== undefined && glbSvyContents.length == 0){
             setSvyId(props.svyId);
             getSurvey().then(r => {
                 let resultData = r.data;
@@ -67,6 +73,13 @@ export default function SurveyModify (props) {
             });
         }
     }, [svyId]);
+
+    useEffect(() => {
+        setLoading(true)
+        reinitSvyContents();
+    }, [])
+
+    if (isLoading) return <Loading />;
     
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
@@ -100,11 +113,18 @@ export default function SurveyModify (props) {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
-    
+
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
-
+    //Qbox
+    const [isQboxOpen, setIsQboxOpen]= useState(false)
+    function openQboxModal() {
+        setIsQboxOpen(true)
+    }
+    function closeQboxModal() {
+        setIsQboxOpen(false)
+    }
 
     function openSaveModal() {
         setIsSaveModalOpen(true)
@@ -132,22 +152,25 @@ export default function SurveyModify (props) {
     }
 
     function saveUpdatedSurvey() {
-        closeSettingModal();
-        
+       
         const data = new Object();
        
         data.svyTitle = svyTitle;
-        data.svyIntro = svyTitle;
+        data.svyIntro = svyIntro;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt;
         data.svyEndDt = svyEndDt;
         data.svyEndMsg = svyEndMsg;
         data.svySt = "";
-        data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
+        data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
-        updateSvy(data);
-    }
 
+        if(isSettingModalOpen) {
+            closeSettingModal();
+            updateSvy(data);
+        }
+        return data;
+    }
 
     async function updateSvy(data){
         try{
@@ -179,6 +202,34 @@ export default function SurveyModify (props) {
         setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
     }
 
+    function initGlbSvyContents() {
+
+        // addSelected();
+        const data = saveUpdatedSurvey();
+        setGlbSvyContents(data);
+        router.push({
+            pathname: '/survey/preview/basic',
+            query: { svyContent: JSON.stringify(data), preURL: currentURL }
+        });
+    }
+
+    function reinitSvyContents() {
+
+        if(glbSvyContents.length !== 0) {
+            setSvyContents(glbSvyContents.svyContent);
+            setSvyTitle(glbSvyContents.svyTitle);
+            setSvyIntro(glbSvyContents.svyIntro);
+
+            const lastSvyContent = glbSvyContents.svyContent.slice(-1)[0];
+            if(lastSvyContent != undefined) {
+                questionId.current = lastSvyContent.qId + 1;
+            }
+        }
+        setLoading(false);
+    }
+
+    // console.log("glbSvyContents: " + JSON.stringify(glbSvyContents));
+
     // props로 SurveyTitleInput에 넘겨주고 받아오면 됨.
     return (
         <div>
@@ -191,7 +242,8 @@ export default function SurveyModify (props) {
 
             {/* 문항 목록 */}
             <div>
-                {svyContents.map(respond => (
+                {/* {JSON.stringify(svyContents)} */}
+                {svyContents && svyContents.map(respond => (
                     <Respond 
                         svyContents={svyContents}
                         key={respond.qId} 
@@ -214,7 +266,7 @@ export default function SurveyModify (props) {
                 <div className="overflow-hidden shadow bg-neutral-200 rounded-2xl">
                     <div className="px-4 py-5 space-y-6 sm:p-6">
                         <h2 className="font-bold">문항 추가</h2>
-                        <div className="grid grid-cols-6 gap-4">
+                        <div className="grid grid-cols-7 gap-4">
                             <div className="col-span-6 sm:col-span-5">
                                 <Listbox value={selected} onChange={setSelected}>
                                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -272,6 +324,13 @@ export default function SurveyModify (props) {
                             >
                                 추가하기
                             </button>
+                            <button
+                                type="button"
+                                className="inline-flex items-center justify-center col-span-6 text-sm font-medium text-white duration-200 border border-transparent rounded-md shadow-sm sm:col-span-1 bg-fdblue hover:bg-fdbluedark hover:scale-105"
+                                onClick={openQboxModal}
+                            >
+                                Q-Box
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -291,15 +350,13 @@ export default function SurveyModify (props) {
                     </Link>
                 </div>
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
-                    <Link 
-                        href={{
-                            pathname: '/survey/preview/basic'
-                        }} 
+                    <a 
+                        onClick={initGlbSvyContents}
                     > 
                     <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
                         설문 미리보기
                     </div>
-                    </Link>
+                    </a>
                 </div>
                 <div className="inline-flex mx-2 rounded-md shadow">
                     <a
@@ -370,8 +427,6 @@ export default function SurveyModify (props) {
                         </div>
                         </Dialog>
                     </Transition>
-
-              
                     <Transition appear show={isSettingModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
                         <Transition.Child
@@ -480,12 +535,13 @@ export default function SurveyModify (props) {
                                             설문 응답자수 제한
                                         </label>
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="svyRespMax"
                                             id="svyRespMax"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onRespMaxChange}
                                             defaultValue={svyData.svyRespMax}
+                                            min={1}
                                         />
                                         </div>
                                     </div>
@@ -515,7 +571,9 @@ export default function SurveyModify (props) {
                         </Dialog>
                     </Transition>
 
-                    
+                    {/*Qbox*/}
+                    <Qbox show={isQboxOpen} onHide={()=>{closeQboxModal()}} svyContents={svyContents} setSvyContents={setSvyContents} questionId={questionId} />
+
                     <Transition appear show={isFailModalOpen} as={Fragment}>
                         <Dialog as="div" className="relative z-10" onClose={closeFailModal}>
                         <Transition.Child

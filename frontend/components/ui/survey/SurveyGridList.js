@@ -50,27 +50,24 @@ export default function SurveyGridList() {
   }, [])
 
   useEffect(() => {
-    if((isTokenExist != "")&&(isTokenExist !== undefined)){
-      getSvyList()
-    }
-  }, [isTokenExist])
-
-  if (isLoading) return <Loading/>
-  if (svyList.length == 0) return <div className="flex justify-center mt-20"><p>표시할 설문 목록이 없습니다</p></div>
+      getSvyList().then(r => {
+        setSvyList(r.data)
+        console.log(">> "+JSON.stringify(r.data))
+      });
+   }, []);
+   
 
   async function getSvyList(){
     try{
-        axios.defaults.headers = {
-          'Content-Type': "application/json",
-          "Authorization": "Bearer " + getCookie("accessToken"),
-        };
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
-        setSvyList(result.data)
-        setLoading(false)
+        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
+                'Content-Type': "application/json",
+                "Authorization": "Bearer " + getCookie("accessToken"),
+            }});
+        return result;
     }catch (e) {
         console.log(e);
     }
-  }
+  } 
 
   function openDeleteModal() {
     setIsDeleteModalOpen(true)
@@ -119,8 +116,8 @@ export default function SurveyGridList() {
     else if (type == "설문 공유"){
       // 수정 필요 - table 에 svy 타입 (duo / basic) 구분하는 column 가져오기
       console.log(">>>>>>>>>>>>>")
-      console.log(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/basic/"+svyId);
-      setShareUrl(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/basic/"+svyId)
+      console.log(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/"+svyId);
+      setShareUrl(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/"+svyId)
       openShareModal();
     }
   }
@@ -213,15 +210,15 @@ export default function SurveyGridList() {
                                                     item.href.includes('/') 
                                                     ?
                                                     ({ active }) => (
-                                                      <Link
-                                                      href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, preURL: currentURL } }}
+                                                      <a
+                                                        href={item.href + survey.id}
                                                         className={classNames(
                                                         active ? 'bg-neutral-100' : '',
                                                         'block px-4 py-2 text-sm text-gray-700 border-b-2 border-gray-100'
                                                         )}
                                                       >
                                                           {item.name}
-                                                      </Link> 
+                                                      </a> 
                                                     )
                                                     :
                                                     <a
