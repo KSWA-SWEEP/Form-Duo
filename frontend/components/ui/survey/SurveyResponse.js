@@ -141,8 +141,8 @@ export default function SurveyResponse(props) {
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
             setIsSettingModalOpen(false)
             router.push({
-                pathname: '/survey/share/finish', 
-                shallow: true, 
+                pathname: '/survey/share/finish',
+                shallow: true,
                 query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
             });
         } catch (e) {
@@ -155,8 +155,8 @@ export default function SurveyResponse(props) {
         <div>
             {/* 제목 입력 */}
             <SurveyTitleShow bgColor="bg-fdyellowbright"
-                svyTitle={svyTitle}
-                svyIntro={svyIntro}
+                             svyTitle={svyTitle}
+                             svyIntro={svyIntro}
             />
 
             {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
