@@ -12,7 +12,7 @@ export default function Objective(props) {
           }] : props.svyRespContents.ansVal);
 
   useEffect(() => {
-        if (tempAnsVal === [])
+        if (props.isModify)
           updatedSvyRespContents();
   },
     [tempAnsVal]

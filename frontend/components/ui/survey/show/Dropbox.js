@@ -12,7 +12,7 @@ export default function Dropdox(props) {
           }] : props.svyRespContents.ansVal);
 
   useEffect(() => {
-        if (tempAnsVal === [])
+          if (props.isModify)
             updatedSvyRespConents();
   },
     [tempAnsVal]

@@ -16,7 +16,7 @@ export default function DateInput(props) {
             }] : props.svyRespContents.ansVal);
 
     useEffect(() => {
-            if (tempAnsVal === [])
+            if (props.isModify)
                     updatedSvyRespContents();
     },
         [tempAnsVal]

@@ -12,9 +12,8 @@ export default function Checkbox(props) {
               resp: "",
             }] : props.svyRespContents.ansVal);
 
-
   useEffect(() => {
-        if (tempAnsVal === [])
+        if (props.isModify)
             updatedSvyRespConents();
   },
     [tempAnsVal]
