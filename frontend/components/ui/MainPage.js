@@ -8,26 +8,16 @@ import { ChevronDoubleDownIcon } from '@heroicons/react/24/outline';
 const MainPage = () => {
   return (
     <div> 
-      <div className='md:h-80v'>
+      <div>
         <LazyShow>
           <>
             <MainContent />
           </>
         </LazyShow>
-        <div className='flex w-full place-content-center'>
+        {/* <div className='flex w-full place-content-center'>
           <ChevronDoubleDownIcon className='w-16 animate-bounce text-neutral-300'/>
-        </div>
+        </div> */}
       </div>
-      <LazyShow>
-        <>
-          <Product/>
-        </>
-      </LazyShow>
-      <LazyShow>
-        <>
-          <Features />
-        </>
-      </LazyShow>
     </div>
   );
 };

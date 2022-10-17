@@ -42,6 +42,12 @@ export default function SurveyModify (props) {
     const [svyRespMax, setSvyRespMax] = useState(100)
     const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState)
     const [isLoading, setLoading] = useState(false)
+
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+    const [isFailModalOpen, setIsFailModalOpen] = useState(false)
+    const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
+    //Qbox
+    const [isQboxOpen, setIsQboxOpen]= useState(false)
     
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -113,12 +119,6 @@ export default function SurveyModify (props) {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
-
-    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
-    const [isFailModalOpen, setIsFailModalOpen] = useState(false)
-    const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
-    //Qbox
-    const [isQboxOpen, setIsQboxOpen]= useState(false)
     function openQboxModal() {
         setIsQboxOpen(true)
     }
