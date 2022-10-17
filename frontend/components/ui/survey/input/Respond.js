@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import ContentList from './ContentList';
 import { useRouter } from 'next/router'
 
-import { CheckIcon, ChevronDoubleDownIcon, MicrophoneIcon, VideoCameraIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
@@ -15,33 +15,20 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
     const [qTitle, setQTitle] = useState("");
     const [qInfo, setQInfo] = useState("");
     const index = svyContents.findIndex((svyContent) => svyContent.qId === qId);
-    const [savedQContents, setSavedQContents] = useState(svyContents[index].qContents);
-    
-
-    // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
-    const nextId = useRef(1);
-
-    useEffect(() => {
-        if(savedQContents !== undefined)
-        {
-            if((savedQContents.length != 1)||((savedQContents.length == 1)&&(savedQContents[0].qContentVal != ""))){            
-                setQContents(savedQContents);
-                const lastQContents = savedQContents.slice(-1)[0];
-                const lastQContentId = lastQContents.qContentId
-                nextId.current = lastQContentId;
-            }
-        }
-    },[] );
 
 
     // 이게 qContents 초기화.
     const [qContents, setQContents] = useState([
         // 여기다가 값들 불러와서 넣어주기. 받아와서 useEffect()로 화면 한 번 다시 렌더링
         {
-            qContentId: nextId.current,
-            qContentVal: ""
+        qContentId: 0,
+        qContentVal: ""
         }
     ]);
+
+    
+    // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
+    const nextId = useRef(1);
 
     useEffect(() => {
         updateSvyContents();
@@ -51,12 +38,12 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
 
     const onInsert = useCallback(    
         e => {
-        nextId.current += 1; // nextId 1 씩 더하기
         const qContent = {
             qContentId: nextId.current,
             qContentVal: "",
         };
         setQContents(qContents.concat(qContent));
+        nextId.current += 1; // nextId 1 씩 더하기
         e.preventDefault();
         },
         [qContents],
@@ -74,10 +61,9 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
         return [...arr.slice(0, index), newValue, ...arr.slice(index+1)];
     }
     
-    const onUpdate = qContentId => e => {
-        const idx = qContents.findIndex((qContent) => qContent.qContentId === qContentId);
+    const onUpdate = index => e => {
         let tempContents = [...qContents]; 
-        tempContents[idx].qContentVal = e.target.value; 
+        tempContents[index].qContentVal = e.target.value; 
 
         setQContents(tempContents);
     }
@@ -124,9 +110,7 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
                                 'Dropbox': <ChevronDoubleDownIcon className='w-4 h-4'/>,
                                 'Date': <CalendarDaysIcon className='w-4 h-4'/>,
                                 'Rating': <StarIcon className='w-4 h-4'/>,
-                                'File': <DocumentIcon className='w-4 h-4'/>,
-                                'Voice': <MicrophoneIcon className='w-4 h-4'/>,
-                                'Video': <VideoCameraIcon className='w-4 h-4'/>
+                                'File': <DocumentIcon className='w-4 h-4'/>
                                 }[qType]
                             }
                             <p className='ml-2 text-xs'>

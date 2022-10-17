@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 
 export default function Checkbox(props) {
-  // console.log("svyrespcont: "  + JSON.stringify(props.svyRespContents));
+
   const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
-  const [tempAnsVal, setTempAnsVal] = useState([]);
+  const [tempAnsVal, setTempAnsVal] = useState([
+    {
+      qContentId: "",
+      resp: "",
+    }
+  ]);
 
   useEffect(() => {
     updatedSvyRespConents();
@@ -40,17 +45,9 @@ export default function Checkbox(props) {
   const handleCheck = (event) => {
     const updatedList = [...checked];
 
-    console.log("value: " + event.target.value);
-  
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
-      var idx = event.target.value;
-      var targetIdx = props.qContents.findIndex((content) => content.qContentId === idx);
-
-      console.log("idx: " + idx);
-      console.log("targetIdx: " + targetIdx);
-      // insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
-      insertAnsVal(event.target.value, props.qContents[targetIdx].qContentVal);
+      insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
     } else {
       updatedList.splice(checked.indexOf(event.target.value), 1);
       deleteAnsVal(event.target.value);
@@ -62,7 +59,7 @@ export default function Checkbox(props) {
   return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
       <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
-        Question. {props.qNumber}
+        Question. {props.qId}
       </div>
       <div className="overflow-hidden shadow rounded-2xl">
         <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
@@ -85,7 +82,7 @@ export default function Checkbox(props) {
                         />
                       </div>
                       <div className="ml-3 text-sm">
-                        <label id="qContent" htmlFor="comments" className="font-medium text-gray-700">
+                        <label htmlFor="comments" className="font-medium text-gray-700">
                           {qContent.qContentVal}
                         </label>
                       </div>

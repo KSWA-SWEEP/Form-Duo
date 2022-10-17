@@ -1,59 +1,22 @@
-import { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
+import { useState } from "react";
 
-import "react-datepicker/dist/react-datepicker.css";
+export default function Date(props) {
 
-export default function DateInput(props) {
-
-    const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
-    const Today = new Date();
-    const [answer, setAnswer] = useState(Today);
-    const [tempAnsVal, setTempAnsVal] = useState([
-        {
-            qContentId: "",
-            resp: "",
-        }
-    ]);
-
-    useEffect(() => {
-        updatedSvyRespConents();
-    },
-        [tempAnsVal]
-    );
-
-    const updatedSvyRespConents = () => {
-        const newList = replaceItemAtIndex(props.svyRespContents, index, {
-            ...props.svyRespContents[index],
-            ansVal: tempAnsVal,
-        });
-        props.setSvyRespContents(newList);
-    }
-
-    function replaceItemAtIndex(arr, index, newValue) {
-        return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
-    }
-
-
-    const onChange = (date) => {
-        setAnswer(date);
-        setTempAnsVal({ resp: date.toISOString()});
+    const [answer, setAnswer] = useState(1);
+    const onChange = (event) => {
+        setAnswer(event.target.value);
     }
 
     return (
-        <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
-            <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
-                Question. {props.qNumber}
+        <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
+            <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
+                Question. {props.qId}
             </div>
             <div className="overflow-hidden shadow rounded-2xl">
-                <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
-                    <legend className="text-base font-medium text-gray-900 contents">{props.qTitle}</legend>
+                <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
+                    <legend className="contents text-base font-medium text-gray-900">{props.qTitle}</legend>
                     <p className="text-sm text-gray-500">{props.qInfo}</p>
-                    <DatePicker
-                        selected={answer}
-                        onChange={onChange}
-                        dateFormat="yyyy-MM-dd"
-                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
-                    />
+                    <h2>Date 입력 추가 예정</h2>
                 </div>
             </div>
         </div>
