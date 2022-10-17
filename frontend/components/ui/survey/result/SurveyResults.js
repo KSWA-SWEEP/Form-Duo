@@ -25,18 +25,16 @@ export default function SurveyResults(props) {
         const tmp = JSON.parse(contents);
         let data = {id, date}
 
-        console.log("tmp" + JSON.stringify(tmp));
-        // const tmp_qType = tmp.qType;
+        // console.log("tmp" + JSON.stringify(tmp));
         tmp.map((ans) =>{
-            console.log("ans" + JSON.stringify(ans));
-            console.log("ans.ansVal" + JSON.stringify(ans.ansVal));
-            if (ans.ansVal.hasOwnProperty('qContentId') && ans.ansVal.qContentId === '')
-                data[ans.qId]=ans.ansVal.resp
-            else
-                data[ans.qId]=ans.ansVal.qContentId
+            let trash = ""
+            ans.ansVal.map(item => {
+                trash += item.resp + " "
+            })
+            data[ans.qId] = trash
+            console.log(trash)
         });
 
-        // console.log(ans_tmp);
         return data
     }
 

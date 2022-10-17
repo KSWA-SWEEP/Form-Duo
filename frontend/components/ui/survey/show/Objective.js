@@ -4,12 +4,12 @@ export default function Objective(props) {
 
   const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
 
-  const [tempAnsVal, setTempAnsVal] = useState([
-    {
-      qContentId: "",
-      resp: "",
-    }
-  ]);
+  const [tempAnsVal, setTempAnsVal] = useState(
+      props.svyRespContents[index].ansVal[0].qContentId === "" && props.svyRespContents[index].ansVal[0].resp === ""
+          ? [{
+            qContentId: "",
+            resp: "",
+          }] : props.svyRespContents.ansVal);
 
   useEffect(() => {
     updatedSvyRespConents();
@@ -19,7 +19,7 @@ export default function Objective(props) {
 
   // console.log("### qContents: " + JSON.stringify(props.qContents));
 
-  const updatedSvyRespConents = () => {
+  const updatedSvyRespContents = () => {
     console.log("## tempAnsVal: " + JSON.stringify(tempAnsVal));
     const newList = replaceItemAtIndex(props.svyRespContents, index, {
       ...props.svyRespContents[index],
@@ -32,11 +32,11 @@ export default function Objective(props) {
     return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
   }
 
-  const onChange = (event) => {
-    setTempAnsVal([{ qContentId: event.target.value, resp: props.qContents[event.target.value - 1].qContentVal }]);
-  }
+  if (props.isModify) {
 
-
+    const onChange = (event) => {
+      setTempAnsVal([{ qContentId: event.target.value, resp: props.qContents[event.target.value - 1].qContentVal }]);
+    }
 
 
   if (props.isModify) {
@@ -82,6 +82,7 @@ export default function Objective(props) {
     )
   }
   else {
+    console.log(props);
     return (
       <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
         <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
@@ -94,8 +95,12 @@ export default function Objective(props) {
               <p className="text-sm text-gray-500">{props.qInfo}</p>
               <div className="mt-4 space-y-4">
 
+
                 {props.qContents && props.qContents.map((qContent) => {
 
+
+                {props.qContents && props.qContents.map((qContent, idx) => {
+                  // console.log(idx.toString(), props.svyRespContents[index].ansVal[0].qContentId)
                   return (
 
                     <div key={qContent.qContentId}>
@@ -105,7 +110,7 @@ export default function Objective(props) {
                           name="push-notifications"
                           type="radio"
                           className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                          checked={qContent.qContentId === props.svyRespContents[index].ansVal[0].qContentId}
+                          checked={(idx+1).toString() === props.svyRespContents[index].ansVal[0].qContentId}
                           readOnly={true}
                           value={qContent.qContentId}
                         />

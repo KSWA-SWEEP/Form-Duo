@@ -6,15 +6,16 @@ export default function Subjective(props) {
 
     const [answer, setAnswer] = useState();
 
-    const [tempAnsVal, setTempAnsVal] = useState([
-        {
-            qContentId: "",
-            resp: "",
-        }
-    ]);
+    const [tempAnsVal, setTempAnsVal] = useState(
+        props.svyRespContents[index].ansVal[0].qContentId === "" && props.svyRespContents[index].ansVal[0].resp === ""
+            ? [{
+                qContentId: "",
+                resp: "",
+            }] : props.svyRespContents.ansVal);
 
     useEffect(() => {
-        updatedSvyRespConents();
+            if (props.isModify)
+                updatedSvyRespConents();
     },
         [tempAnsVal]
     );
