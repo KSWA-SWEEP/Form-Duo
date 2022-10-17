@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import ShowQuestionListItem from "./ShowQuestionListItem";
 
 const ShowQuestionList = (props) => {
@@ -20,7 +19,8 @@ const ShowQuestionList = (props) => {
                     qContents={question.qContents}
                     svyRespContents={props.svyRespContents}
                     setSvyRespContents={props.setSvyRespContents}
-                    qNumber={questionNum++} />
+                    qNumber={questionNum++}
+                    isModify = {props.isModify}/>
             ))}
         </div>
     );
