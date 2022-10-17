@@ -13,7 +13,6 @@ export default function Objective(props) {
 
   useEffect(() => {
     updatedSvyRespConents();
-   
   },
     [tempAnsVal]
   );
@@ -41,9 +40,9 @@ export default function Objective(props) {
 
 
   if (props.isModify) {
- 
+
     return (
- 
+
       <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
         <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
           Question. {props.qNumber}
@@ -96,9 +95,9 @@ export default function Objective(props) {
               <div className="mt-4 space-y-4">
 
                 {props.qContents && props.qContents.map((qContent) => {
-          
+
                   return (
-                    
+
                     <div key={qContent.qContentId}>
                       <div className="flex items-center">
                         <input
