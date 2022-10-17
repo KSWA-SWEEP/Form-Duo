@@ -24,7 +24,7 @@ const SurveyResult = () => {
         //
         if(!router.isReady) return;
         else {
-            setSurveyId(Object.values(router.query));
+            setSurveyId(Object.values(router.query)[0]);
             // getContents(surveyId).then(r => setLoading(false));
             console.log(router.query)
         }
