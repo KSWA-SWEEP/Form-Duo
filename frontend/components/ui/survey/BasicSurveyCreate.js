@@ -46,6 +46,7 @@ export default function BasicSurveyCreate() {
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
+    const [isQboxOpen, setIsQboxOpen] = useState(false)
 
     useEffect(() => {
         setLoading(true)
@@ -98,7 +99,6 @@ export default function BasicSurveyCreate() {
     };
     
     //Qbox
-    const [isQboxOpen, setIsQboxOpen] = useState(false)
     function openQboxModal() {
         setIsQboxOpen(true)
     }

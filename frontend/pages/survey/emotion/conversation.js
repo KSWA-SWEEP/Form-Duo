@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import {getCookie} from "cookies-next";
 
-export default function conversation() {
+export default function Conversation() {
     
     const [msg, setMsg] = useState("!@!")
     const [allResp, setAllResp] = useState(0);
@@ -26,7 +26,7 @@ export default function conversation() {
         if(msg != "!@!"){
             getEmotion();
         }
-    }, [msg])
+    }, [msg, data])
 
     useEffect(() => {
         
