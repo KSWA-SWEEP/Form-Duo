@@ -52,7 +52,7 @@ export default function SurveyGridList() {
   useEffect(() => {
       getSvyList().then(r => {
         setSvyList(r.data)
-        console.log(">> "+JSON.stringify(r.data))
+        // console.log(">> "+JSON.stringify(r.data))
       });
    }, []);
    
@@ -203,34 +203,35 @@ export default function SurveyGridList() {
                                   leaveFrom="transform opacity-100 scale-100"
                                   leaveTo="transform opacity-0 scale-95"
                                   >
-                                  <Menu.Items className="absolute right-0 z-10 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                      {(survey.svySt == "closed" ? closedSurveyMenu : activeSurveyMenu).map((item) => (
-                                          <Menu.Item key={item.name}>
+                                      <Menu.Items className="absolute right-0 z-10 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                          {(survey.svySt == "closed" ? closedSurveyMenu : activeSurveyMenu).map((item) => (
+                                              <Menu.Item key={item.name}>
                                                   {
-                                                    item.href.includes('/') 
-                                                    ?
-                                                    ({ active }) => (
-                                                      <a
-                                                        href={item.href + survey.id}
-                                                        className={classNames(
-                                                        active ? 'bg-neutral-100' : '',
-                                                        'block px-4 py-2 text-sm text-gray-700 border-b-2 border-gray-100'
-                                                        )}
-                                                      >
-                                                          {item.name}
-                                                      </a> 
-                                                    )
-                                                    :
-                                                    <a
-                                                          onClick={() => showModal(item.name, survey.id)}
-                                                          className='block px-4 py-2 text-sm text-gray-700 border-b-2 border-gray-100 hover:bg-neutral-100'
+                                                      item.href.includes('/')
+                                                          ?
+                                                          ({ active }) => (
+                                                              <Link
+                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, preURL: currentURL } }}
+                                                              >
+                                                                  <div className={classNames(
+                                                                      active ? 'bg-neutral-100' : '',
+                                                                      'block px-4 py-2 text-sm  text-gray-700 border-b-2 border-gray-100'
+                                                                  )}>
+                                                                      {item.name}
+                                                                  </div>
+                                                              </Link>
+                                                          )
+                                                          :
+                                                          <a
+                                                              onClick={() => showModal(item.name, survey.id)}
+                                                              className='block px-4 py-2 text-sm text-gray-700 border-b-2 border-gray-100 hover:bg-neutral-100'
                                                           >
-                                                          {item.name}
-                                                      </a>
+                                                              {item.name}
+                                                          </a>
                                                   }
-                                          </Menu.Item>
-                                      ))}
-                                  </Menu.Items>
+                                              </Menu.Item>
+                                          ))}
+                                      </Menu.Items>
                                   </Transition>
                               </Menu>
                           </div>

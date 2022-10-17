@@ -24,6 +24,8 @@ const BasicPreview = () => {
         getQuery();
     }, [query])
 
+    console.log(query);
+
     if (isLoading) return <div>Loading</div>;
     if (query == undefined) return <div>Loading</div>;
     if (svyContents === undefined || !svyContents) return <div>Loading</div>;
