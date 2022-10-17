@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router'
 
-const SurveyResult = () => {
+const SurveyPreview = () => {
     const router = useRouter();
     const { surveyId } = router.query
 
     return (
         <>
-            <h1>SurveyResult : {surveyId}</h1>
+            <h1>SurveyPreview : {surveyId}</h1>
         </>
     );
 };
 
-export default SurveyResult;
+export default SurveyPreview;
 

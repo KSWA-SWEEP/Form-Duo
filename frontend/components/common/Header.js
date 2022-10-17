@@ -27,6 +27,11 @@ const navigationBeforeLogin = [
   // { name: '고객 지원', href: '/', current: false },
 ]
 
+const userNavigation = [
+  { name: '마이 페이지', href: '/mypage/'+userId},
+  { name: '로그아웃', href: '/' },
+]
+
 const svyType = [
   { name: '일반 설문', href: '/survey/create/basic', icon: 'DocumentTextIcon' },
   { name: '듀오 설문', href: '/survey/create/duo', icon: 'MicrophoneIcon' },
@@ -85,15 +90,15 @@ export default function Header () {
               <>
                 <div className="px-4 mx-auto border-b-2 border-gray-200 max-w-7xl sm:px-6 lg:px-5">
                   <div className="flex items-center justify-between h-24">
-  
+
                     {/* logo */}
                     <div className="flex items-center duration-50 hover:scale-105">
                       <div className="flex-grow-0">
-                      <Link 
+                      <Link
                           href={{
                               pathname: '/'
-                          }} 
-                      > 
+                          }}
+                      >
                         <div className="flex items-center">
                           <Image
                             className="w-auto h-12 mr-3"
@@ -109,7 +114,7 @@ export default function Header () {
                       </Link>
                       </div>
                     </div>
-                    
+
                     {/* menu */}
                     <div className="flex items-center">
                       <div className="hidden md:block">
@@ -215,25 +220,22 @@ export default function Header () {
                     </div>
                     <>
                       {/*로그인 여부에 따라 login 버튼 설정*/}
-                      {isLogin 
-                      ?
-                      
-                      <div className="hidden md:block">
-                        <div className="flex items-center ml-4 md:ml-6">
-                          <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
-                            <Link href='/account/myPage'>
-                              <button className="text-sm font-normal text-gray-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">
-                                마이페이지
-                              </button>
-                            </Link>
-                            
-                            <button onClick={openModal}  className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
-                              로그아웃
-                            </button> 
-                          </div>
-                        </div>
-                      </div>
-                      :
+                      {isLogin ?
+                          <div className="hidden md:block">
+                            <div className="flex items-center ml-4 md:ml-6">
+                              <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
+                                {/*!!check 마이페이지 링크 설정 필요!!*/}
+                                <Link href='/account/signUp'>
+                                  <button className="text-sm font-normal text-gray-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">
+                                    마이페이지
+                                  </button>
+                                </Link>
+                                  <button onClick={openModal} className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
+                                    로그아웃
+                                  </button>
+                              </div>
+                            </div>
+                          </div> :
                       <div className="hidden md:block">
                         <div className="flex items-center ml-4 md:ml-6">
                           <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
@@ -253,7 +255,7 @@ export default function Header () {
                         </div>
                       </div>}
                     </>
-                    
+
                     <div className="flex -mr-2 md:hidden">
                       {/* Mobile menu button */}
                       <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-fdblue hover:bg-fdbluelight hover:text-fdblue focus:outline-none focus:ring-2 focus:ring-white">
@@ -267,7 +269,7 @@ export default function Header () {
                     </div>
                   </div>
                 </div>
-  
+
                 <Disclosure.Panel className="md:hidden">
                   <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     {/*로그인 여부에 따라 메뉴 버튼 설정*/}

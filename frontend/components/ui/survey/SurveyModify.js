@@ -7,9 +7,6 @@ import Respond from "./input/Respond";
 import Link from "next/link.js";
 import axios from "axios";
 import {useRouter} from 'next/router'
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
 
 
 const qTypes = [
@@ -18,8 +15,8 @@ const qTypes = [
     { name: '체크박스', comp: "Checkbox", contentYn: true },
     { name: '드롭박스', comp: "Dropbox", contentYn: true },
     { name: '날짜', comp: "Date", contentYn: false },
-    // { name: '평점', comp: "Rating", contentYn: false },
-    // { name: '파일', comp: "File", contentYn: false },
+    { name: '평점', comp: "Rating", contentYn: false },
+    { name: '파일', comp: "File", contentYn: false },
 ]
 
 export default function SurveyModify (props) {
@@ -30,17 +27,13 @@ export default function SurveyModify (props) {
     const [svyData, setSvyData] = useState([])
     const [svyId, setSvyId] = useState(props.svyId)
 
-    const [svyTitle, setSvyTitle] = useState("")
-    const [svyIntro, setSvyIntro] = useState("")
+    const [svyTitle, setSvyTitle] = useState(svyData.svyTitle)
+    const [svyIntro, setSvyIntro] = useState(svyData.svyIntro)
     const [svyStartDt, setSvyStartDt] = useState("")
     const [svyEndDt, setSvyEndDt] = useState("")
     const [svyEndMsg, setSvyEndMsg] = useState("")
-    const [svyRespMax, setSvyRespMax] = useState(100)
+    const [svyRespMax, setSvyRespMax] = useState("")
     
-
-    // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
-    const questionId = useRef(1);
-
     useEffect(() => {
         setSvyId(props.svyId);
     }, [props]);
@@ -52,19 +45,10 @@ export default function SurveyModify (props) {
             getSurvey().then(r => {
                 let resultData = r.data;
                 let svyContent = resultData.svyContent;
-                let savedSvyTitle = resultData.svyTitle;
-                let savedSvyIntro = resultData.svyIntro;
-
                 setSvyContents(svyContent)
                 setSvyData(resultData)
-                setSvyTitle(savedSvyTitle)
-                setSvyIntro(savedSvyIntro)
                 console.log(resultData.svyIntro)
                 console.log(">> "+JSON.stringify(r.data))
-                
-                const lastSvyContent = svyContent.slice(-1)[0];
-                const lastQId = lastSvyContent.qId;
-                questionId.current = lastQId;
             });
         }
     }, [svyId]);
@@ -79,7 +63,7 @@ export default function SurveyModify (props) {
       }catch (e) {
           console.log(e);
       }
-    }
+    } 
 
     const onTitleChange = (e) => {
         setSvyTitle(e.target.value)
@@ -88,11 +72,11 @@ export default function SurveyModify (props) {
         setSvyIntro(e.target.value)
     };
     
-    const onStartDtChange = (date) => {
-        setSvyStartDt(date)
+    const onStartDtChange = (e) => {
+        setSvyStartDt(e.target.value)
     };
-    const onEndDtChange = (date) => {
-        setSvyEndDt(date)
+    const onEndDtChange = (e) => {
+        setSvyEndDt(e.target.value)
     };
     
     const onEndMsgChange = (e) => {
@@ -133,37 +117,45 @@ export default function SurveyModify (props) {
     }
 
     function saveUpdatedSurvey() {
-        closeSettingModal();
-        
+        closeSettingModal;
         const data = new Object();
-       
-        data.svyTitle = svyTitle;
-        data.svyIntro = svyTitle;
+        switch(svyTitle){
+            case "undefined": data.svyTitle = svyData.svyTitle;
+            default: data.svyTitle = svyTitle;
+        }
+        switch(svyIntro){
+            case "": data.svyIntro = svyData.svyIntro;
+            default: data.svyIntro = svyTitle;
+        }
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt;
         data.svyEndDt = svyEndDt;
         data.svyEndMsg = svyEndMsg;
         data.svySt = "";
-        data.svyRespMax = svyRespMax;
+        data.svyRespMax = svyRespMax ? parseInt(svyRespMax) : 0;
         data.svyRespCount = 0;
+
         updateSvy(data);
     }
+
 
 
     async function updateSvy(data){
         try{
             const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId, data);
             setIsSettingModalOpen(false)
-            document.location.href = "/survey/create/finish"
+            router.push('/survey/create/finish', undefined, { shallow: true })
         }catch (e) {
             console.log(e);
             openFailModal();
         }
     }
+
+    // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
+    const questionId = useRef(1);
     
     function addSelected(e) {
         e.preventDefault();
-        questionId.current += 1; // nextId 1 씩 더하기
         const svyContent = {
             key: questionId.current,
             qId: questionId.current,
@@ -174,6 +166,7 @@ export default function SurveyModify (props) {
             contentYn: selected.contentYn,
         };
         setSvyContents(svyContents.concat(svyContent));
+        questionId.current += 1; // nextId 1 씩 더하기
     }  
 
     function onRemoveRespond(targetQId) {
@@ -416,21 +409,13 @@ export default function SurveyModify (props) {
                                         <label htmlFor="svyStartDt" className="block text-xs font-medium text-gray-500">
                                             설문 시작일 <span className="text-red-600">*</span>
                                         </label>
-                                        {/* <input
+                                        <input
                                             type="text"
                                             name="svyStartDt"
                                             id="svyStartDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onStartDtChange}
-                                            defaultValue={svyData.svyStartDt ? svyData.svyStartDt.substring(0, 10) : svyData.svyStartDt}
-                                        /> */}
-                                        <DatePicker
-                                            selected={svyStartDt}
-                                            onChange={(date) => onStartDtChange(date)}
-                                            showTimeSelect
-                                            dateFormat="yyyy-MM-dd h:mm aa"
-                                            defaultValue={svyData.svyStartDt ? svyData.svyStartDt.substring(0, 10) : svyData.svyStartDt}
-                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
+                                            defaultValue={svyData.svyStartDt}
                                         />
                                         </div>
 
@@ -442,23 +427,13 @@ export default function SurveyModify (props) {
                                         <label htmlFor="svyEndDt" className="block text-xs font-medium text-gray-500">
                                             설문 마감일
                                         </label>
-                                        {/* <input
+                                        <input
                                             type="text"
                                             name="svyEndDt"
                                             id="svyEndDt"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onEndDtChange}
-                                            defaultValue={svyData.svyEndDt ? svyData.svyEndDt.substring(0, 10) : svyData.svyEndDt}
-
-                                        /> */}
-
-                                        <DatePicker
-                                            selected={svyEndDt}
-                                            onChange={(date) => onEndDtChange(date)}
-                                            showTimeSelect
-                                            dateFormat="yyyy-MM-dd h:mm aa"
-                                            defaultValue={svyData.svyEndDt ? svyData.svyEndDt.substring(0, 10) : svyData.svyEndDt}
-                                            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
+                                            defaultValue={svyData.svyEndDt}
                                         />
                                         </div>
 
@@ -481,13 +456,12 @@ export default function SurveyModify (props) {
                                             설문 응답자수 제한
                                         </label>
                                         <input
-                                            type="number"
+                                            type="text"
                                             name="svyRespMax"
                                             id="svyRespMax"
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                             onChange={onRespMaxChange}
                                             defaultValue={svyData.svyRespMax}
-                                            min={1}
                                         />
                                         </div>
                                     </div>
