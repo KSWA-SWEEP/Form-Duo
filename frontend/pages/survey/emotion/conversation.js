@@ -29,7 +29,7 @@ export default function conversation() {
     }, [msg])
 
     useEffect(() => {
-        console.log("Changed");
+        
     }, [good_motion, normal_motion, bad_motion])
 
 
@@ -79,7 +79,6 @@ export default function conversation() {
         postData(data).then(r => {
             console.log(r.data)    
             for (var i = 0; i < allResp; i++){
-                console.log(r.data[i].emotion.value);
                 switch(r.data[i].emotion.value){
                     case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
                     case "놀람" : setGood_motion((prevState) => prevState+1); break;
@@ -87,14 +86,13 @@ export default function conversation() {
                     case "불확실" : setNormal_motion((prevState) => prevState+1); break;
                     case "슬픔" : setBad_motion((prevState) => prevState+1); break;
                     case "싫음" : setBad_motion((prevState) => prevState+1); break;
-                    case "좋음" : setGood_motion((prevState) => prevState+1); console.log(good_motion); break;
+                    case "좋음" : setGood_motion((prevState) => prevState+1); break;
                     case "지루함" : setBad_motion((prevState) => prevState+1); break;
                     case "창피함" : setNormal_motion((prevState) => prevState+1); break;
                     default : console.log("Switch Error")
                 }
             }
         });
-        console.log("Postdata End")
     }
 
     return (
