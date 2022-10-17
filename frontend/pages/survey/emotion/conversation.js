@@ -26,7 +26,7 @@ export default function Conversation() {
         if(msg != "!@!"){
             getEmotion();
         }
-    }, [msg, data])
+    }, [msg])
 
     useEffect(() => {
         
