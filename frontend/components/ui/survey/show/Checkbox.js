@@ -133,7 +133,7 @@ export default function Checkbox(props) {
                 <p className="text-sm text-gray-500">{props.qInfo}</p>
                 <div className="mt-4 space-y-4">
                   {props.qContents && props.qContents.map((qContent, idx) => {
-                    console.log(idx, props.svyRespContents[index].ansVal)
+                    // console.log(idx, props.svyRespContents[index].ansVal)
                         return (
                             <div key={qContent.qContentId}>
                                 <div className="flex items-start">

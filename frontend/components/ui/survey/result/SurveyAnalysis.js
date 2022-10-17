@@ -1,6 +1,6 @@
 import { Button, Grid } from '@mui/material';
 import BarChart from './chart/BarChart';
-import PieChart from './chart/PieChart';
+import {Slider} from './chart/Slider';
 // import CSVLink from "react-csv/src/components/Link";
 // import Chart from './chart';
 
@@ -15,12 +15,14 @@ export default function SurveyAnalysis(props) {
     ];
     // const chartTypes = ['bar', 'pie', 'line', 'scatterplot'];
 
+    //
+
     return (
         <div>
-            <div>
+            <div className="py-1 mt-1 overflow-auto bg-white rounded-md shadow-lg max-h-300 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {/* {chartTypes.map((type) => {return (<Chart props={type} />)})} */}
                 <BarChart />
-                <PieChart />
+                <Slider data = {parseFloat(props.resPeople/props.maxResPeople)}/>
             </div>
             <Grid
                 container
@@ -29,19 +31,6 @@ export default function SurveyAnalysis(props) {
                 alignItems="center"
                 justifyContent="center"
             >
-                <Grid item xs={3}>
-                    {/*<CSVLink*/}
-                    {/*    data={props.resContents}*/}
-                    {/*    filename={'CSV 데이터'}*/}
-                    {/*    onClick={() => {*/}
-                    {/*        console.log("링크 클릭함");*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    Download me*/}
-                    {/*</CSVLink>;*/}
-
-                    <Button variant="contained" onClick={() => console.log("downloadDataAnalysis")}>응답 분석 결과 다운로드</Button>
-                </Grid>
             </Grid>
         </div>
     );
