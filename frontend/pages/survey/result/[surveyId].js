@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
 import SurveyResults from "../../../components/ui/survey/result/SurveyResults";
-import { Button } from '@mui/material';
+import {Box, Button} from '@mui/material';
 import SurveyAnalysis from "../../../components/ui/survey/result/SurveyAnalysis";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {Slider} from "../../../components/ui/survey/result/chart/Slider";
 
 const SurveyResult = () => {
 
@@ -16,7 +17,7 @@ const SurveyResult = () => {
     const [isLoading, setLoading] = useState(false)
     const [viewChart, setViewChart] = useState(true);
 
-    console.log(router.query)
+    // console.log(router.query)
     // if (!isLoading) getContents(Object.values(router.query))
 
 
@@ -55,11 +56,18 @@ const SurveyResult = () => {
     if(data) {
 
 
-
+        console.log(parseInt((data.length/data[0].svyRespsMax*100).toString()))
         return (
             <div>
-                <div>
-                    {/*<div><h1>총 응답 수 : {resPeople}</h1></div>*/}
+                <div
+                >
+                    <div className="py-1 mt-1 overflow-auto bg-white rounded-md shadow-lg max-h-30 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+
+                        <h1>설문 참여율 : {data.length} / {data[0].svyRespsMax}</h1>
+                        <Slider data = {parseInt((data.length/data[0].svyRespsMax*100).toString())}/>
+
+                    </div>
+
                     <br/>
                     <div align="center">
                     {viewChart ? (
@@ -91,7 +99,7 @@ const SurveyResult = () => {
                     {viewChart ?  <SurveyResults resPeople = {data.length} maxResPeople ={data[0].svyRespsMax} resContents = {Object.values(data)}
                                                 />
                         :
-                        <SurveyAnalysis resContents = {Object.values(data)} />}
+                        <SurveyAnalysis resPeople = {data.length} maxResPeople ={data[0].svyRespsMax} resContents = {Object.values(data)} />}
                 </div>
             </div>
         );
