@@ -4,9 +4,9 @@ import Image from "next/image";
 import createButtons from "../../../public/img/tutorial/create-buttons.png"
 import createDuoAdd from "../../../public/img/tutorial/create-duo-add.png"
 import createDuo from "../../../public/img/tutorial/create-duo.png"
-import createObjective from "../../../public/img/tutorial/create-Objective.png"
+import createObjective from "../../../public/img/tutorial/create-objective.png"
 import createQuestionTypes from "../../../public/img/tutorial/create-question-types.png"
-import createSubjective from "../../../public/img/tutorial/create-Subjective.png"
+import createSubjective from "../../../public/img/tutorial/create-subjective.png"
 import menu from "../../../public/img/tutorial/menu.png"
 import preview from "../../../public/img/tutorial/preview.png"
 import saveChildPopupDate from "../../../public/img/tutorial/save-child-popup-date.png"
@@ -28,7 +28,7 @@ export default function TutorialContent() {
         //   </div>
         <div className="justify-center ml-15 mr-15">
             <LazyShow>
-                <div className="lg:text-center mt-10 mb-20">
+                <div className="mt-10 mb-20 lg:text-center">
                     <h2 className="text-lg font-semibold text-fdblue">새로운 차원의 설문조사,</h2>
                     <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                         폼듀 설문 제작 튜토리얼
@@ -36,12 +36,12 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
                     <Image
                         src={menu}
                         className="col-span-1" />
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 1
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -51,10 +51,10 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 2
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -68,10 +68,10 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
 
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -84,13 +84,13 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
                     <Image
                         src={createSubjective}
                         className="col-span-1" />
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 3
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -101,13 +101,13 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
                     <Image
                         src={createObjective}
                         className="col-span-1" />
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
                             객관식, 체크박스, 드롭박스 유형은<br /><strong className="font-semibold text-fdblue">선택지 추가하기</strong> 버튼을 통해 선택지를 입력합니다.
@@ -117,10 +117,10 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 4
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -134,20 +134,20 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-1 mb-20">
+                <div className="grid items-center grid-cols-1 mb-20">
                     <Image
                         src={preview}
                         className="col-span-1" />
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
                     <Image
                         src={createButtons}
                         className="col-span-1" />
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 5
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -158,12 +158,12 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
                     <Image
                         src={saveChildPopup}
                         className="col-span-1" />
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
                             <strong className="font-semibold text-fdblue">설문 시작일</strong>과
@@ -175,10 +175,10 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 6
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -192,10 +192,10 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
 
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -209,13 +209,13 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
                     <Image
                         src={listShare}
                         className="col-span-1" />
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 7
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
@@ -227,10 +227,10 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="items-center grid grid-cols-2 mb-20">
+                <div className="grid items-center grid-cols-2 mb-20">
 
                     <div className='col-span-1 ml-10'>
-                        <p className="mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl mb-3">
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
                             Step 8
                         </p>
                         <p className='text-xl leading-loose text-gray-600'>
