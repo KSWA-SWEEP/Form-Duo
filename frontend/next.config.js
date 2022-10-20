@@ -7,8 +7,8 @@ const nextConfig = {
   swcMinify: true,
   publicRuntimeConfig: {
     // Will be available on both server and client
-    backendUrl: process.env.NEXT_PUBLIC_API_URL,
-  },
+    backendUrl: process.env.NEXT_PUBLIC_API_URL
+  }
 }
 
 const sentryWebpackPluginOptions = {
