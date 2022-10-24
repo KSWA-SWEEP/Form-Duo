@@ -54,7 +54,7 @@ const BasicPreview = () => {
                     console.log(svyContents);
                     console.log("생성에서 미리보기인 경우");
                     setLoading(false);
-                    setIsModify(true);
+                    setIsModify(false);
                 }
             }
             setLoading(false);
