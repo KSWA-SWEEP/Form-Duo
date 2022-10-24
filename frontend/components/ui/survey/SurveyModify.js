@@ -36,8 +36,8 @@ export default function SurveyModify (props) {
 
     const [svyTitle, setSvyTitle] = useState("")
     const [svyIntro, setSvyIntro] = useState("")
-    const [svyStartDt, setSvyStartDt] = useState("")
-    const [svyEndDt, setSvyEndDt] = useState("")
+    const [svyStartDt, setSvyStartDt] = useState(new Date())
+    const [svyEndDt, setSvyEndDt] = useState(new Date())
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState(100)
     const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState)
@@ -65,11 +65,15 @@ export default function SurveyModify (props) {
                 let svyContent = resultData.svyContent;
                 let savedSvyTitle = resultData.svyTitle;
                 let savedSvyIntro = resultData.svyIntro;
+                let startDt = resultData.svyStartDt;
+                let endDt = resultData.svyEndDt;
 
-                setSvyContents(svyContent)
-                setSvyData(resultData)
-                setSvyTitle(savedSvyTitle)
-                setSvyIntro(savedSvyIntro)
+                setSvyContents(svyContent);
+                setSvyData(resultData);
+                setSvyTitle(savedSvyTitle);
+                setSvyIntro(savedSvyIntro);
+                setSvyStartDt(new Date(startDt));
+                setSvyEndDt(new Date(endDt));
                 console.log(resultData.svyIntro)
                 console.log(">> "+JSON.stringify(r.data))
                 
@@ -487,7 +491,6 @@ export default function SurveyModify (props) {
                                             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                                         />
                                         </div>
-
                                         <div className="col-span-1 mt-5 text-center sm:col-span-1">
                                             ~
                                         </div>
