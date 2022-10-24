@@ -30,6 +30,14 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
     [qContents]
     );
 
+    useEffect(() => {
+        onChangeTitle();
+    }, [qTitle]);
+
+    useEffect(() => {
+        onChangeInfo();
+    }, [qInfo]);
+
     const onInsert = useCallback(
         e => {
             console.log("Q next Id : "+ nextId.current)
@@ -70,20 +78,16 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
         },
         [qContents],
     );
-    
-    const onChangeTitle = (e) => { 
-        setQTitle(e.target.value)
 
+    const onChangeTitle = () => { 
         const newList = replaceItemAtIndex(svyContents, index, {
             ...svyContents[index],
             qTitle: qTitle,
         });
         setSvyContents(newList);
     };
-    
-    const onChangeInfo = (e) => { 
-        setQInfo(e.target.value)
 
+    const onChangeInfo = () => { 
         const newList = replaceItemAtIndex(svyContents, index, {
             ...svyContents[index],
             qInfo: qInfo,
@@ -128,7 +132,9 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                         placeholder="질문을 입력하세요"
                         defaultValue={qTitle}
                         className="block w-full font-semibold border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-md"
-                        onChange={onChangeTitle}
+                        onChange={(e) => {
+                            setQTitle(e.target.value);
+                        }}
                     />
 
                     {/* 설명 입력 */}
@@ -138,7 +144,9 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
                         className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-sm"
                         placeholder="문항에 대한 설명을 입력하세요 (생략 가능)"
                         defaultValue={qInfo}
-                        onChange={onChangeInfo}
+                        onChange={(e) => {
+                            setQInfo(e.target.value);
+                        }}
                     />
                     
                     {/* content 입력 부분이 필요할 경우 */}
