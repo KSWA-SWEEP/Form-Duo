@@ -4,6 +4,8 @@ import Loading from "../../common/Loading";
 import userBasicImg from "../../../public/img/userBasicImg.png"
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
+import {accToken} from '../../../atoms/accToken'
+import {useRecoilState} from "recoil";
 
 
 export default function UserInfo() {
@@ -21,6 +23,8 @@ export default function UserInfo() {
   const [pwdCheckState, setPwdCheckState] = useState(false);
   
   const [btnState, setBtnState] = useState(false);
+
+  const [acctoken,setAcctoken] = useRecoilState(accToken);
   
   useEffect(() => {
     setLoading(true)
@@ -85,7 +89,10 @@ export default function UserInfo() {
 
   async function getUserInfo(){
     try{
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members');
+        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members', {
+          headers: {
+            'Authorization': `Bearer ${acctoken}`
+          }});
         setUserData(result.data)
         setLoading(false)
         setUserEmail(result.data.email)
