@@ -11,6 +11,7 @@ import {refToken} from "../../atoms/refToken";
 import {accToken} from "../../atoms/accToken";
 import {useState} from "react";
 import {useRouter} from "next/router";
+import axios from "axios";
 
 // 임시 사용자 id
 const userId = 'user001';
@@ -59,6 +60,18 @@ export default function Header () {
   const [reftoken,setReftoken] = useRecoilState(refToken);
   const router = useRouter();
 
+  async function sendLogout() {
+    try {
+        const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members/logout', {
+          headers: {
+            'Authorization': `Bearer ${accToken}`
+          }});
+        // console.log(result.data);
+
+    } catch (e) {
+        console.log(e);
+    }
+  }
   //check
   // console.log("accToken? " + acctoken)
   // console.log("refToken? " + reftoken)
@@ -66,17 +79,19 @@ export default function Header () {
 
   //로그아웃 함수
   async function logOut() {
-    console.log("Logout");
-    //check
-    // console.log("Acc : " + acctoken);
-    console.log("Cookies : "+JSON.stringify(getCookies()));
-    setAcctoken("");
-    setReftoken("");
-    setCookie("accessToken","");
-    setCookie("refreshToken","")
-    closeModal();
-    await router.push('/');
-  }
+      sendLogout().then(() => {
+        setAcctoken("");
+        setReftoken("");
+        setCookie("accessToken","");
+        setCookie("refreshToken","")
+      });
+      console.log("Logout");
+      //check
+      // console.log("Acc : " + acctoken);
+      console.log("Cookies : "+JSON.stringify(getCookies()));
+      closeModal();
+      await router.push('/');
+  };
 
     return (
       <>
