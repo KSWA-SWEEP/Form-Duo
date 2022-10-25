@@ -41,7 +41,7 @@ export default function Conversation() {
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = true;
         try {
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/412/reps`);
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/412/resp`);
             let messages = "";
             result.data.map(function(element){
                 for (var i = 0; i < element.svyRespContent.length; i++){
