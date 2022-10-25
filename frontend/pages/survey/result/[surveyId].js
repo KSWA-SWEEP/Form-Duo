@@ -51,12 +51,20 @@ const SurveyResult = () => {
 
     if (!surveyId) return <p> Loading ...</p>
     if (isLoading) return <p> Loading...</p>
-    if (!data) return <p> 아직 응답이 없구만유</p>
+    if (!data || data.length === 0) return (
+        <div className="bg-white">
+            <div className="max-w-2xl px-4 py-8 mx-auto sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
 
-    if(data) {
+                <div align="center">
+                    <h3> 아직 응답이 없구만유👐</h3>
+                </div>
+            </div>
+        </div>
 
+    )
 
-        console.log(parseInt((data.length/data[0].svyRespsMax*100).toString()))
+    else {
+        console.log(data);
         return (
             <div>
                 <div
