@@ -1,14 +1,17 @@
 import axios from "axios";
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {getCookie} from "cookies-next";
+import Piechart from "./PieChart";
+import error from "./Error";
 
-export default function Conversation() {
+export default function Conversation(props) {
     
     const [msg, setMsg] = useState("!@!")
     const [allResp, setAllResp] = useState(0);
     const [good_motion, setGood_motion] = useState(0);
     const [bad_motion, setBad_motion] = useState(0);
     const [normal_motion, setNormal_motion] = useState(0);
+    
     const API_KEY = "4c40dd27da9e877f7df64b6d77df572b"
     const API_URL = "https://a3d8fbea-c67e-4cac-8e14-f0af2ee1671f.api.kr-central-1.kakaoi.io/ai/conversation/a170a37cbdfd45b5883c82cf4552e324"
     const content_type = "application/json"
@@ -23,6 +26,7 @@ export default function Conversation() {
     }, [])
 
     useEffect(()=>{
+        init();
         if(msg != "!@!"){
             getEmotion();
         }
@@ -32,16 +36,26 @@ export default function Conversation() {
         
     }, [good_motion, normal_motion, bad_motion])
 
+    async function init(){
+        setAllResp(0);
+        setBad_motion(0);
+        setGood_motion(0);
+        setNormal_motion(0);
+    }
 
     async function getConversation() {
+        console.log("Get ConverSATION ! ! !  ! !")
         axios.defaults.headers = {
             'Content-Type': "application/json",
             "Authorization": "Bearer " + getCookie("accessToken"),
         };
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = true;
+        console.log("Survey ID : " + props.surveyId);
         try {
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/192/resp`);
+            // default surveyId 191로 확인. 현재 주관식 문항 하나만 있는 설문에서만 사용 가능.
+            // 그리고 현재 localhost:3000 or 공인아이피 둘 중 하나에서만 확인 가능. CORS 프록시 우회 IP가 하나밖에 설정이 안 됨.
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/191/resp`);
             let messages = "";
             console.log(result)
             result.data.map(function(element){
@@ -53,7 +67,7 @@ export default function Conversation() {
             setMsg(messages)
             console.log(messages) // 정상
         } catch (e) {
-            console.log(e);
+            return <error/>
         }
     }
 
@@ -98,10 +112,14 @@ export default function Conversation() {
 
     return (
         <div>
-            총 응답수 : {allResp} <br/>
-            보통 : {normal_motion} <br/>
-            긍정적 : {good_motion} <br/>
-            부정적 : {bad_motion} <br/>
+            <p className="lg:text-center mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
+                    응답 발화 분석 차트
+                </p>
+            <Piechart 
+            good_motion = {good_motion}
+            bad_motion = {bad_motion}
+            normal_motion = {normal_motion}
+            />
         </div>    
     )
 }
