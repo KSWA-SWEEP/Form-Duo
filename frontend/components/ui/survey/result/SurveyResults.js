@@ -69,7 +69,10 @@ export default function SurveyResults(props) {
                     >
                         CSV 다운로드
                     </CSVLink>
-                    <Link href="/survey/emotion/conversation">
+                    <Link 
+                        //surveyId = {props.resContents[0].svyId} 
+                        href={{ pathname: '/survey/emotion/'+ props.resContents[0].svyId }} 
+                    >
                         <button
                             className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
                             설문 발화 분석
