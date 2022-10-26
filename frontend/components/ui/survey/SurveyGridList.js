@@ -31,6 +31,7 @@ const closedSurveyMenu = [
 export default function SurveyGridList() {
   const router = useRouter(); 
   const currentURL = router.asPath;
+  const dateToday = new Date();
   const [svyList, setSvyList] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
@@ -42,6 +43,7 @@ export default function SurveyGridList() {
   const [showCopyMsg, setShowCopyMsg] = useState(false)
   const [isTokenExist, setIsTokenExist] =useState("")
   const [isLoading, setLoading] = useState(false)
+  const [today, setToday] = useState(dateToday.toISOString())
 
   useEffect(() => {
     setLoading(true)
@@ -178,8 +180,8 @@ export default function SurveyGridList() {
                           <div className="w-3/4">
                               <p className="text-base font-bold text-gray-900 truncate">{survey.svyTitle}</p>
                               <div className="mt-2">
-                                <span className={( survey.svySt == "closed" ? "text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800" : "text-blue-800 bg-blue-100 dark:bg-blue-200 dark:text-blue-800") + " text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-lg"}>
-                                    {survey.svySt == "closed"
+                                <span className={( survey.svyEndDt < today ? "text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800" : "text-blue-800 bg-blue-100 dark:bg-blue-200 dark:text-blue-800") + " text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-lg"}>
+                                    {survey.svyEndDt < today
                                         ? "마감"
                                         : "진행중"
                                     }
@@ -204,7 +206,7 @@ export default function SurveyGridList() {
                                   leaveTo="transform opacity-0 scale-95"
                                   >
                                       <Menu.Items className="absolute right-0 z-10 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                          {(survey.svySt == "closed" ? closedSurveyMenu : activeSurveyMenu).map((item) => (
+                                          {(survey.svyEndDt < today ? closedSurveyMenu : activeSurveyMenu).map((item) => (
                                               <Menu.Item key={item.name}>
                                                   {
                                                       item.href.includes('/')
