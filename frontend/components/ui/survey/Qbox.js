@@ -5,6 +5,8 @@ import Question from "./input/Question";
 import QboxQuestion from "./input/QboxQuestion";
 import { Pagination } from "@mui/material";
 import axios from "axios";
+import {useRecoilState} from "recoil";
+import {accToken} from "../../../atoms/accToken";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -75,10 +77,14 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     const svyList = useRef([]);
     const [myData,setMyData] = useState(false)
     let mySvy =[];
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
     //API로 질문 가져오기
     async function getMySvyList(){
         try{
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{
+                headers: {
+                    'Authorization': `Bearer ${acctoken}`
+                }});
             return result;
         }catch (e) {
             console.log(e);
@@ -119,7 +125,10 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     //API로 값 불러오기
     async function getQboxList(){
         try{
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/qbox');
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/qbox', {
+                headers: {
+                    'Authorization': `Bearer ${acctoken}`
+                }});
             return result;
         }catch (e) {
             console.log(e);
