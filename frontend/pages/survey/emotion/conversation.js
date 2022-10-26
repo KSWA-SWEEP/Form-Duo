@@ -41,16 +41,17 @@ export default function Conversation() {
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = true;
         try {
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/412/resp`);
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/192/resp`);
             let messages = "";
+            console.log(result)
             result.data.map(function(element){
                 for (var i = 0; i < element.svyRespContent.length; i++){
-                    messages = messages + element.svyRespContent[i].ansVal.resp + '|'
+                    messages = messages + element.svyRespContent[i].ansVal[0].resp + '|'
                 }
                 setAllResp((prevState)=> prevState + 1)
             })
             setMsg(messages)
-            //console.log(messages) // 정상
+            console.log(messages) // 정상
         } catch (e) {
             console.log(e);
         }
@@ -97,7 +98,7 @@ export default function Conversation() {
 
     return (
         <div>
-            총 응답수 : {allResp/2} <br/>
+            총 응답수 : {allResp} <br/>
             보통 : {normal_motion} <br/>
             긍정적 : {good_motion} <br/>
             부정적 : {bad_motion} <br/>
