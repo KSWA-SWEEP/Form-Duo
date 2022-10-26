@@ -6,7 +6,7 @@ import { CheckIcon, ChevronDoubleDownIcon, MicrophoneIcon, VideoCameraIcon } fro
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
-const Respond = ({receiveqTitle, receiveqInfo ,onRemoveQuestion, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
+const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
 
     const router = useRouter();
     const { surveyId } = router.query;
@@ -140,7 +140,7 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveQuestion, qId, name, qTyp
                             </p>
                         </div>
                         <div className='p-2 bg-red-100 rounded-md hover:bg-red-200'>
-                            <TrashIcon className='w-4 h-4 text-red-700'  onClick={() => onRemoveQuestion(qId)}/>
+                            <TrashIcon className='w-4 h-4 text-red-700'  onClick={() => onRemoveRespond(qId)}/>
                         </div>
                                                 
                     </div>
