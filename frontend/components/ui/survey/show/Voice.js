@@ -123,7 +123,7 @@ const Voice = (props) => {
   return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
         <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
-            Question. {props.qId}
+            Question. {props.qNumber}
         </div>
         <div className="overflow-hidden shadow rounded-2xl">
             <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
