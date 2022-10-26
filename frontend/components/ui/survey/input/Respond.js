@@ -7,7 +7,7 @@ import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysI
 
 
 const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
-
+    
     const router = useRouter();
     const { surveyId } = router.query;
     //console.log({surveyId}) 처음 보내주는 데가 어디냐
@@ -16,7 +16,7 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
     const [qInfo, setQInfo] = useState("");
     const index = svyContents.findIndex((svyContent) => svyContent.qId === qId);
     const [savedQContents, setSavedQContents] = useState(svyContents[index].qContents);
-    
+    // Respond 오류 수정 commit message를 위한 수정
 
     // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
     const nextId = useRef(1);
