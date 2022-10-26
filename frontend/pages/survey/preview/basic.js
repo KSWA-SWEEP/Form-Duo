@@ -64,6 +64,7 @@ const BasicPreview = () => {
         }
       }
 
+      console.log("Svy Contents : " + svyContents)
     console.log(router.query.preURL);
 
     async function getSurvey() {

@@ -41,24 +41,16 @@ export default function SurveyResponse(props) {
     const emailRegex =
         /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
-    useEffect(() => {
-        setSvyId(props.svyId);
-    }, [props]);
-
-    useEffect(() => {
-        if (svyId !== undefined) {
-            setSvyId(props.svyId);
-            getSurvey();
-        }
-    }, [svyId]);
-
     async function getSurvey() {
         console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
         try {
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
-            setSvyContents(svyContents.data);
-            setSvyTitle(svyContents.data.svyTitle);
-            setSvyIntro(svyContents.data.svyIntro);
+            const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
+            setSvyContents(res.data);
+            setSvyTitle(res.data.svyTitle);
+            setSvyIntro(res.data.svyIntro);
+
+            console.log("Servey content datadsfdfsdfs : " + JSON.stringify(res.data))
+
             return svyContents;
         } catch (e) {
             console.log(e);
@@ -91,17 +83,18 @@ export default function SurveyResponse(props) {
     }
 
     // 설문 응답 포맷 초기화
-    const resContent = useRef([]);
+    // const resContent = useRef([]);
     const initResContents = () => {
 
         console.log("svyContents: " + JSON.stringify(svyContents.svyEndMsg));
-
-        const newList = [];
+        let resContent = [];
+        let newList = [];
         svyContents.svyContent && svyContents.svyContent.map(question => {
-            resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
-            newList = [...newList, resContent.current];
+            resContent = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
+            newList = [...newList, resContent];
+            setSvyRespContents(newList);
         });
-        setSvyRespContents(newList);
+        // setSvyRespContents(newList);
     }
 
     useEffect(() => {
@@ -113,8 +106,23 @@ export default function SurveyResponse(props) {
 
     useEffect(() => {
         initResContents();
-    }, [svyTitle, svyIntro]);
+    }, [svyTitle, svyIntro, svyContents]);
 
+    useEffect(() => {
+        setSvyId(props.svyId);
+    }, [props]);
+
+    useEffect(() => {
+        if (svyId !== undefined) {
+            setSvyId(props.svyId);
+            getSurvey().then(()=>{
+
+                initResContents()
+            }).then(()=>{
+                console.log("Servey content data : " + JSON.stringify(svyContents))
+            });
+        }
+    }, [svyId]);
     function isValidEmail() {
         if (checked && !emailRegex.test(svyRespEmail)) {
             setEmailInfoMsg("올바른 이메일 형식으로 입력해 주세요.");
@@ -155,7 +163,8 @@ export default function SurveyResponse(props) {
             openFailModal();
         }
     }
-
+    console.log("ResContents : " + JSON.stringify(svyRespContents))
+    // if(svyRespContents.length == 0)initResContents();
     return (
         <div>
             {/* 제목 입력 */}
@@ -164,7 +173,7 @@ export default function SurveyResponse(props) {
                              svyIntro={svyIntro}
             />
 
-            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
+            {svyContents.svyContent !== undefined && svyContents.svyContent !== [] && svyRespContents.length !== 0 ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
 
             <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a

@@ -143,7 +143,7 @@ export default function BasicSurveyCreate() {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
-        console.log(data);
+        console.log("DATA ~~~~ : " + JSON.stringify(data));
 
         if (isSettingModalOpen) {
             closeSettingModal();
@@ -200,6 +200,7 @@ export default function BasicSurveyCreate() {
 
     function showPreview() {
         const data = saveBasicSurvey();
+        console.log("Preview : " + JSON.stringify(data))
         setGlbSvyContents(data);
         router.push({
             pathname: '/survey/preview/basic',
