@@ -139,12 +139,17 @@ export default function SurveyResponse(props) {
     async function makeResp(data) {
         try {
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
-            setIsSettingModalOpen(false)
-            router.push({
-                pathname: '/survey/share/finish',
-                shallow: true,
-                query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
-            });
+            setIsSettingModalOpen(false);
+            // router.push({
+            //     pathname: '/survey/share/finish',
+            //     shallow: true,
+            //     query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
+            // });
+
+            // 스크롤 이슈 처리
+            // 일단.. 급한 만큼 engMsg에서 큰따옴표 모두 없앱니다 . . . . 추후 수정
+            const endMsg = JSON.stringify(svyContents.svyEndMsg).replace(/\"/gi, "");
+            document.location.href = "/survey/share/finish?endMsg="+endMsg;
         } catch (e) {
             console.log(e);
             openFailModal();
@@ -231,7 +236,7 @@ export default function SurveyResponse(props) {
                 </Transition>
 
                 <Transition appear show={isSettingModalOpen} as={Fragment}>
-                    <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
+                    <Dialog as="div" className="relative z-10" onClose={closeSettingModal}>
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -284,7 +289,7 @@ export default function SurveyResponse(props) {
                                                     </div>
                                                 </div>
                                                 <div className="mt-2">
-                                                    <label htmlFor="svyRespEmail" className="mt-6 block text-xs font-medium text-gray-500">
+                                                    <label htmlFor="svyRespEmail" className="block mt-6 text-xs font-medium text-gray-500">
                                                         {emailInfoMsg}
                                                     </label>
                                                     <input
