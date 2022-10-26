@@ -6,8 +6,11 @@ import { CheckIcon, ChevronDoubleDownIcon, MicrophoneIcon, VideoCameraIcon } fro
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
-const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
-    
+const Respond = ({receiveqTitle, receiveqInfo , qId, name, qType, contentYn, svyContents, setSvyContents}) => {
+    function onRemoveRespond(targetQId) {
+        setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
+    }
+
     const router = useRouter();
     const { surveyId } = router.query;
     //console.log({surveyId}) 처음 보내주는 데가 어디냐

@@ -26,6 +26,7 @@ const navigation = [
 
 const navigationBeforeLogin = [
   { name: '폼듀란?', href: '/about/formduo', current: true },
+  { name: '튜토리얼', href: '/survey/tutorial', current: false },
   // { name: '고객 지원', href: '/', current: false },
 ]
 

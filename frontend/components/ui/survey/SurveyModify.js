@@ -200,10 +200,6 @@ export default function SurveyModify (props) {
             contentYn: selected.contentYn,
         };
         setSvyContents(svyContents.concat(svyContent));
-    }  
-
-    function onRemoveRespond(targetQId) {
-        setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
     }
 
     function initGlbSvyContents() {
@@ -256,7 +252,6 @@ export default function SurveyModify (props) {
                         name={respond.name}
                         comp={respond.comp} 
                         contentYn={respond.contentYn}
-                        onRemoveRespond={onRemoveRespond}
                         setSvyContents={setSvyContents}
                         
                         receiveqTitle={respond.qTitle}
