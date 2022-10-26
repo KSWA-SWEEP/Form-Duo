@@ -6,6 +6,7 @@ const ShowQuestionList = (props) => {
     var questionNum = 1;
 
     console.log("### isModify: " + props.isModify);
+    console.log("Question List preview : " + JSON.stringify(props.svyContents))
 
     return (
         <div>

@@ -62,9 +62,9 @@ export default function Header () {
 
   async function sendLogout() {
     try {
-        const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members/logout', {
+        const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members/logout', {},{
           headers: {
-            'Authorization': `Bearer ${accToken}`
+            'Authorization': `Bearer ${acctoken}` 
           }});
         // console.log(result.data);
 
@@ -80,10 +80,13 @@ export default function Header () {
   //로그아웃 함수
   async function logOut() {
       sendLogout().then(() => {
+        console.log("acctoken recoil : " + acctoken)
         setAcctoken("");
         setReftoken("");
         setCookie("accessToken","");
         setCookie("refreshToken","")
+      }).then(()=>{
+        console.log("log out acctoken recoil : " + acctoken)
       });
       console.log("Logout");
       //check

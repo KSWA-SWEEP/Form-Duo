@@ -141,12 +141,12 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                     survey.qContents = survey.qcontents
                     switch (survey.name){
                         case "주관식" :
-                            survey.qType = "Subject"
+                            survey.qType = "Subjective"
                             survey.contentYn = false
                             qbox = [...qbox, survey]
                             break;
                         case "객관식" :
-                            survey.qType = "Object"
+                            survey.qType = "Objective"
                             survey.contentYn = true
                             qbox = [...qbox, survey]
                             // qbox = qbox.concat(survey)
@@ -182,7 +182,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
             //check log
             // console.log("MySvy : "+ JSON.stringify(mySvy));
             // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
-            console.log("Qbox : "+ JSON.stringify(qbox));
+            // console.log("Qbox : "+ JSON.stringify(qbox));
             sampleQsts.current.QBox = qbox
             setQboxQ(true)
         })
@@ -203,6 +203,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     const [page, setPage] = useState(1); // 처음 페이지는 1이다.
     const [Qdata, setData] = useState(sampleQsts.current.QBox.slice(5 * (page - 1)));
 
+    //Page 설정
     useEffect(() => {
         // setData(/* fetch(또는 전체 데이터에서 slice)로 현재 page의 데이터를 가져온다. */);
         // 한 페이지에 5개씩 보여준다.
