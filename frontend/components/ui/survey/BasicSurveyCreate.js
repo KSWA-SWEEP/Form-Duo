@@ -50,9 +50,6 @@ export default function BasicSurveyCreate() {
     //Qbox
     const [isQboxOpen, setIsQboxOpen] = useState(false)
 
-    //Qbox
-    const [isQboxOpen, setIsQboxOpen] = useState(false)
-
     useEffect(() => {
         setLoading(true)
         reinitSvyContents();
