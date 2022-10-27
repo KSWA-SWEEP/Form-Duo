@@ -170,7 +170,7 @@ export default function SurveyGridList() {
                           <Link
                               href={{
                                   pathname: '/survey/result/'+survey.id,
-                                  query: { svyId: survey.id, svyType: survey.id, preURL: currentURL }
+                                  query: { svyId: survey.id, svyType: survey.svyType, preURL: currentURL }
                                   }} 
                               className="group"
                               >
@@ -221,7 +221,7 @@ export default function SurveyGridList() {
                                                           ({ active }) => (
                                                               <Link
                                                                 //   href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.type, preURL: currentURL } }}     // TODO: survey.type 구분 추가 후 변경하기
-                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.id, preURL: currentURL } }}
+                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.svyType, preURL: currentURL } }}
                                                               >
                                                                   <div className={classNames(
                                                                       active ? 'bg-neutral-100' : '',
