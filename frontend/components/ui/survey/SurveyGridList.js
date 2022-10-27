@@ -2,7 +2,8 @@ import Link from "next/link"
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 import { Dialog, Menu, Transition } from "@headlessui/react"
 import { Fragment, useState, useEffect } from "react"
-import svyThumbnail from '../../../public/img/svyThumbnail01.png'
+import svyThumbnail1 from '../../../public/img/svyThumbnail1.png'
+import svyThumbnail2 from '../../../public/img/svyThumbnail2.png'
 import axios from "axios"
 import Image from "next/image"
 import Router, { useRouter } from "next/router"
@@ -46,6 +47,8 @@ export default function SurveyGridList() {
   const [today, setToday] = useState(dateToday.toISOString())
   // 설문 전체 데이터
   const [data, setData] = useState(null);
+
+  let imgNum = 1;
 
   useEffect(() => {
       setLoading(true)
@@ -174,12 +177,29 @@ export default function SurveyGridList() {
                                   }} 
                               className="group"
                               >
-                              <div>
-                                <Image
+                              <div>                          
+                                {/* <Image
                                   className="object-cover object-center w-full h-full"
                                   src={svyThumbnail}
                                   alt="Form Duo"
-                                />
+                                /> */}
+                                {
+                                    (imgNum++)%2 == 0
+                                    ? 
+                                    <Image
+                                    layout="fill"
+                                    className="object-cover object-center w-full h-full"
+                                    src={svyThumbnail1}
+                                    alt="Form Duo"
+                                    />
+                                    : 
+                                    <Image
+                                    layout="fill"
+                                    className="object-cover object-center w-full h-full"
+                                    src={svyThumbnail2}
+                                    alt="Form Duo"
+                                    />
+                                }
                               </div>
                           </Link>
                       </div>
