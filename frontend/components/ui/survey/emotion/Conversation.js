@@ -44,18 +44,17 @@ export default function Conversation(props) {
     }
 
     async function getConversation() {
-        console.log("Get ConverSATION ! ! !  ! !")
         axios.defaults.headers = {
             'Content-Type': "application/json",
             "Authorization": "Bearer " + getCookie("accessToken"),
         };
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = true;
-        console.log("Survey ID : " + props.surveyId);
+        console.log("Survey ID : " + props.cvId);
         try {
             // default surveyId 191로 확인. 현재 주관식 문항 하나만 있는 설문에서만 사용 가능.
             // 그리고 현재 localhost:3000 or 공인아이피 둘 중 하나에서만 확인 가능. CORS 프록시 우회 IP가 하나밖에 설정이 안 됨.
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/191/resp`);
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
             let messages = "";
             console.log(result)
             result.data.map(function(element){
