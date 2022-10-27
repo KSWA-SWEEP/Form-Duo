@@ -63,12 +63,9 @@ export default function DateInput(props) {
     else{
         function parseISOString(s) {
             let b = s.split(/\D+/);
-            // console.log(b);
             return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
         }
 
-        // console.log(new Date());
-        // console.log(parseISOString(props.svyRespContents[index].ansVal[0].resp));
         return (
             <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
                 <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
