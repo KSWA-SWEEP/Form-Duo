@@ -40,7 +40,7 @@ export default function SurveyResults(props) {
     }
 
     const rows = props.resContents.map((item) => createData(getNum(), item.svyRespDt, item.id, item.svyRespContent))
-    const excelData = props.svyType !== "503" ? props.resContents.map((item) => createExcelData(getExcelNum(), JSON.stringify(item.svyRespContent), item.svyRespDt)) : ""
+    const excelData = props.svyType !== "duo" ? props.resContents.map((item) => createExcelData(getExcelNum(), JSON.stringify(item.svyRespContent), item.svyRespDt)) : ""
     const excelHeader = () => {
         const temp = [{ label: "번호", key: "id" },
         { label: "응답시간", key: "date" },]
@@ -58,7 +58,7 @@ export default function SurveyResults(props) {
                 <h1>총 응답 수 : {props.resPeople} / {props.maxResPeople}</h1>
                 <ResponseTable surveyId={props.resContents[0].svyId} contents={rows} />
                 <br />
-                {props.svyType !== "503" ? <>
+                {props.svyType !== "duo" ? <>
                 <div align="center">
                     <CSVLink
                         className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105"
