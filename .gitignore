@@ -2,5 +2,3 @@
 .target
 .DS_Store
 frontend/package-lock.json
-backend/logs
-backend/was-logs

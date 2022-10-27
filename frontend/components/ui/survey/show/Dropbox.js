@@ -69,12 +69,12 @@ export default function Dropdox(props) {
     )
   }
   else {
-    // console.log(props);
+
     return (
 
       <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
         <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">
-          Question. {props.qId}
+          Question. {props.qNumber}
         </div>
         <div className="overflow-hidden shadow rounded-2xl">
           <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
@@ -90,7 +90,7 @@ export default function Dropdox(props) {
                 // disabled={true}
               >
                 {props.qContents && props.qContents.map((qContent, idx) => {
-                  // console.log(props.svyRespContents[index].ansVal[0].qContentId, idx);
+      
                   return (
                     <option key={qContent.qContentId} value={qContent.qContentId} selected={props.svyRespContents[index].ansVal[0].qContentId === (idx+1).toString()} >{qContent.qContentVal}</option>
                   )

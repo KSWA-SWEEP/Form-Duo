@@ -8,32 +8,42 @@ import Loading from "../../../components/common/Loading";
 
 const Basic = () => {
 
-    const router = useRouter();
-    const [query, setQuery] = useState(null);
-    const [isLoading, setLoading] = useState(false);
-    const [endMessage, setEndMessage] = useState("감사합니다👍");
+    // const router = useRouter();
+    // const [query, setQuery] = useState(null);
+    // const [isLoading, setLoading] = useState(false);
+    // const [endMessage, setEndMessage] = useState("감사합니다👍");
+
+    // useEffect(() => {
+    //     setLoading(true)
+    //     getQuery();
+    // }, [query])
+
+    // if (isLoading) return <Loading />;
+    // if (query == undefined) return <Loading />;
+
+    // async function getQuery() {
+    //     try {
+    //         // 쿼리 가져오기
+    //         console.log("###### query: " + JSON.stringify(router.query));
+    //         console.log("###### endMessage: " + router.query.endMsg);
+            
+    //         setQuery(router.query)
+    //         setEndMessage(JSON.parse(query.endMsg));
+    //         setLoading(false);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
+
+    
+    const [endMessage, setEndMessage] = useState(null);
 
     useEffect(() => {
-        setLoading(true)
-        getQuery();
-    }, [query])
-
-    if (isLoading) return <Loading />;
-    if (query == undefined) return <Loading />;
-
-    async function getQuery() {
-        try {
-            // 쿼리 가져오기
-            console.log("###### query: " + JSON.stringify(router.query));
-            console.log("###### endMessage: " + router.query.endMsg);
-            
-            setQuery(router.query)
-            setEndMessage(JSON.parse(query.endMsg));
-            setLoading(false);
-        } catch (e) {
-            console.log(e);
-        }
-    }
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const endMsg = urlParams.get('endMsg');
+        setEndMessage(endMsg);
+    }, [])
 
     return (
         <div>

@@ -41,24 +41,13 @@ export default function SurveyResponse(props) {
     const emailRegex =
         /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
-    useEffect(() => {
-        setSvyId(props.svyId);
-    }, [props]);
-
-    useEffect(() => {
-        if (svyId !== undefined) {
-            setSvyId(props.svyId);
-            getSurvey();
-        }
-    }, [svyId]);
-
     async function getSurvey() {
-        console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
         try {
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
-            setSvyContents(svyContents.data);
-            setSvyTitle(svyContents.data.svyTitle);
-            setSvyIntro(svyContents.data.svyIntro);
+            const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
+            setSvyContents(res.data);
+            setSvyTitle(res.data.svyTitle);
+            setSvyIntro(res.data.svyIntro);
+
             return svyContents;
         } catch (e) {
             console.log(e);
@@ -91,17 +80,17 @@ export default function SurveyResponse(props) {
     }
 
     // 설문 응답 포맷 초기화
-    const resContent = useRef([]);
+    // const resContent = useRef([]);
     const initResContents = () => {
 
-        console.log("svyContents: " + JSON.stringify(svyContents.svyEndMsg));
-
-        const newList = [];
+        let resContent = [];
+        let newList = [];
         svyContents.svyContent && svyContents.svyContent.map(question => {
-            resContent.current = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
-            newList = [...newList, resContent.current];
+            resContent = { qId: question.qId, qType: question.qType, ansVal: [{ qContentId: "", resp: "" }] }
+            newList = [...newList, resContent];
+            setSvyRespContents(newList);
         });
-        setSvyRespContents(newList);
+        // setSvyRespContents(newList);
     }
 
     useEffect(() => {
@@ -113,8 +102,22 @@ export default function SurveyResponse(props) {
 
     useEffect(() => {
         initResContents();
-    }, [svyTitle, svyIntro]);
+    }, [svyTitle, svyIntro, svyContents]);
 
+    useEffect(() => {
+        setSvyId(props.svyId);
+    }, [props]);
+
+    useEffect(() => {
+        if (svyId !== undefined) {
+            setSvyId(props.svyId);
+            getSurvey().then(()=>{
+
+                initResContents()
+            }).then(()=>{
+            });
+        }
+    }, [svyId]);
     function isValidEmail() {
         if (checked && !emailRegex.test(svyRespEmail)) {
             setEmailInfoMsg("올바른 이메일 형식으로 입력해 주세요.");
@@ -139,18 +142,23 @@ export default function SurveyResponse(props) {
     async function makeResp(data) {
         try {
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
-            setIsSettingModalOpen(false)
-            router.push({
-                pathname: '/survey/share/finish',
-                shallow: true,
-                query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
-            });
+            setIsSettingModalOpen(false);
+            // router.push({
+            //     pathname: '/survey/share/finish',
+            //     shallow: true,
+            //     query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
+            // });
+
+            // 스크롤 이슈 처리
+            // 일단.. 급한 만큼 engMsg에서 큰따옴표 모두 없앱니다 . . . . 추후 수정
+            const endMsg = JSON.stringify(svyContents.svyEndMsg).replace(/\"/gi, "");
+            document.location.href = "/survey/share/finish?endMsg="+endMsg;
         } catch (e) {
             console.log(e);
             openFailModal();
         }
     }
-
+    // if(svyRespContents.length == 0)initResContents();
     return (
         <div>
             {/* 제목 입력 */}
@@ -159,7 +167,7 @@ export default function SurveyResponse(props) {
                              svyIntro={svyIntro}
             />
 
-            {initContent === "true" ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
+            {svyContents.svyContent !== undefined && svyContents.svyContent !== [] && svyRespContents.length !== 0 ? <ShowQuestionList svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} svyContents={svyContents} isModify={true}/> : <h1>세팅전</h1>}
 
             <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a
@@ -231,7 +239,7 @@ export default function SurveyResponse(props) {
                 </Transition>
 
                 <Transition appear show={isSettingModalOpen} as={Fragment}>
-                    <Dialog as="div" className="relative z-10" onClose={setIsSettingModalOpen}>
+                    <Dialog as="div" className="relative z-10" onClose={closeSettingModal}>
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -284,7 +292,7 @@ export default function SurveyResponse(props) {
                                                     </div>
                                                 </div>
                                                 <div className="mt-2">
-                                                    <label htmlFor="svyRespEmail" className="mt-6 block text-xs font-medium text-gray-500">
+                                                    <label htmlFor="svyRespEmail" className="block mt-6 text-xs font-medium text-gray-500">
                                                         {emailInfoMsg}
                                                     </label>
                                                     <input

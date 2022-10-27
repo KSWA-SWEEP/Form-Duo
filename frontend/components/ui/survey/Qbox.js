@@ -1,9 +1,12 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment, useEffect, useRef, useState} from 'react'
 import { Tab, Dialog, Transition, Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/20/solid'
 import Question from "./input/Question";
 import QboxQuestion from "./input/QboxQuestion";
 import { Pagination } from "@mui/material";
+import axios from "axios";
+import {useRecoilState} from "recoil";
+import {accToken} from "../../../atoms/accToken";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -11,256 +14,43 @@ function classNames(...classes) {
 
 const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     //Test용 샘플 데이터
-    let [sampleQsts] = useState({
-        QBox: [
-            {
-                qId: 1,
-                qTitle: '본인의 직업은 무엇입니까?',
-                qInfo: '',
-                qType: 'Objective',
-                name: '객관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '학생',
-                },{
-                    qContentId: 2,
-                    qContentVal: '주부',
-                },{
-                    qContentId: 3,
-                    qContentVal: '회사원',
-                },{
-                    qContentId: 4,
-                    qContentVal: '자영업자',
-                },{
-                    qContentId: 5,
-                    qContentVal: '농부',
-                },{
-                    qContentId: 6,
-                    qContentVal: '공무원',
-                },{
-                    qContentId: 7,
-                    qContentVal: '엔지니어',
-                },{
-                    qContentId: 8,
-                    qContentVal: '무직',
-                }],
-            },
-            {
-                qId: 2,
-                qTitle: '나이를 입력하세요',
-                qInfo: '설명',
-                qType: 'Subjective',
-                name: '주관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: false,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '',
-                }],
-            },
-            {
-                qId: 3,
-                qTitle: '생일을 입력하세요.',
-                qInfo: '',
-                qType: 'Date',
-                name: '날짜',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: false,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '',
-                }],
+    let sampleQsts = useRef({
+        QBox: [{
+            qId: 1,
+            qTitle: '본인의 직업은 무엇입니까?',
+            qInfo: '',
+            qType: 'Objective',
+            name: '객관식',
+            qImage: '',
+            qVideo: '',
+            qMulti: '',
+            contentYn: true,
+            qContents: [{
+                qContentId: 1,
+                qContentVal: '학생',
             },{
-                qId: 4,
-                qTitle: '이메일을 입력하세요',
-                qInfo: 'ex) test@gmail.com',
-                qType: 'Subjective',
-                name: '주관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '',
-                }],
+                qContentId: 2,
+                qContentVal: '주부',
             },{
-                qId: 5,
-                qTitle: '오늘 점심 메뉴는?',
-                qInfo: '설명',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '한식',
-                },{
-                    qContentId: 2,
-                    qContentVal: '양식',
-                },{
-                    qContentId: 3,
-                    qContentVal: '중식',
-                },{
-                    qContentId: 4,
-                    qContentVal: '일식',
-                }],
+                qContentId: 3,
+                qContentVal: '회사원',
             },{
-                qId: 6,
-                qTitle: '본인의 소속을 선택하세요.',
-                qInfo: '정확히 일치하는 대학명이 없다면, 비슷한 계열의 대학을 선택하세요.',
-                qType: 'Dropbox',
-                name: '드롭박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '경영대학',
-                },{
-                    qContentId: 2,
-                    qContentVal: '사회과학대학',
-                },{
-                    qContentId: 3,
-                    qContentVal: '법과대학',
-                },{
-                    qContentId: 4,
-                    qContentVal: 'IT융합대학',
-                },{
-                    qContentId: 5,
-                    qContentVal: '사회과학대학',
-                },{
-                    qContentId: 6,
-                    qContentVal: '예술체육대학',
-                },{
-                    qContentId: 7,
-                    qContentVal: '공과대학',
-                },{
-                    qContentId: 8,
-                    qContentVal: '의과대학',
-                },{
-                    qContentId: 9,
-                    qContentVal: '인문대학',
-                },],
+                qContentId: 4,
+                qContentVal: '자영업자',
             },{
-                qId: 7,
-                qTitle: '본인의 직책을 선택하세요.',
-                qInfo: '객관식',
-                qType: 'Objective',
-                name: '객관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '사장',
-                },{
-                    qContentId: 2,
-                    qContentVal: '부사장',
-                },{
-                    qContentId: 3,
-                    qContentVal: '전무',
-                },{
-                    qContentId: 4,
-                    qContentVal: '상무',
-                },{
-                    qContentId: 5,
-                    qContentVal: '이사',
-                },{
-                    qContentId: 6,
-                    qContentVal: '부장',
-                },{
-                    qContentId: 7,
-                    qContentVal: '차장',
-                },{
-                    qContentId: 8,
-                    qContentVal: '과장',
-                },{
-                    qContentId: 9,
-                    qContentVal: '대리',
-                },{
-                    qContentId: 10,
-                    qContentVal: '주임',
-                },{
-                    qContentId: 11,
-                    qContentVal: '사원',
-                },{
-                    qContentId: 12,
-                    qContentVal: '인턴',
-                }],
+                qContentId: 5,
+                qContentVal: '농부',
             },{
-                qId: 8,
-                qTitle: '본인의 MBTI를 선택하세요.',
-                qInfo: '',
-                qType: 'Subjective',
-                name: '주관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: 'INFJ',
-                },{
-                    qContentId: 2,
-                    qContentVal: 'INFP',
-                },{
-                    qContentId: 3,
-                    qContentVal: 'INTJ',
-                },{
-                    qContentId: 4,
-                    qContentVal: 'INTP',
-                },{
-                    qContentId: 5,
-                    qContentVal: 'ISFJ',
-                },{
-                    qContentId: 6,
-                    qContentVal: 'ISFP',
-                },{
-                    qContentId: 7,
-                    qContentVal: 'ISTJ',
-                },{
-                    qContentId: 8,
-                    qContentVal: 'ISTP',
-                },{
-                    qContentId: 9,
-                    qContentVal: 'ENFJ',
-                },{
-                    qContentId: 10,
-                    qContentVal: 'ENFP',
-                },{
-                    qContentId: 11,
-                    qContentVal: 'ENTJ',
-                },{
-                    qContentId: 12,
-                    qContentVal: 'ENTP',
-                },{
-                    qContentId: 13,
-                    qContentVal: 'ESFJ',
-                },{
-                    qContentId: 14,
-                    qContentVal: 'ESFP',
-                },{
-                    qContentId: 15,
-                    qContentVal: 'ESTJ',
-                },{
-                    qContentId: 16,
-                    qContentVal: 'ESTP',
-                }],
-            },
-        ],
+                qContentId: 6,
+                qContentVal: '공무원',
+            },{
+                qContentId: 7,
+                qContentVal: '엔지니어',
+            },{
+                qContentId: 8,
+                qContentVal: '무직',
+            }],
+        }],
         내가했던질문: [
             {
                 qId: 1,
@@ -279,168 +69,167 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                     qContentId: 2,
                     qContentVal: '선택지 2번',
                 }],
-            },
-            {
-                qId: 2,
-                qTitle: '오늘 내가 작성한 질문2',
-                qInfo: '첫 설문 질문2',
-                qType: 'Subjective',
-                name: '주관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: false,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '',
-                }],
-            },
-            {
-                qId: 3,
-                qTitle: '오늘 내가 작성한 질문3',
-                qInfo: '첫 설문 질문3',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '선택지 1번',
-                },{
-                    qContentId: 2,
-                    qContentVal: '선택지 2번',
-                }],
-            },{
-                qId: 4,
-                qTitle: '점심 메뉴 조사',
-                qInfo: '오늘 점심 메뉴는?',
-                qType: 'Objective',
-                name: '객관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '한식',
-                },{
-                    qContentId: 2,
-                    qContentVal: '양식',
-                },{
-                    qContentId: 3,
-                    qContentVal: '중식',
-                },{
-                    qContentId: 4,
-                    qContentVal: '일식',
-                }],
-            },{
-                qId: 5,
-                qTitle: '어제 저녁 메뉴는?',
-                qInfo: '',
-                qType: 'Subjective',
-                name: '주관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: false,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '',
-                }],
-            },{
-                qId: 6,
-                qTitle: '장소를 선택해주세요',
-                qInfo: '',
-                qType: 'Objective',
-                name: '객관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '한강',
-                },{
-                    qContentId: 2,
-                    qContentVal: '롯데월드',
-                },{
-                    qContentId: 3,
-                    qContentVal: '성수',
-                },{
-                    qContentId: 4,
-                    qContentVal: '집콕',
-                },{
-                    qContentId: 5,
-                    qContentVal: '학교',
-                }],
-            },{
-                qId: 7,
-                qTitle: '체크체크체크',
-                qInfo: '',
-                qType: 'Checkbox',
-                name: '체크박스',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: true,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '111',
-                },{
-                    qContentId: 2,
-                    qContentVal: '222',
-                },{
-                    qContentId: 3,
-                    qContentVal: '333',
-                },{
-                    qContentId: 4,
-                    qContentVal: '444',
-                }],
-            },{
-                qId: 8,
-                qTitle: '주말에 먹고 싶은 메뉴',
-                qInfo: '신중하게 답변해 주세요',
-                qType: 'Subjective',
-                name: '주관식',
-                qImage: '',
-                qVideo: '',
-                qMulti: '',
-                contentYn: false,
-                qContents: [{
-                    qContentId: 1,
-                    qContentVal: '',
-                }],
             }
         ],
     })
+    //질문 가져오기
+    //내가 했던 질문
+    const svyList = useRef([]);
+    const [myData,setMyData] = useState(false)
+    let mySvy =[];
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
+    //API로 질문 가져오기
+    async function getMySvyList(){
+        try{
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{
+                headers: {
+                    'Authorization': `Bearer ${acctoken}`
+                }});
+            return result;
+        }catch (e) {
+            console.log(e);
+        }
+    }
+    //내가 했던 질문 Setting function
+    function settingMyQuestion(){
+        getMySvyList().then(r=>{
+            //데이터 가져오기
+            svyList.current = r.data;
+            // console.log("svyList : " + JSON.stringify(svyList))
+            svyList.current.map((survey) =>{
+                mySvy = mySvy.concat(survey.svyContent)
+            })
+            //check log
+            // console.log("MySvy : "+ JSON.stringify(mySvy));
+        }).then(r=>{
+            //데이터 key값 설정
+            mySvy.map((svy,idx) => {
+                svy.key = idx;
+                svy.qId = idx;
+            })
+        }).then(r => {
+            //내가 했던 질문 data Setting
+            //check log
+            // console.log("MySvy : "+ JSON.stringify(mySvy));
+            // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
+            sampleQsts.current.내가했던질문 = mySvy;
+        }).then(r=>{
+            //데이터 설정 후 랜더링을 위해 useState 값 변경
+            setMyData(true)
+        })
+    }
+
+    //Qbox
+    const qboxList = useRef([]);
+    const [qboxQ,setQboxQ] = useState(false)
+    //API로 값 불러오기
+    async function getQboxList(){
+        try{
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/qbox', {
+                headers: {
+                    'Authorization': `Bearer ${acctoken}`
+                }});
+            return result;
+        }catch (e) {
+            console.log(e);
+        }
+    }
+    //Qbox 질문 Setting function
+    function settingQbox(){
+        let qbox =[];
+        getQboxList().then(r=>{
+            //데이터 가져오기
+            qboxList.current = r.data;
+            // console.log("svyList : " + JSON.stringify(svyList))
+            qboxList.current.map((survey) =>{
+                if(survey.delYn == null && survey.name != "string" && survey.qtitle != ""){
+                    survey.qId = survey.qid
+                    survey.key = survey.qid
+                    survey.qTitle = survey.qtitle
+                    survey.qInfo = survey.qinfo
+                    survey.qContents = survey.qcontents
+                    switch (survey.name){
+                        case "주관식" :
+                            survey.qType = "Subjective"
+                            survey.contentYn = false
+                            qbox = [...qbox, survey]
+                            break;
+                        case "객관식" :
+                            survey.qType = "Objective"
+                            survey.contentYn = true
+                            qbox = [...qbox, survey]
+                            // qbox = qbox.concat(survey)
+                            break;
+                        case "체크박스" :
+                            survey.qType = "Checkbox"
+                            survey.contentYn = true
+                            qbox = [...qbox, survey]
+                            // qbox = qbox.concat(survey)
+                            break;
+                        case "드롭박스" :
+                            survey.qType = "Dropbox"
+                            survey.contentYn = true
+                            qbox = [...qbox, survey]
+                            // qbox = qbox.concat(survey)
+                            break;
+                        case "날짜" :
+                            survey.qType = "Date"
+                            survey.contentYn = false
+                            qbox = [...qbox, survey]
+                            // qbox = qbox.concat(survey)
+                            break;
+                        default :
+                            break;
+                    }
+
+                }
+            })
+            //check log
+            // console.log("Qbox : "+ JSON.stringify(qbox));
+        }).then(r => {
+            //내가 했던 질문 data Setting
+            //check log
+            // console.log("MySvy : "+ JSON.stringify(mySvy));
+            // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
+            // console.log("Qbox : "+ JSON.stringify(qbox));
+            sampleQsts.current.QBox = qbox
+            setQboxQ(true)
+        })
+    }
+
+    //Qbox 질문 가져오기
+    useEffect(()=>{
+        settingMyQuestion()
+        settingQbox()
+    },[])
+
     //페이지 설정
     const [nowTab, setNowTab] = useState("Qbox");
-    const QLAST_PAGE = sampleQsts.QBox.length % 5 === 0 ?
-        sampleQsts.QBox.length / 5 : sampleQsts.QBox.length / 5 + 1; // 마지막 페이지
-    const MyLAST_PAGE = sampleQsts.내가했던질문.length % 5 === 0 ?
-        sampleQsts.내가했던질문.length / 5 : sampleQsts.내가했던질문.length / 5 + 1; // 마지막 페이지
+    const QLAST_PAGE = sampleQsts.current.QBox.length % 5 === 0 ?
+        parseInt(sampleQsts.current.QBox.length / 5) : parseInt(sampleQsts.current.QBox.length / 5 + 1); // 마지막 페이지
+    const MyLAST_PAGE = sampleQsts.current.내가했던질문.length % 5 === 0 ?
+        parseInt(sampleQsts.current.내가했던질문.length / 5) : parseInt(sampleQsts.current.내가했던질문.length / 5 + 1); // 마지막 페이지
     const [page, setPage] = useState(1); // 처음 페이지는 1이다.
-    const [Qdata, setData] = useState(sampleQsts.QBox.slice(5 * (page - 1)));
+    const [Qdata, setData] = useState(sampleQsts.current.QBox.slice(5 * (page - 1)));
 
+    //Page 설정
     useEffect(() => {
         // setData(/* fetch(또는 전체 데이터에서 slice)로 현재 page의 데이터를 가져온다. */);
         // 한 페이지에 5개씩 보여준다.
         if(nowTab === '내가했던질문') {
             if(page === MyLAST_PAGE){ // 마지막 페이지는 데이터가 5개보다 부족할 수도 있다.
-                setData(sampleQsts.내가했던질문.slice(5 * (page - 1)));
+                setData(sampleQsts.current.내가했던질문.slice(5 * (page - 1)));
             } else {
-                setData(sampleQsts.내가했던질문.slice(5 * (page - 1), 5 * (page - 1) + 5));
+                setData(sampleQsts.current.내가했던질문.slice(5 * (page - 1), 5 * (page - 1) + 5));
             }
         }else{
             if(page === QLAST_PAGE){ // 마지막 페이지는 데이터가 5개보다 부족할 수도 있다.
-                setData(sampleQsts.QBox.slice(5 * (page - 1)));
+                setData(sampleQsts.current.QBox.slice(5 * (page - 1)));
             } else {
-                setData(sampleQsts.QBox.slice(5 * (page - 1), 5 * (page - 1) + 5));
+                setData(sampleQsts.current.QBox.slice(5 * (page - 1), 5 * (page - 1) + 5));
             }
         }
-    }, [page,nowTab]);
+    }, [page,nowTab,qboxQ]);
 
     useEffect(()=>{
         setPage(1)
@@ -491,7 +280,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                                 <Tab.Group>
                                     {/*탭 상단 설정*/}
                                     <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-                                        {Object.keys(sampleQsts).map((questions) => (
+                                        {Object.keys(sampleQsts.current).map((questions) => (
                                             <Tab
                                                 key={questions}
                                                 name = {questions}
@@ -512,7 +301,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                                     </Tab.List>
                                     {/*탭 내부 페이지 설정*/}
                                     <Tab.Panels className="mt-2">
-                                        {Object.values(sampleQsts).map((questions, idx) => (
+                                        {Object.values(sampleQsts.current).map((questions, idx) => (
                                             <Tab.Panel
                                                 key={idx}
                                                 className={classNames(

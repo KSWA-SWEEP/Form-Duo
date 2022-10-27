@@ -6,7 +6,10 @@ import { CheckIcon, ChevronDoubleDownIcon, MicrophoneIcon, VideoCameraIcon } fro
 import { PencilSquareIcon, StarIcon, ListBulletIcon, DocumentIcon, CalendarDaysIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 
-const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType, contentYn, svyContents, setSvyContents}) => {
+const Respond = ({receiveqTitle, receiveqInfo , qId, name, qType, contentYn, svyContents, setSvyContents}) => {
+    function onRemoveRespond(targetQId) {
+        setSvyContents(svyContents.filter(svyContent => svyContent.qId !== targetQId));
+    }
 
     const router = useRouter();
     const { surveyId } = router.query;
@@ -16,7 +19,7 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
     const [qInfo, setQInfo] = useState("");
     const index = svyContents.findIndex((svyContent) => svyContent.qId === qId);
     const [savedQContents, setSavedQContents] = useState(svyContents[index].qContents);
-    
+    // Respond 오류 수정 commit message를 위한 수정
 
     // qContentId 값으로 사용 될 id - ref 를 사용하여 변수 담기
     const nextId = useRef(1);
@@ -29,9 +32,19 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
                 const lastQContents = savedQContents.slice(-1)[0];
                 const lastQContentId = lastQContents.qContentId
                 nextId.current = lastQContentId;
+                setQTitle(receiveqTitle);
+                setQInfo(receiveqInfo);
             }
         }
     },[] );
+
+    useEffect(() => {
+        onChangeTitle();
+    }, [qTitle]);
+
+    useEffect(() => {
+        onChangeInfo();
+    }, [qInfo]);
 
 
     // 이게 qContents 초기화.
@@ -89,9 +102,7 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
         [qContents],
     );
     
-    const onChangeTitle = (e) => { 
-        setQTitle(e.target.value)
-
+    const onChangeTitle = () => { 
         const newList = replaceItemAtIndex(svyContents, index, {
             ...svyContents[index],
             qTitle: qTitle,
@@ -99,9 +110,7 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
         setSvyContents(newList);
     };
     
-    const onChangeInfo = (e) => { 
-        setQInfo(e.target.value)
-
+    const onChangeInfo = () => { 
         const newList = replaceItemAtIndex(svyContents, index, {
             ...svyContents[index],
             qInfo: qInfo,
@@ -145,7 +154,9 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
                         id="qTitle"
                         placeholder="질문을 입력하세요"
                         className="block w-full font-semibold border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-md"
-                        onChange={onChangeTitle}
+                        onChange={(e) => {
+                            setQTitle(e.target.value);
+                        }}
                         defaultValue={receiveqTitle}
                     />
 
@@ -156,7 +167,9 @@ const Respond = ({receiveqTitle, receiveqInfo ,onRemoveRespond, qId, name, qType
                         className="block w-full mt-4 border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring-gray-300 sm:text-sm"
                         placeholder="문항에 대한 설명을 입력하세요 (생략 가능)"
                         defaultValue={receiveqInfo}
-                        onChange={onChangeInfo}
+                        onChange={(e) => {
+                            setQInfo(e.target.value);
+                        }}
                     />
                     
                     {/* content 입력 부분이 필요할 경우 */}

@@ -31,6 +31,7 @@ const closedSurveyMenu = [
 export default function SurveyGridList() {
   const router = useRouter(); 
   const currentURL = router.asPath;
+  const dateToday = new Date();
   const [svyList, setSvyList] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
@@ -42,19 +43,28 @@ export default function SurveyGridList() {
   const [showCopyMsg, setShowCopyMsg] = useState(false)
   const [isTokenExist, setIsTokenExist] =useState("")
   const [isLoading, setLoading] = useState(false)
+  const [today, setToday] = useState(dateToday.toISOString())
+  // 설문 전체 데이터
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    setLoading(true)
-    // getSvyList()
-    setIsTokenExist(getCookies("accessToken"))
-  }, [])
-
-  useEffect(() => {
+      setLoading(true)
+      setIsTokenExist(getCookies("accessToken"))
       getSvyList().then(r => {
         setSvyList(r.data)
-        // console.log(">> "+JSON.stringify(r.data))
+        setData(r.data)
       });
    }, []);
+   
+   if (!data || data.length === 0) return (
+    <div className="bg-white">
+        <div className="max-w-2xl px-4 py-8 mx-auto mt-10 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+            <div align="center">
+                <h3>등록된 설문이 없습니다</h3>
+            </div>
+        </div>
+    </div>
+)
    
 
   async function getSvyList(){
@@ -115,8 +125,6 @@ export default function SurveyGridList() {
     }
     else if (type == "설문 공유"){
       // 수정 필요 - table 에 svy 타입 (duo / basic) 구분하는 column 가져오기
-      console.log(">>>>>>>>>>>>>")
-      console.log(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/"+svyId);
       setShareUrl(process.env.NEXT_PUBLIC_BASE_URL+"/survey/share/"+svyId)
       openShareModal();
     }
@@ -178,8 +186,8 @@ export default function SurveyGridList() {
                           <div className="w-3/4">
                               <p className="text-base font-bold text-gray-900 truncate">{survey.svyTitle}</p>
                               <div className="mt-2">
-                                <span className={( survey.svySt == "closed" ? "text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800" : "text-blue-800 bg-blue-100 dark:bg-blue-200 dark:text-blue-800") + " text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-lg"}>
-                                    {survey.svySt == "closed"
+                                <span className={( survey.svyEndDt < today ? "text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800" : "text-blue-800 bg-blue-100 dark:bg-blue-200 dark:text-blue-800") + " text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-lg"}>
+                                    {survey.svyEndDt < today
                                         ? "마감"
                                         : "진행중"
                                     }
@@ -204,14 +212,15 @@ export default function SurveyGridList() {
                                   leaveTo="transform opacity-0 scale-95"
                                   >
                                       <Menu.Items className="absolute right-0 z-10 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                          {(survey.svySt == "closed" ? closedSurveyMenu : activeSurveyMenu).map((item) => (
+                                          {(survey.svyEndDt < today ? closedSurveyMenu : activeSurveyMenu).map((item) => (
                                               <Menu.Item key={item.name}>
                                                   {
                                                       item.href.includes('/')
                                                           ?
                                                           ({ active }) => (
                                                               <Link
-                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, preURL: currentURL } }}
+                                                                //   href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.type, preURL: currentURL } }}     // TODO: survey.type 구분 추가 후 변경하기
+                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.id, preURL: currentURL } }}
                                                               >
                                                                   <div className={classNames(
                                                                       active ? 'bg-neutral-100' : '',

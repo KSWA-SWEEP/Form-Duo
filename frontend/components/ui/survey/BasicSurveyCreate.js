@@ -46,6 +46,8 @@ export default function BasicSurveyCreate() {
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
     const [isFailModalOpen, setIsFailModalOpen] = useState(false)
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
+    
+    //Qbox
     const [isQboxOpen, setIsQboxOpen] = useState(false)
 
     useEffect(() => {
@@ -60,7 +62,6 @@ export default function BasicSurveyCreate() {
             newEndDt.setDate(svyStartDt.getDate() + 7)
             setSvyEndDt(newEndDt)
         }
-        console.log(svyEndDt)
     }, [svyEndDt])
 
     useEffect(() => {
@@ -69,7 +70,6 @@ export default function BasicSurveyCreate() {
             newEndDt.setDate(svyStartDt.getDate() + 7)
             setSvyEndDt(newEndDt)
         }
-        console.log(svyStartDt)
     }, [svyStartDt])
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -97,8 +97,6 @@ export default function BasicSurveyCreate() {
     const onRespMaxChange = (e) => {
         setSvyRespMax(e.target.value)
     };
-    
-    //Qbox
     function openQboxModal() {
         setIsQboxOpen(true)
     }
@@ -134,7 +132,15 @@ export default function BasicSurveyCreate() {
     function saveBasicSurvey() {
 
         const data = new Object();
-        data.svyTitle = svyTitle;
+
+        if(svyTitle != "") {
+            data.svyTitle = svyTitle
+        } else {
+            let now = new Date();
+            let tempTitle = now.toISOString().substring(0, 10) + " " + now.toISOString().substring(12, 16) + " 생성 설문";
+            data.svyTitle = tempTitle
+        }
+
         data.svyIntro = svyIntro;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt.toISOString();
@@ -143,7 +149,6 @@ export default function BasicSurveyCreate() {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
-        console.log(data);
 
         if (isSettingModalOpen) {
             closeSettingModal();
