@@ -169,7 +169,8 @@ export default function SurveyGridList() {
                       <div className="w-full overflow-hidden rounded-t-lg bg-neutral-200 aspect-w-16 aspect-h-9 xl:aspect-w-16 xl:aspect-h-9">
                           <Link
                               href={{
-                                  pathname: '/survey/result/'+survey.id
+                                  pathname: '/survey/result/'+survey.id,
+                                  query: { svyId: survey.id, svyType: survey.id, preURL: currentURL }
                                   }} 
                               className="group"
                               >
