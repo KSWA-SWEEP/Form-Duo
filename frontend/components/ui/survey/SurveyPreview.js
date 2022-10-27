@@ -58,9 +58,9 @@ export default function SurveyPreview(props) {
                              svyIntro={svyContents.svyIntro}
             />
             {/* 질문 목록 */}
-            <ShowQuestionList svyContents={svyContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} isModify={props.isModify} isDuoResult={true}/>
+            <ShowQuestionList svyContents={svyContents} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} isModify={props.isModify}/>
 
-            <div className="flex justify-center m-7 mx-2 rounded-md ">
+            <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a onClick={ () => router.push({pathname : preURL})}
                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
                 >

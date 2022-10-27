@@ -120,7 +120,7 @@ const Voice = (props) => {
         }
     }, [onRec])
 
-  if (props.isDuoResult) return (
+  if (!props.isModify) return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
         <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
             Question. {props.qNumber}
