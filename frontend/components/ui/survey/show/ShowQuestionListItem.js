@@ -8,7 +8,7 @@ import Subjective from "./Subjective";
 import Video from "./Video";
 import Voice from "./Voice";
 
-const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents, svyRespContents, setSvyRespContents, qNumber, isModify}) => {
+const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMulti, qContents, svyRespContents, setSvyRespContents, qNumber, isModify, isDuoResult}) => {
 
     function questionAsType() {
         switch (qType) {
@@ -27,7 +27,7 @@ const ShowQuestionListItem = ({ qId, qTitle, qInfo, qType, qImage, qVideo, qisMu
             case 'Subjective':
                 return <Subjective qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} qNumber={qNumber} isModify={isModify}/>
             case 'Voice':
-                return <Voice qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} isModify={isModify}/>
+                return <Voice qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} isModify={isModify} isDuoResult={isDuoResult}/>
             case 'Video':
                 return <Video qId={qId} qTitle={qTitle} qInfo={qInfo} svyRespContents={svyRespContents} setSvyRespContents={setSvyRespContents} isModify={isModify}/>
         }

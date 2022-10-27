@@ -26,16 +26,17 @@ export default function SurveyResults(props) {
         const tmp = JSON.parse(contents);
         let data = { id, date }
 
-        // console.log("tmp" + JSON.stringify(tmp));
-        tmp.map((ans) => {
-            let trash = ""
-            ans.ansVal.map(item => {
-                trash += item.resp + " "
-            })
-            data[ans.qId] = trash
-            // console.log(trash)
-        });
-
+        if(props.svyType == "basic"){ 
+            // console.log("tmp" + JSON.stringify(tmp));
+            tmp.map((ans) => {
+                let trash = ""
+                ans.ansVal.map(item => {
+                    trash += item.resp + " "
+                })
+                data[ans.qId] = trash
+                // console.log(trash)
+            });
+        }
         return data
     }
 
@@ -56,7 +57,7 @@ export default function SurveyResults(props) {
         <>
             <Stack alignItems="center">
                 <h1>총 응답 수 : {props.resPeople} / {props.maxResPeople}</h1>
-                <ResponseTable surveyId={props.resContents[0].svyId} contents={rows} />
+                <ResponseTable surveyId={props.resContents[0].svyId} svyType={props.svyType} contents={rows} />
                 <br />
                 {props.svyType !== "duo" ? <>
                 <div align="center">

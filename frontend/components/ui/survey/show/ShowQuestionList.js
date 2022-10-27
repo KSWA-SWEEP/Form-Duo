@@ -21,7 +21,8 @@ const ShowQuestionList = (props) => {
                     svyRespContents={props.svyRespContents}
                     setSvyRespContents={props.setSvyRespContents}
                     qNumber={idx+1}
-                    isModify = {props.isModify}/>
+                    isModify = {props.isModify}
+                    isDuoResult={true}/>
             ))}
         </div>
     );
