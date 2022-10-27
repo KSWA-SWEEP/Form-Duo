@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router'
 import { useRecoilState } from 'recoil';
-import Conversation from '../../../components/ui/survey/emotion/Conversation';
+import Conversation from '../../../components/ui/survey/emotion/conversation';
 import PageTitle from '../../../components/ui/PageTitle';
 
 export default function ConversationAnalysis() {
     const router = useRouter();
-    const { cvid } = router.query;
+    const { convid } = router.query;
 
     return (
         <>
-            <Conversation cvid = {cvid}/>
+            <Conversation cvid = {convid}/>
         </>
     );
 };
