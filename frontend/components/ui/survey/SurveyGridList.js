@@ -44,19 +44,27 @@ export default function SurveyGridList() {
   const [isTokenExist, setIsTokenExist] =useState("")
   const [isLoading, setLoading] = useState(false)
   const [today, setToday] = useState(dateToday.toISOString())
+  // 설문 전체 데이터
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    setLoading(true)
-    // getSvyList()
-    setIsTokenExist(getCookies("accessToken"))
-  }, [])
-
-  useEffect(() => {
+      setLoading(true)
+      setIsTokenExist(getCookies("accessToken"))
       getSvyList().then(r => {
         setSvyList(r.data)
-        // console.log(">> "+JSON.stringify(r.data))
+        setData(r.data)
       });
    }, []);
+   
+   if (!data || data.length === 0) return (
+    <div className="bg-white">
+        <div className="max-w-2xl px-4 py-8 mx-auto mt-10 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+            <div align="center">
+                <h3>등록된 설문이 없습니다</h3>
+            </div>
+        </div>
+    </div>
+)
    
 
   async function getSvyList(){
