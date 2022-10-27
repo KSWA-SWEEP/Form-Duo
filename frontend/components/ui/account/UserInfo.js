@@ -119,7 +119,7 @@ export default function UserInfo() {
       </div>
       <div className="flex items-center justify-start w-1/3 bg-white ml-14 md:h-56">
         <div className="sm:text-center lg:text-left">
-          <h1 className="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl md:text-2xl">
+          <h1 className="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl md:text-2xl" data-testid="name">
             {userData.username}
           </h1>
           <p className="mt-2 text-base text-gray-500 sm:mx-auto sm:mt-2 sm:max-w-xl sm:text-base md:mt-2 md:text-lg lg:mx-0">
@@ -167,6 +167,7 @@ export default function UserInfo() {
                   <Dialog.Title
                       as="h3"
                       className="text-lg font-extrabold leading-6 text-gray-900"
+                      data-testid="modify"
                   >
                       개인정보 수정
                   </Dialog.Title>
@@ -183,6 +184,7 @@ export default function UserInfo() {
                               className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-fdyellow focus:ring-fdyellow sm:text-sm"
                               onChange={(e) => setUserName(e.target.value)}
                               defaultValue={userName}
+                              data-testid="nameModify"
                           />
                           </div>
 
