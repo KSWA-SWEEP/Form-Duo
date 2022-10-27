@@ -74,8 +74,6 @@ export default function SurveyModify (props) {
                 setSvyIntro(savedSvyIntro);
                 setSvyStartDt(new Date(startDt));
                 setSvyEndDt(new Date(endDt));
-                console.log(resultData.svyIntro)
-                console.log(">> "+JSON.stringify(r.data))
                 
                 const lastSvyContent = svyContent.slice(-1)[0];
                 const lastQId = lastSvyContent.qId;
@@ -93,7 +91,6 @@ export default function SurveyModify (props) {
     
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
-      console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
       try{
           const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
           console.log(svyContents);

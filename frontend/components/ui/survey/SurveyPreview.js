@@ -19,7 +19,6 @@ export default function SurveyPreview(props) {
         if (!props.svyResContents) {
             initResContents();
             // initPreURL();
-            console.log(preURL);
         }
         else {
             setSvyRespContents(props.svyResContents);
@@ -35,13 +34,11 @@ export default function SurveyPreview(props) {
     function initResContents() {
         let resContent = [];
         let newList = [];
-        console.log(svyContents);
         svyContents.svyContent && svyContents.svyContent.map(question => {
             resContent = {qId: question.qId, qType: question.qType, ansVal: [{qContentId: "", resp: ""}]}
             newList = [...newList, resContent];
             setSvyRespContents(newList);
         })
-        console.log(svyRespContents);
     }
 
     if (isLoading) return <div>Loading</div>;

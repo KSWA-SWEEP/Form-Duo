@@ -37,7 +37,6 @@ export default function Subjective(props) {
         setTempAnsVal([{ resp: event.target.value }]);
     }
 
-    // console.log(props)
     if (props.isModify) {
         return (
             <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
