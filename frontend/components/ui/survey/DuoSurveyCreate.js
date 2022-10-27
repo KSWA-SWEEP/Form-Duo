@@ -118,6 +118,7 @@ export default function BasicSurveyCreate () {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
+        data.svyType="duo";
 
         if (isSettingModalOpen) {
             closeSettingModal();

@@ -132,7 +132,15 @@ export default function BasicSurveyCreate() {
     function saveBasicSurvey() {
 
         const data = new Object();
-        data.svyTitle = svyTitle;
+
+        if(svyTitle != "") {
+            data.svyTitle = svyTitle
+        } else {
+            let now = new Date();
+            let tempTitle = now.toISOString().substring(0, 10) + " " + now.toISOString().substring(12, 16) + " 생성 설문";
+            data.svyTitle = tempTitle
+        }
+
         data.svyIntro = svyIntro;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt.toISOString();
@@ -141,6 +149,7 @@ export default function BasicSurveyCreate() {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
+        data.svyType= "basic";
 
         if (isSettingModalOpen) {
             closeSettingModal();
