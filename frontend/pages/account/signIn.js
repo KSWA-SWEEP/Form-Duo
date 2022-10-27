@@ -8,7 +8,7 @@ import axios from "axios";
 import {accToken} from '../../atoms/accToken'
 import {refToken} from '../../atoms/refToken'
 import { useRouter } from 'next/router'
-import {setCookie} from "cookies-next";
+import {getCookie, setCookie} from "cookies-next";
 import {Dialog, Transition} from "@headlessui/react";
 
 const SignIn =()=> {
@@ -60,7 +60,7 @@ const SignIn =()=> {
             console.log("Result : " + JSON.stringify(result.data));
             console.log("accessToken : "+ result.data["accessToken"]);
             console.log("refreshToken : "+ result.data["refreshToken"]);
-
+            console.log(getCookie("access_token"))
             setAcctoken(result.data["accessToken"]);
             setReftoken(result.data["refreshToken"]);
             setCookie("accessToken",result.data["accessToken"])
