@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 
 export default function Checkbox(props) {
-  // console.log("svyrespcont: "  + JSON.stringify(props.svyRespContents));
+
   const index = props.svyRespContents.findIndex((svyRespContent) => svyRespContent.qId === props.qId);
-
-
   const [tempAnsVal, setTempAnsVal] = useState(
         props.svyRespContents[index].ansVal[0].qContentId === "" && props.svyRespContents[index].ansVal[0].resp === ""
             ? [{
@@ -47,15 +45,12 @@ export default function Checkbox(props) {
   const handleCheck = (event) => {
     const updatedList = [...checked];
 
-    console.log("value: " + event.target.value);
   
     if (event.target.checked) {
       updatedList = [...checked, event.target.value];
       var idx = event.target.value;
       var targetIdx = props.qContents.findIndex((content) => content.qContentId === idx);
 
-      console.log("idx: " + idx);
-      console.log("targetIdx: " + targetIdx);
       // insertAnsVal(event.target.value, props.qContents[event.target.value - 1].qContentVal);
       insertAnsVal(event.target.value, targetIdx != -1 ? props.qContents[targetIdx].qContentVal : props.qContents[event.target.value - 1].qContentVal);
     } else {
@@ -118,7 +113,6 @@ export default function Checkbox(props) {
         </div>
     )
   } else {
-    // console.log(props.qContents);
 
     return (
         <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
@@ -132,7 +126,7 @@ export default function Checkbox(props) {
                 <p className="text-sm text-gray-500">{props.qInfo}</p>
                 <div className="mt-4 space-y-4">
                   {props.qContents && props.qContents.map((qContent, idx) => {
-                    // console.log(idx, props.svyRespContents[index].ansVal)
+
                         return (
                             <div key={qContent.qContentId}>
                                 <div className="flex items-start">

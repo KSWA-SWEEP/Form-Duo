@@ -40,7 +40,6 @@ export default function BasicSurveyCreate () {
             newEndDt.setDate(svyStartDt.getDate() + 7)
             setSvyEndDt(newEndDt)
         }
-        console.log(svyEndDt)
     }, [svyEndDt])
 
     useEffect(() => {
@@ -49,7 +48,6 @@ export default function BasicSurveyCreate () {
             newEndDt.setDate(svyStartDt.getDate() + 7)
             setSvyEndDt(newEndDt)
         }
-        console.log(svyStartDt)
     }, [svyStartDt])
 
     const onTitleChange = (e) => {
@@ -112,7 +110,6 @@ export default function BasicSurveyCreate () {
             let tempTitle = Today.toISOString().substring(0, 10) + " " + Today.toISOString().substring(12, 16) + " 생성 설문";
             data.svyTitle = tempTitle
         }
-        console.log(data.svyTitle)
         data.svyIntro = svyIntro;
         data.svyContent = svyContents;
         data.svyStartDt = svyStartDt.toISOString();
@@ -121,7 +118,6 @@ export default function BasicSurveyCreate () {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
-        console.log(data);
 
         if (isSettingModalOpen) {
             closeSettingModal();

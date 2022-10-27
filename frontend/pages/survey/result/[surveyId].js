@@ -17,7 +17,6 @@ const SurveyResult = () => {
     const [isLoading, setLoading] = useState(false)
     const [viewChart, setViewChart] = useState(true);
 
-    // console.log(router.query)
     // if (!isLoading) getContents(Object.values(router.query))
 
 
@@ -27,7 +26,6 @@ const SurveyResult = () => {
         else {
             setSurveyId(Object.values(router.query)[0]);
             // getContents(surveyId).then(r => setLoading(false));
-            console.log(router.query)
         }
     }, [router.isReady]);
     // alert(message + " " + surveyId);
@@ -41,7 +39,6 @@ const SurveyResult = () => {
         try {
             const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/resp')
             setData(svyContents.data);
-            console.log(svyContents.data);
             // setLoading(false);
             // return svyContents;
         } catch (e) {
@@ -64,7 +61,6 @@ const SurveyResult = () => {
     )
 
     else {
-        console.log(data);
         return (
             <div>
                 <div

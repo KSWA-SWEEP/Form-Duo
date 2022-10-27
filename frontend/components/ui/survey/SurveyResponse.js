@@ -42,14 +42,11 @@ export default function SurveyResponse(props) {
         /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
     async function getSurvey() {
-        console.log(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId)
         try {
             const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
             setSvyContents(res.data);
             setSvyTitle(res.data.svyTitle);
             setSvyIntro(res.data.svyIntro);
-
-            console.log("Servey content datadsfdfsdfs : " + JSON.stringify(res.data))
 
             return svyContents;
         } catch (e) {
@@ -86,7 +83,6 @@ export default function SurveyResponse(props) {
     // const resContent = useRef([]);
     const initResContents = () => {
 
-        console.log("svyContents: " + JSON.stringify(svyContents.svyEndMsg));
         let resContent = [];
         let newList = [];
         svyContents.svyContent && svyContents.svyContent.map(question => {
@@ -119,7 +115,6 @@ export default function SurveyResponse(props) {
 
                 initResContents()
             }).then(()=>{
-                console.log("Servey content data : " + JSON.stringify(svyContents))
             });
         }
     }, [svyId]);
@@ -163,7 +158,6 @@ export default function SurveyResponse(props) {
             openFailModal();
         }
     }
-    console.log("ResContents : " + JSON.stringify(svyRespContents))
     // if(svyRespContents.length == 0)initResContents();
     return (
         <div>

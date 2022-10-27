@@ -24,15 +24,12 @@ const BasicPreview = () => {
         getQuery();
     }, [query])
 
-    console.log(query);
-
     if (isLoading) return <div>Loading</div>;
     if (query == undefined) return <div>Loading</div>;
     if (svyContents === undefined || !svyContents) return <div>Loading</div>;
 
     async function getQuery(){
         try{
-            console.log("###### query: " + JSON.stringify(router.query));
             setQuery(router.query);
             if(query){
                 if (!query.hasOwnProperty("svyResId") && !query.hasOwnProperty("svyContent")) {
@@ -63,9 +60,6 @@ const BasicPreview = () => {
             console.log(e);
         }
       }
-
-      console.log("Svy Contents : " + svyContents)
-    console.log(router.query.preURL);
 
     async function getSurvey() {
         try {

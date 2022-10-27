@@ -62,7 +62,6 @@ export default function BasicSurveyCreate() {
             newEndDt.setDate(svyStartDt.getDate() + 7)
             setSvyEndDt(newEndDt)
         }
-        console.log(svyEndDt)
     }, [svyEndDt])
 
     useEffect(() => {
@@ -71,7 +70,6 @@ export default function BasicSurveyCreate() {
             newEndDt.setDate(svyStartDt.getDate() + 7)
             setSvyEndDt(newEndDt)
         }
-        console.log(svyStartDt)
     }, [svyStartDt])
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -143,7 +141,6 @@ export default function BasicSurveyCreate() {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
-        console.log("DATA ~~~~ : " + JSON.stringify(data));
 
         if (isSettingModalOpen) {
             closeSettingModal();
@@ -200,7 +197,6 @@ export default function BasicSurveyCreate() {
 
     function showPreview() {
         const data = saveBasicSurvey();
-        console.log("Preview : " + JSON.stringify(data))
         setGlbSvyContents(data);
         router.push({
             pathname: '/survey/preview/basic',

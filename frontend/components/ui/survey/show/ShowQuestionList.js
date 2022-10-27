@@ -6,9 +6,6 @@ const ShowQuestionList = (props) => {
     // 설문지에 매겨질 질문 번호
     // const [questionNum,setNum] = useState(1);
 
-    console.log("### isModify: " + props.isModify);
-    console.log("Question List preview : " + JSON.stringify(props.svyContents))
-
     return (
         <div>
             {props.svyContents.svyContent && props.svyContents.svyContent.map((question, idx) => (

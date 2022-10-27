@@ -69,7 +69,7 @@ export default function Dropdox(props) {
     )
   }
   else {
-    // console.log(props);
+
     return (
 
       <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
@@ -90,7 +90,7 @@ export default function Dropdox(props) {
                 // disabled={true}
               >
                 {props.qContents && props.qContents.map((qContent, idx) => {
-                  // console.log(props.svyRespContents[index].ansVal[0].qContentId, idx);
+      
                   return (
                     <option key={qContent.qContentId} value={qContent.qContentId} selected={props.svyRespContents[index].ansVal[0].qContentId === (idx+1).toString()} >{qContent.qContentVal}</option>
                   )
