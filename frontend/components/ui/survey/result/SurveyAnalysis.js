@@ -6,7 +6,7 @@ import {Slider} from './chart/Slider';
 
 export default function SurveyAnalysis(props) {
 
-    console.log(props);
+    // console.log(props);
     const headers = [
         { label: 'Order ID', key: 'orderId' },
         { label: 'Item ID', key: 'itemId' },

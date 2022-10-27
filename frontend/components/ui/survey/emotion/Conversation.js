@@ -50,13 +50,13 @@ export default function Conversation(props) {
         };
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = true;
-        console.log("Survey ID : " + props.cvId);
+        // console.log("Survey ID : " + props.cvId);
         try {
             // default surveyId 191로 확인. 현재 주관식 문항 하나만 있는 설문에서만 사용 가능.
             // 그리고 현재 localhost:3000 or 공인아이피 둘 중 하나에서만 확인 가능. CORS 프록시 우회 IP가 하나밖에 설정이 안 됨.
             const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
             let messages = "";
-            console.log(result)
+            // console.log(result)
             result.data.map(function(element){
                 for (var i = 0; i < element.svyRespContent.length; i++){
                     messages = messages + element.svyRespContent[i].ansVal[0].resp + '|'
@@ -64,7 +64,7 @@ export default function Conversation(props) {
                 setAllResp((prevState)=> prevState + 1)
             })
             setMsg(messages)
-            console.log(messages) // 정상
+            // console.log(messages) // 정상
         } catch (e) {
             return <error/>
         }
@@ -91,7 +91,7 @@ export default function Conversation(props) {
       
       async function getEmotion(){
         postData(data).then(r => {
-            console.log(r.data)    
+            // console.log(r.data)    
             for (var i = 0; i < allResp; i++){
                 switch(r.data[i].emotion.value){
                     case "감정없음" : setNormal_motion((prevState) => prevState+1); break;

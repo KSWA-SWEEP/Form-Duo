@@ -4,11 +4,11 @@ import { ResponsivePie } from '@nivo/pie';
 const Piechart = ({good_motion, bad_motion, normal_motion}) => {
     const handle = {
         padClick: (datas) => {
-            console.log(datas);
+            // console.log(datas);
         },
 
         legendClick: (datas) => {
-            console.log(datas);
+            // console.log(datas);
         },
     };
 

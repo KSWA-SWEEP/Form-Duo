@@ -40,7 +40,7 @@ const Question = ({onRemoveQuestion, qId, name, qType, contentYn, svyContents, s
 
     const onInsert = useCallback(
         e => {
-            console.log("Q next Id : "+ nextId.current)
+            // console.log("Q next Id : "+ nextId.current)
             nextId.current += 1; // nextId 1 씩 더하기
             const qContent = {
                 qContentId: nextId.current,

@@ -94,7 +94,7 @@ export default function SurveyResponse(props) {
     }
 
     useEffect(() => {
-        console.log("Changed svyRespContents: " + JSON.stringify(svyRespContents));
+        // console.log("Changed svyRespContents: " + JSON.stringify(svyRespContents));
         if (svyRespContents.length != 0) {
             setInitContent("true");
         }
@@ -134,7 +134,7 @@ export default function SurveyResponse(props) {
             const data = new Object();
             data.svyId = svyId;
             data.svyRespContent = svyRespContents;
-            console.log("제출되는 설문 응답" + JSON.stringify(svyRespContents));
+            // console.log("제출되는 설문 응답" + JSON.stringify(svyRespContents));
             makeResp(data);
         }
     }

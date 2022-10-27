@@ -135,7 +135,7 @@ export default function SurveyGridList() {
 
   function deleteSvy(svyId){
     deleteSelected(svyId).then(r => {
-      console.log(r);
+    //   console.log(r);
       closeDeleteModal();
       openSuccessModal();
     });
@@ -152,7 +152,7 @@ export default function SurveyGridList() {
   } 
 
   const downloadQr = (svyId) => {
-    console.log(svyId)
+    // console.log(svyId)
   }
 
   const copyUrl = () => {

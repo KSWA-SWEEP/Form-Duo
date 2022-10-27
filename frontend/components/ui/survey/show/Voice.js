@@ -106,7 +106,7 @@ const Voice = (props) => {
 
   const onSubmitAudioFile = useCallback(() => {
     if (audioUrl) {
-      console.log(">> "+URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
+      // console.log(">> "+URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
     }
     // File 생성자를 사용해 파일로 변환
     // const sound = new File([audioUrl], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
@@ -115,7 +115,7 @@ const Voice = (props) => {
 
   useEffect(() => {
         if (audioUrl) {
-            console.log(URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
+            // console.log(URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
             setUrlToPlay(URL.createObjectURL(audioUrl))
         }
     }, [onRec])
