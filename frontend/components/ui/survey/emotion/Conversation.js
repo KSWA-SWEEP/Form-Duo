@@ -78,7 +78,7 @@ export default function Conversation(props) {
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = false;
         try {
-            const msgAnalysis = await axios.post(`https://keon-proxy.herokuapp.com/${API_URL}`, d, {
+            const msgAnalysis = await axios.post(`${API_URL}`, d, {
             maxBodyLength:2000,
             maxContentLength:2000
         });
