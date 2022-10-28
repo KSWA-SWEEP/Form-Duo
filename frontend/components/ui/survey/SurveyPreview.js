@@ -8,12 +8,9 @@ export default function SurveyPreview(props) {
 
     const [svyContents, setSvyContents] = useState(props.svyContents);
     const [svyRespContents, setSvyRespContents] = useState(null);
-    const [svyTitle, setSvyTitle] = useState(props.svyContents.svyTitle);
-    const [svyIntro, setSvyIntro] = useState(props.svyContents.svyIntro);
     const [isLoading, setLoading] = useState(false);
     const [preURL, setPreURL] = useState(props.preURL);
     const router = useRouter();
-
 
     useEffect( () => {
         if (!props.svyResContents) {
@@ -24,11 +21,6 @@ export default function SurveyPreview(props) {
             setSvyRespContents(props.svyResContents);
         }
     }, [])
-
-    // useEffect(() => {
-    //     setLoading(true)
-    //
-    // }, [preURL])
 
     // 설문 응답 포맷 초기화
     function initResContents() {
@@ -44,12 +36,7 @@ export default function SurveyPreview(props) {
     if (isLoading) return <div>Loading</div>;
     if (!svyContents || !svyRespContents || !preURL) return <div>Data is not exist.</div>;
 
-
-    function initPreURL() {
-        setPreURL(props.preURL);
-        setLoading(false);
-    }
-
+    console.log("@@@ svypreview preURL: " + preURL);
     return (
         <div>
             {/* 제목 입력 */}
@@ -62,8 +49,7 @@ export default function SurveyPreview(props) {
 
             <div className="flex justify-center mx-2 rounded-md m-7 ">
                 <a onClick={ () => router.push({
-                    pathname : preURL,
-                    query : {svyId: props.svyId, svyType: props.svyType, preURL: props.preURL}
+                    pathname : preURL
                 })}
                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500"
                 >
