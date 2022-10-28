@@ -13,8 +13,8 @@ import {Dialog, Transition} from "@headlessui/react";
 
 const SignIn =()=> {
     const router = useRouter();
-    const userEmail = useRef("");
-    const userPw = useRef("");
+    const userEmail = useRef("default");
+    const userPw = useRef("default");
     const [acctoken,setAcctoken] = useRecoilState(accToken);
     const [reftoken,setReftoken] = useRecoilState(refToken);
     //로그인 오류 모달
@@ -85,7 +85,7 @@ const SignIn =()=> {
                             alt="FormDuo"
                         />
                         <h2 className="mt-5 text-center text-2xl font-bold tracking-tight text-fdblue">
-                            로그인
+                            로 그 인
                         </h2>
                     </div>
                     <form className="mt-8 space-y-4" method="POST">
@@ -93,7 +93,7 @@ const SignIn =()=> {
                         <div className="-space-y-px rounded-md shadow-sm">
                             <div>
                                 <label htmlFor="email-address" className="sr-only">
-                                    Email address
+                                    email
                                 </label>
                                 <input
                                     id="email-address"
@@ -108,7 +108,7 @@ const SignIn =()=> {
                             </div>
                             <div>
                                 <label htmlFor="password" className="sr-only">
-                                    Password
+                                    password
                                 </label>
                                 <input
                                     id="password"
