@@ -56,6 +56,7 @@ export default function Dropdox(props) {
                 className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 onChange={onChange}
               >
+                <option value="">선택지를 선택해주세요</option>
                 {props.qContents && props.qContents.map((qContent) => {
                   return (
                     <option key={qContent.qContentId} value={qContent.qContentId} >{qContent.qContentVal}</option>
@@ -87,7 +88,7 @@ export default function Dropdox(props) {
                 autoComplete="country-name"
                 className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 defaultValue={props.svyRespContents[index].ansVal[0].qContentId}
-                // disabled={true}
+                disabled={true}
               >
                 {props.qContents && props.qContents.map((qContent, idx) => {
       
