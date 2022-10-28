@@ -85,7 +85,7 @@ const DuoPreview = () => {
     return (
         <>
             <PageTitle title={isResult ? "설문결과" : "설문 미리보기"}/>
-            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} svyResContents = {svyResContents} isModify ={isModify}/>
+            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} svyId={router.query.svyId} svyResContents = {svyResContents} isModify ={isModify} svyType={"duo"}/>
         </>
     );
 };
