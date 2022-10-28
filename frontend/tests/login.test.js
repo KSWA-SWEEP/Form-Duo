@@ -9,17 +9,16 @@ import {waitFor} from '@testing-library/dom'
 describe("signIn page test", () => {
     it('should move to main page when user login succeeded', async () => {
 
-        const mock =  function() {
-            return {
-              observe: jest.fn(),
-              disconnect: jest.fn(),
-            };
-          };
+        // const mock =  function() {
+        //     return {
+        //       observe: jest.fn(),
+        //       disconnect: jest.fn(),
+        //     };
+        //   };
           
-          //--> assign mock directly without jest.fn
-          window.IntersectionObserver = mock;
+        //   window.IntersectionObserver = mock;
 
-        // 실제 로그인 페이지의 경로를 설정하고 테스트를 시작한다.
+
 
 
         // 로그인 페이지를 렌더링한다.
@@ -37,7 +36,7 @@ describe("signIn page test", () => {
 
         const pwdInput = getByLabelText("password")
         fireEvent.change(pwdInput, { target: { value: "test1234" } });
-        fireEvent.blur(password);
+        fireEvent.blur(pwdInput);
         expect(screen.queryByText('비밀번호를 입력해주세요.')).not.toBeInTheDocument();
 
         const submitBtn = screen.getByText("로그인");
