@@ -21,7 +21,7 @@ export default function Objective(props) {
   // console.log("### qContents: " + JSON.stringify(props.qContents));
 
   const updatedSvyRespContents = () => {
-    console.log("## tempAnsVal: " + JSON.stringify(tempAnsVal));
+    // console.log("## tempAnsVal: " + JSON.stringify(tempAnsVal));
     const newList = replaceItemAtIndex(props.svyRespContents, index, {
       ...props.svyRespContents[index],
       ansVal: tempAnsVal,
@@ -79,7 +79,7 @@ export default function Objective(props) {
     )
   }
   else {
-    console.log(props);
+    // console.log(props);
     return (
         <div className="mt-5 border-2 border-gray-100 rounded-2xl shadow-lg">
           <div className="text-lg bg-fdyellowbright text-gray-900 indent-3">

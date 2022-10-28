@@ -8,7 +8,7 @@ export default function Modify() {
     const router = useRouter();
     const { modifyid } = router.query;
     
-    console.log("Modify Console : " + modifyid)
+    // console.log("Modify Console : " + modifyid)
 
     return (
         <>

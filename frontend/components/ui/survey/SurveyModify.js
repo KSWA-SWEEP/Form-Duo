@@ -93,7 +93,7 @@ export default function SurveyModify (props) {
     async function getSurvey(){
       try{
           const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
-          console.log(svyContents);
+        //   console.log(svyContents);
           return svyContents;         
       }catch (e) {
           console.log(e);

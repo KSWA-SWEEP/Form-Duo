@@ -81,18 +81,18 @@ export default function Header () {
   //로그아웃 함수
   async function logOut() {
     sendLogout().then(() => {
-      console.log("acctoken recoil : " + acctoken)
+      // console.log("acctoken recoil : " + acctoken)
       setAcctoken("");
       setReftoken("");
       setCookie("accessToken","");
       setCookie("refreshToken","")
     }).then(()=>{
-      console.log("log out acctoken recoil : " + acctoken)
+      // console.log("log out acctoken recoil : " + acctoken)
     });
     console.log("Logout");
     //check
     // console.log("Acc : " + acctoken);
-    console.log("Cookies : "+JSON.stringify(getCookies()));
+    // console.log("Cookies : "+JSON.stringify(getCookies()));
     closeModal();
     await router.push('/');
   };

@@ -33,7 +33,7 @@ export default function UserInfo() {
   }, [])
 
   useEffect(() => {
-    console.log((userName.length > 0)+" / "+(userEmail.length > 0)+" / "+(!pwdCheckState))
+    // console.log((userName.length > 0)+" / "+(userEmail.length > 0)+" / "+(!pwdCheckState))
     if((userEmail.length > 0)&&(userName.length > 0)&&(pwdCheckState))
     {
       setBtnState(true);

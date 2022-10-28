@@ -41,7 +41,7 @@ const SurveyResult = () => {
         try {
             const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/resp')
             setData(svyContents.data);
-            console.log("@@@: " + JSON.stringify(date));
+            // console.log("@@@: " + JSON.stringify(date));
             // setLoading(false);
             // return svyContents;
         } catch (e) {

@@ -35,19 +35,19 @@ const SignUp = () =>{
 
     const onNameChange = (e) => {
         userName.current = e.target.value;
-        console.log("userPw : "+userName.current);
+        // console.log("userPw : "+userName.current);
     };
     const onEmailChange = (e) => {
         userEmail.current = e.target.value;
-        console.log("Email : "+userEmail.current);
+        // console.log("Email : "+userEmail.current);
     };
     const onPwChange = (e) => {
         userPw.current = e.target.value;
-        console.log("userPw : "+userPw.current);
+        // console.log("userPw : "+userPw.current);
     };
     const onPwChkChange = (e) => {
         userPwChk.current = e.target.value;
-        console.log("userPwChk : "+userPwChk.current);
+        // console.log("userPwChk : "+userPwChk.current);
     };
 
     async function reqSignup(){
@@ -69,17 +69,17 @@ const SignUp = () =>{
         //회원가입 api 호출
         console.log("SignUp Request");
         const data = new Object();
-        console.log("userName : " + userName.current);
-        console.log("userEmail : " + userEmail.current);
-        console.log("userPw : " + userPw.current);
+        // console.log("userName : " + userName.current);
+        // console.log("userEmail : " + userEmail.current);
+        // console.log("userPw : " + userPw.current);
         data.username = userName.current;
         data.email = userEmail.current;
         data.password = userPw.current;
         try{
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/signup", data);
             //check
-            console.log("Result : " + JSON.stringify(result.data));
-            console.log("User email : "+ result.data["email"]);
+            // console.log("Result : " + JSON.stringify(result.data));
+            // console.log("User email : "+ result.data["email"]);
             openModal();
             return <></>;
         }catch (e) {
