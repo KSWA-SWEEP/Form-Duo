@@ -59,17 +59,23 @@ export default function BarChart(props){
 
     // console.log("Ana##00Question : " + JSON.stringify(svyAnsval))
     function setAnaData(){
-        // console.log("Ana##11Question : " + JSON.stringify(svyAnsval))
-        Object.values(svyAnsval).map((question,idx)=>{
-            if(question.length > 0 ){
-                // console.log("Ana##22Question : " + JSON.stringify(question))
-                if(ready)
-                    anaData.current = [...anaData.current, setqData(question,idx)]
-            }
-        })
+        // console.log("ANA### : " + anaData.current.length + "   " + Object.values(svyAnsval).length)
+        if(anaData.current.length < Object.values(svyAnsval).length){
+
+            anaData.current = []
+            // console.log("Ana##11Question : " + JSON.stringify(svyAnsval))
+            Object.values(svyAnsval).map((question,idx)=>{
+                if(question.length > 0 ){
+                    // console.log("Ana##22Question : " + JSON.stringify(question))
+                    if(ready)
+                        anaData.current = [...anaData.current, setqData(question,idx)]
+                }
+            })
+        }
+
     }
     function setqData(question,idx){
-        // console.log("Ana##33Question : " + JSON.stringify(question))
+        console.log("Ana##33Question : " + JSON.stringify(question))
         let q_data = {}
         q_data["index"] = idx+1
         for(var i = 0; i <= question.length ; i++){
@@ -96,7 +102,7 @@ export default function BarChart(props){
         // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
     }).then(()=>{
         anaData.current.map((ana)=>{
-            // console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
+            console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
         })
         console.log("keys : "+ anaData.current.length)
     }).then(()=>{
@@ -115,7 +121,7 @@ export default function BarChart(props){
 
     return (
         // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-        <div style={{ width: '600px', height: '550px', margin: '0 auto' }}>
+        <div style={{ width: '900px', height: '600px', margin: '0 auto' }}>
             <ResponsiveBar
                 /**
                  * chart에 사용될 데이터
@@ -224,32 +230,32 @@ export default function BarChart(props){
                 /**
                  * legend 설정 (default로 우측 하단에 있는 색상별 key 표시)
                  */
-                legends={[
-                    {
-                        dataFrom: 'keys', // 보일 데이터 형태
-                        anchor: 'bottom-right', // 위치
-                        direction: 'column', // item 그려지는 방향
-                        justify: false, // 글씨, 색상간 간격 justify 적용 여부
-                        translateX: 120, // chart와 X 간격
-                        translateY: 0, // chart와 Y 간격
-                        itemsSpacing: 2, // item간 간격
-                        itemWidth: 100, // item width
-                        itemHeight: 20, // item height
-                        itemDirection: 'left-to-right', // item 내부에 그려지는 방향
-                        itemOpacity: 0.85, // item opacity
-                        symbolSize: 20, // symbol (색상 표기) 크기
-                        effects: [
-                            {
-                                // 추가 효과 설정 (hover하면 item opacity 1로 변경)
-                                on: 'hover',
-                                style: {
-                                    itemOpacity: 1,
-                                },
-                            },
-                        ],
-                        onClick: handle.legendClick, // legend 클릭 이벤트
-                    },
-                ]}
+                // legends={[
+                //     {
+                //         dataFrom: 'keys', // 보일 데이터 형태
+                //         anchor: 'bottom-right', // 위치
+                //         direction: 'column', // item 그려지는 방향
+                //         justify: false, // 글씨, 색상간 간격 justify 적용 여부
+                //         translateX: 120, // chart와 X 간격
+                //         translateY: 0, // chart와 Y 간격
+                //         itemsSpacing: 2, // item간 간격
+                //         itemWidth: 100, // item width
+                //         itemHeight: 20, // item height
+                //         itemDirection: 'left-to-right', // item 내부에 그려지는 방향
+                //         itemOpacity: 0.85, // item opacity
+                //         symbolSize: 20, // symbol (색상 표기) 크기
+                //         effects: [
+                //             {
+                //                 // 추가 효과 설정 (hover하면 item opacity 1로 변경)
+                //                 on: 'hover',
+                //                 style: {
+                //                     itemOpacity: 1,
+                //                 },
+                //             },
+                //         ],
+                //         onClick: handle.legendClick, // legend 클릭 이벤트
+                //     },
+                // ]}
             />
         </div>
     );
