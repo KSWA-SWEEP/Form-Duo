@@ -28,7 +28,6 @@ export default function Conversation(props) {
     }, [good_motion, normal_motion, bad_motion])
 
     async function init(){
-        setAllResp(0);
         setBad_motion(0);
         setGood_motion(0);
         setNormal_motion(0);
@@ -50,7 +49,6 @@ export default function Conversation(props) {
                     messages = messages + element.svyRespContent[j].ansVal[0].resp + '|'
                 }
                 msg_Arr.push(messages)
-                setAllResp((prevState)=> prevState + 1)
             })
             setConv_end("Conv Done");
         } catch (e) {
