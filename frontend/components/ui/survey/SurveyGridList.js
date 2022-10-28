@@ -2,7 +2,8 @@ import Link from "next/link"
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 import { Dialog, Menu, Transition } from "@headlessui/react"
 import { Fragment, useState, useEffect } from "react"
-import svyThumbnail from '../../../public/img/svyThumbnail01.png'
+import svyThumbnail1 from '../../../public/img/svyThumbnail1.png'
+import svyThumbnail2 from '../../../public/img/svyThumbnail2.png'
 import axios from "axios"
 import Image from "next/image"
 import Router, { useRouter } from "next/router"
@@ -46,6 +47,8 @@ export default function SurveyGridList() {
   const [today, setToday] = useState(dateToday.toISOString())
   // 설문 전체 데이터
   const [data, setData] = useState(null);
+
+  let imgNum = 1;
 
   useEffect(() => {
       setLoading(true)
@@ -169,16 +172,34 @@ export default function SurveyGridList() {
                       <div className="w-full overflow-hidden rounded-t-lg bg-neutral-200 aspect-w-16 aspect-h-9 xl:aspect-w-16 xl:aspect-h-9">
                           <Link
                               href={{
-                                  pathname: '/survey/result/'+survey.id
+                                  pathname: '/survey/result/'+survey.id,
+                                  query: { svyId: survey.id, svyType: survey.svyType, preURL: currentURL }
                                   }} 
                               className="group"
                               >
-                              <div>
-                                <Image
+                              <div>                          
+                                {/* <Image
                                   className="object-cover object-center w-full h-full"
                                   src={svyThumbnail}
                                   alt="Form Duo"
-                                />
+                                /> */}
+                                {
+                                    (imgNum++)%2 == 0
+                                    ? 
+                                    <Image
+                                    layout="fill"
+                                    className="object-cover object-center w-full h-full"
+                                    src={svyThumbnail1}
+                                    alt="Form Duo"
+                                    />
+                                    : 
+                                    <Image
+                                    layout="fill"
+                                    className="object-cover object-center w-full h-full"
+                                    src={svyThumbnail2}
+                                    alt="Form Duo"
+                                    />
+                                }
                               </div>
                           </Link>
                       </div>
@@ -220,7 +241,7 @@ export default function SurveyGridList() {
                                                           ({ active }) => (
                                                               <Link
                                                                 //   href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.type, preURL: currentURL } }}     // TODO: survey.type 구분 추가 후 변경하기
-                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.id, preURL: currentURL } }}
+                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.svyType, preURL: currentURL } }}
                                                               >
                                                                   <div className={classNames(
                                                                       active ? 'bg-neutral-100' : '',

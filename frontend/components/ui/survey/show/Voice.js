@@ -120,6 +120,25 @@ const Voice = (props) => {
         }
     }, [onRec])
 
+  if (!props.isModify) return (
+    <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
+        <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
+            Question. {props.qNumber}
+        </div>
+        <div className="overflow-hidden shadow rounded-2xl">
+            <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                <legend className="text-base font-medium text-gray-900 contents">{props.qTitle}</legend>
+                <p className="text-sm text-gray-500">{props.qInfo}</p>
+                <div className="flex items-center content-center justify-center"> 
+                    <ReactAudioPlayer
+                        src={props.svyRespContents[index].ansVal.resp}
+                        controls
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+  )
   return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
         <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">

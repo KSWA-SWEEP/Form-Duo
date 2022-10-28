@@ -61,16 +61,37 @@ const ResponseTable = (props) => {
                                     {row.id}
                                 </TableCell>
 
-                                <TableCell align="center">{row.date}</TableCell>
+                                <TableCell align="center">{row.date.substring(0, 10) + " " + row.date.substring(11, 16)}</TableCell>
                                 <TableCell align="center">
-                                    <button onClick={() =>
+                                    {
+                                        props.svyType !== "duo" 
+                                        ? 
+                                        <button onClick={() =>
+                                            router.push({pathname : '/survey/preview/basic',
+    
+                                                            query: {svyId: props.surveyId, svyResId: row.svyResId, svyResContents: JSON.stringify(row.svyRespContent), preURL : '/survey/result/'+props.surveyId},
+    
+                                                            })}
+                                                className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
+                                            확인 </button>
+                                        : 
+                                        <button onClick={() =>
+                                            router.push({pathname : '/survey/preview/duo',
+    
+                                                            query: {svyId: props.surveyId, svyResId: row.svyResId, svyResContents: JSON.stringify(row.svyRespContent), preURL : '/survey/result/'+props.surveyId},
+    
+                                                            })}
+                                                className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
+                                            확인 </button>
+                                    }
+                                    {/* <button onClick={() =>
                                         router.push({pathname : '/survey/preview/basic',
 
                                                         query: {svyId: props.surveyId, svyResId: row.svyResId, svyResContents: JSON.stringify(row.svyRespContent), preURL : '/survey/result/'+props.surveyId},
 
                                                         })}
                                             className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
-                                        확인 </button>
+                                        확인 </button> */}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -79,7 +100,7 @@ const ResponseTable = (props) => {
             </TableContainer>
             <Pagination defaultValue={LAST_PAGE} defaultPage={1} boundaryCount={2}
                         size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)}
-                        className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap  hover:scale-105"/>
+                        className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap hover:scale-105"/>
         </Stack>
     );
 };
