@@ -66,15 +66,73 @@ export default function SurveyGridList() {
       setLoading(true)
       setIsTokenExist(getCookies("accessToken"))
       getSvyList().then(r => {
-        setSvyList(r.data)
-        setData(r.data)
+          if(r == undefined){
+              setData(null)
+          } else {
+              setSvyList(r.data)
+              setData(r.data)
+          }
       });
    }, []);
    
    if (!data || data.length === 0) return (
     <div className="bg-white">
-        <div className="max-w-2xl px-4 py-8 mx-auto mt-10 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
-            <div align="center">
+      <div className="max-w-2xl px-4 py-8 mx-auto sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="mt-5 mb-7">
+                <Tab.Group
+                    onChange={(index) => {
+                        if(index == 0) {
+                            getSvyList().then(r => {
+                                if(r == undefined){
+                                    setData(null)
+                                } else {
+                                    setSvyList(r.data)
+                                    setData(r.data)
+                                }
+                            });
+                        }
+                        if(index == 1) {
+                            getSvyListByType("basic").then(r => {
+                                if(r == undefined){
+                                    setData(null)
+                                } else {
+                                    setSvyList(r.data)
+                                    setData(r.data)
+                                }
+                            });
+                        }
+                        if(index == 2) {
+                            getSvyListByType("duo").then(r => {
+                                if(r == undefined){
+                                    setData(null)
+                                } else {
+                                    setSvyList(r.data)
+                                    setData(r.data)
+                                }
+                            });
+                        }
+                    }}>
+                    <Tab.List className="flex p-1 space-x-1 bg-blue-900/5 rounded-xl">
+                    {Object.keys(categories).map((category) => (
+                        <Tab
+                        key={category}
+                        className={({ selected }) =>
+                            classNames(
+                            'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
+                            'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2',
+                            selected
+                                ? 'text-white bg-blue-900/40'
+                                : 'text-neutral-500 hover:bg-blue-900/20 hover:text-fdbluedark'
+                            )
+                        }
+                        >
+                        {category}
+                        </Tab>
+                    ))}
+                    </Tab.List>
+                </Tab.Group>
+            </div>
+            <div align="center" className="mt-10">
                 <h3>등록된 설문이 없습니다</h3>
             </div>
         </div>
@@ -199,15 +257,23 @@ export default function SurveyGridList() {
                     if(index == 1) {
                         console.log("Type basic")
                         getSvyListByType("basic").then(r => {
-                            setSvyList(r.data)
-                            setData(r.data)
+                            if(r == undefined){
+                                setData(null)
+                            } else {
+                                setSvyList(r.data)
+                                setData(r.data)
+                            }
                           });
                     }
                     if(index == 2) {
                         console.log("Type duo")
                         getSvyListByType("duo").then(r => {
-                            setSvyList(r.data)
-                            setData(r.data)
+                            if(r == undefined){
+                                setData(null)
+                            } else {
+                                setSvyList(r.data)
+                                setData(r.data)
+                            }
                           });
                     }
 

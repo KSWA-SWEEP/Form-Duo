@@ -98,7 +98,7 @@ const ResponseTable = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Pagination defaultValue={LAST_PAGE} defaultPage={1} boundaryCount={2}
+            <Pagination count={LAST_PAGE} defaultPage={1} boundaryCount={2}
                         size="large" sx={{margin: 2}} onChange={(e) => handlePage(e)}
                         className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap hover:scale-105"/>
         </Stack>

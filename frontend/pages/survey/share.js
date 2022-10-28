@@ -1,7 +1,7 @@
 const Share = () => {
     return (
         <>
-            <h1>Share</h1>
+            <h1 data-testid="share">Share</h1>
         </>
     );
 };
