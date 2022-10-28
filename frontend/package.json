@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -27,6 +27,7 @@
     "dotenv-webpack": "^8.0.1",
     "framer-motion": "^5.0.0",
     "intercept-stdout": "^0.1.2",
+    "jest": "^29.2.2",
     "next": "12.3.1",
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
@@ -44,7 +45,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "autoprefixer": "^10.4.12",
-    "eslint": "8.24.0",
+    "eslint": "8.22.0",
     "eslint-config-next": "12.3.1",
     "jest": "^29.2.2",
     "jest-environment-jsdom": "^29.2.2",
@@ -52,5 +53,5 @@
     "tailwindcss": "^3.1.8",
     "uuid": "^9.0.0"
   },
-  "proxy": "http://210.109.60.247:10001"
+  "proxy": "https://formduo-api.ddns.net:8080"
 }

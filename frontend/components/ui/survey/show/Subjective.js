@@ -52,8 +52,8 @@ export default function Subjective(props) {
                                 id="about"
                                 name="about"
                                 rows={3}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                placeholder="you@example.com"
+                                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="답변 내용을 입력하세요"
                                 value={answer}
                                 onChange={onChange}
                             />
@@ -78,8 +78,8 @@ export default function Subjective(props) {
                                 id="about"
                                 name="about"
                                 rows={3}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                placeholder="you@example.com"
+                                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="답변 내용을 입력하세요"
                                 value={props.svyRespContents[index].ansVal[0].resp}
                                 readOnly={true}
                             />

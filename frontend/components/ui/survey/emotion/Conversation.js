@@ -2,6 +2,112 @@ import axios from "axios";
 import React, { Fragment, useState, useEffect } from "react";
 import {getCookie} from "cookies-next";
 import Piechart from "./PieChart";
+
+export default function Conversation(props) {
+    
+    const [good_motion, setGood_motion] = useState(0);
+    const [bad_motion, setBad_motion] = useState(0);
+    const [normal_motion, setNormal_motion] = useState(0);
+    const [conv_end, setConv_end] = useState("!@!");
+    var msg_Arr = [];
+
+    const data = new Object();
+
+    useEffect(()=>{
+        init();
+        getConversation()
+        .then(()=>{
+            if(conv_end != "!@!"){
+                getEmotion2();
+            }
+        })
+    }, [conv_end])
+
+    useEffect(() => {
+        
+    }, [good_motion, normal_motion, bad_motion])
+
+    async function init(){
+        setAllResp(0);
+        setBad_motion(0);
+        setGood_motion(0);
+        setNormal_motion(0);
+    }
+
+    async function getConversation() {
+        axios.defaults.headers = {
+            'Content-Type': "application/json",
+            "Authorization": "Bearer " + getCookie("accessToken"),
+        };
+        axios.defaults.mode = "cors";
+        axios.defaults.withCredentials = true;
+        try {
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
+            msg_Arr = [];
+            result.data.map(function(element){
+                let messages = "";
+                for ( let j = 0; j < element.svyRespContent.length; j++){
+                    messages = messages + element.svyRespContent[j].ansVal[0].resp + '|'
+                }
+                msg_Arr.push(messages)
+                setAllResp((prevState)=> prevState + 1)
+            })
+            setConv_end("Conv Done");
+        } catch (e) {
+            return <error/>
+        }
+    }
+
+    async function getEmotion2 () {
+        getConversation(); 
+        try{
+            for (let i = 0; i < msg_Arr.length; i++){
+                data.msg=msg_Arr[i];
+                axios.defaults.headers = {
+                    'Content-Type': "application/json",
+                    "Authorization": "Bearer " + getCookie("accessToken"),
+                };
+                axios.defaults.mode = "cors";
+                axios.defaults.withCredentials = true;
+                const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/conv', data);
+                switch(result.data.emotion){
+                    case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
+                    case "놀람" : setGood_motion((prevState) => prevState+1); break;
+                    case "두려움" : setBad_motion((prevState) => prevState+1); break;
+                    case "불확실" : setNormal_motion((prevState) => prevState+1); break;
+                    case "슬픔" : setBad_motion((prevState) => prevState+1); break;
+                    case "싫음" : setBad_motion((prevState) => prevState+1); break;
+                    case "좋음" : setGood_motion((prevState) => prevState+1); break;
+                    case "지루함" : setBad_motion((prevState) => prevState+1); break;
+                    case "창피함" : setNormal_motion((prevState) => prevState+1); break;
+                    default : console.log("Switch Error")
+                }
+            }
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    return (
+        <div>
+            <p className="lg:text-center mt-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
+                    응답 발화 분석 차트
+                </p>
+            <Piechart 
+            good_motion = {good_motion}
+            bad_motion = {bad_motion}
+            normal_motion = {normal_motion}
+            />
+        </div>    
+    )
+}
+
+/*
+
+import axios from "axios";
+import React, { Fragment, useState, useEffect } from "react";
+import {getCookie} from "cookies-next";
+import Piechart from "./PieChart";
 import error from "./Error";
 
 export default function Conversation(props) {
@@ -44,20 +150,19 @@ export default function Conversation(props) {
     }
 
     async function getConversation() {
-        console.log("Get ConverSATION ! ! !  ! !")
         axios.defaults.headers = {
             'Content-Type': "application/json",
             "Authorization": "Bearer " + getCookie("accessToken"),
         };
         axios.defaults.mode = "cors";
         axios.defaults.withCredentials = true;
-        console.log("Survey ID : " + props.surveyId);
+        // console.log("Survey ID : " + props.cvId);
         try {
             // default surveyId 191로 확인. 현재 주관식 문항 하나만 있는 설문에서만 사용 가능.
             // 그리고 현재 localhost:3000 or 공인아이피 둘 중 하나에서만 확인 가능. CORS 프록시 우회 IP가 하나밖에 설정이 안 됨.
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/191/resp`);
+            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
             let messages = "";
-            console.log(result)
+            // console.log(result)
             result.data.map(function(element){
                 for (var i = 0; i < element.svyRespContent.length; i++){
                     messages = messages + element.svyRespContent[i].ansVal[0].resp + '|'
@@ -65,7 +170,7 @@ export default function Conversation(props) {
                 setAllResp((prevState)=> prevState + 1)
             })
             setMsg(messages)
-            console.log(messages) // 정상
+            // console.log(messages) // 정상
         } catch (e) {
             return <error/>
         }
@@ -92,7 +197,7 @@ export default function Conversation(props) {
       
       async function getEmotion(){
         postData(data).then(r => {
-            console.log(r.data)    
+            // console.log(r.data)    
             for (var i = 0; i < allResp; i++){
                 switch(r.data[i].emotion.value){
                     case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
@@ -123,3 +228,4 @@ export default function Conversation(props) {
         </div>    
     )
 }
+*/

@@ -106,7 +106,7 @@ const Voice = (props) => {
 
   const onSubmitAudioFile = useCallback(() => {
     if (audioUrl) {
-      console.log(">> "+URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
+      // console.log(">> "+URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
     }
     // File 생성자를 사용해 파일로 변환
     // const sound = new File([audioUrl], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
@@ -115,11 +115,30 @@ const Voice = (props) => {
 
   useEffect(() => {
         if (audioUrl) {
-            console.log(URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
+            // console.log(URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
             setUrlToPlay(URL.createObjectURL(audioUrl))
         }
     }, [onRec])
 
+  if (!props.isModify) return (
+    <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
+        <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">
+            Question. {props.qNumber}
+        </div>
+        <div className="overflow-hidden shadow rounded-2xl">
+            <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+                <legend className="text-base font-medium text-gray-900 contents">{props.qTitle}</legend>
+                <p className="text-sm text-gray-500">{props.qInfo}</p>
+                <div className="flex items-center content-center justify-center"> 
+                    <ReactAudioPlayer
+                        src={props.svyRespContents[index].ansVal.resp}
+                        controls
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+  )
   return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">
         <div className="text-lg text-gray-900 bg-fdyellowbright indent-3">

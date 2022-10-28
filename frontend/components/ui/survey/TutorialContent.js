@@ -16,6 +16,7 @@ import list from "../../../public/img/tutorial/list.png"
 import listSvy from "../../../public/img/tutorial/list-svy.png"
 import listShare from "../../../public/img/tutorial/list-share.png"
 import listAnalyze from "../../../public/img/tutorial/list-analyze.png"
+import analyze_chart from "../../../public/img/tutorial/AnalyzeChart.png"
 
 export default function TutorialContent() {
     return (
@@ -240,6 +241,21 @@ export default function TutorialContent() {
                     <Image
                         src={listAnalyze}
                         className="col-span-1" />
+                </div>
+            </LazyShow >
+            <LazyShow>
+                <div className="grid items-center grid-cols-2 mb-20">
+                    <Image
+                        src={analyze_chart}
+                        className="col-span-1" />
+                    <div className='col-span-1 ml-10'>
+                        <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-gray-900 sm:text-4xl">
+                            Step 9
+                        </p>
+                        <p className='text-xl leading-loose text-gray-600'>
+                            설문 응답에 대한 발화 분석을 통해<br />한 눈에 설문에 대한 평가를 볼 수 있습니다.
+                        </p>
+                    </div>
                 </div>
             </LazyShow >
         </div >

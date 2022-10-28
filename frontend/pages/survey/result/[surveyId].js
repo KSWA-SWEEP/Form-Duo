@@ -25,7 +25,6 @@ const SurveyResult = () => {
         //
         if (!router.isReady) return;
         else {
-            console.log("@@@: " + Object.values(router.query));
             setSurveyId(Object.values(router.query)[0]);
             // getContents(surveyId).then(r => setLoading(false));
             setSurveyType(Object.values(router.query)[1]);
@@ -42,6 +41,7 @@ const SurveyResult = () => {
         try {
             const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/resp')
             setData(svyContents.data);
+            // console.log("@@@: " + JSON.stringify(date));
             // setLoading(false);
             // return svyContents;
         } catch (e) {
@@ -64,9 +64,8 @@ const SurveyResult = () => {
     )
 
     else {
-        if (surveyType === "503") return (
+        if (surveyType === "duo") return (
             <div>
-                듀오입니다
                 <div>
                     <div className="py-1 mt-1 overflow-auto bg-white rounded-md shadow-lg max-h-30 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 

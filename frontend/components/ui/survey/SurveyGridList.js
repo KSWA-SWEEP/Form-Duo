@@ -2,7 +2,8 @@ import Link from "next/link"
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline'
 import { Dialog, Menu, Transition } from "@headlessui/react"
 import { Fragment, useState, useEffect } from "react"
-import svyThumbnail from '../../../public/img/svyThumbnail01.png'
+import svyThumbnail1 from '../../../public/img/svyThumbnail1.png'
+import svyThumbnail2 from '../../../public/img/svyThumbnail2.png'
 import axios from "axios"
 import Image from "next/image"
 import Router, { useRouter } from "next/router"
@@ -10,6 +11,12 @@ import ReactDOM from 'react-dom';
 import QR from "qrcode.react";
 import { getCookie, getCookies } from "cookies-next"
 import Loading from "../../common/Loading"
+import { Tab } from '@headlessui/react'
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
@@ -46,6 +53,14 @@ export default function SurveyGridList() {
   const [today, setToday] = useState(dateToday.toISOString())
   // 설문 전체 데이터
   const [data, setData] = useState(null);
+  
+  let [categories] = useState({
+    "전체 설문": [],
+    "일반 설문": [],
+    "듀오 설문": [],
+  })
+
+  let imgNum = 1;
 
   useEffect(() => {
       setLoading(true)
@@ -70,6 +85,18 @@ export default function SurveyGridList() {
   async function getSvyList(){
     try{
         const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
+                'Content-Type': "application/json",
+                "Authorization": "Bearer " + getCookie("accessToken"),
+            }});
+        return result;
+    }catch (e) {
+        console.log(e);
+    }
+  } 
+
+  async function getSvyListByType(type){
+    try{
+        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/type?type='+type, {headers : {
                 'Content-Type': "application/json",
                 "Authorization": "Bearer " + getCookie("accessToken"),
             }});
@@ -132,7 +159,7 @@ export default function SurveyGridList() {
 
   function deleteSvy(svyId){
     deleteSelected(svyId).then(r => {
-      console.log(r);
+    //   console.log(r);
       closeDeleteModal();
       openSuccessModal();
     });
@@ -149,7 +176,7 @@ export default function SurveyGridList() {
   } 
 
   const downloadQr = (svyId) => {
-    console.log(svyId)
+    // console.log(svyId)
   }
 
   const copyUrl = () => {
@@ -160,6 +187,53 @@ export default function SurveyGridList() {
   return (
     <div className="bg-white">
       <div className="max-w-2xl px-4 py-8 mx-auto sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+        <div className="mt-5 mb-7">
+            <Tab.Group
+                onChange={(index) => {
+                    if(index == 0) {
+                        getSvyList().then(r => {
+                            setSvyList(r.data)
+                            setData(r.data)
+                          });
+                    }
+                    if(index == 1) {
+                        console.log("Type basic")
+                        getSvyListByType("basic").then(r => {
+                            setSvyList(r.data)
+                            setData(r.data)
+                          });
+                    }
+                    if(index == 2) {
+                        console.log("Type duo")
+                        getSvyListByType("duo").then(r => {
+                            setSvyList(r.data)
+                            setData(r.data)
+                          });
+                    }
+
+                    console.log(data);
+                }}>
+                <Tab.List className="flex p-1 space-x-1 bg-blue-900/5 rounded-xl">
+                {Object.keys(categories).map((category) => (
+                    <Tab
+                    key={category}
+                    className={({ selected }) =>
+                        classNames(
+                        'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
+                        'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2',
+                        selected
+                            ? 'text-white bg-blue-900/40'
+                            : 'text-neutral-500 hover:bg-blue-900/20 hover:text-fdbluedark'
+                        )
+                    }
+                    >
+                    {category}
+                    </Tab>
+                ))}
+                </Tab.List>
+            </Tab.Group>
+        </div>
+        
         <h2 className="sr-only">surveys</h2>
 
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
@@ -169,16 +243,34 @@ export default function SurveyGridList() {
                       <div className="w-full overflow-hidden rounded-t-lg bg-neutral-200 aspect-w-16 aspect-h-9 xl:aspect-w-16 xl:aspect-h-9">
                           <Link
                               href={{
-                                  pathname: '/survey/result/'+survey.id
+                                  pathname: '/survey/result/'+survey.id,
+                                  query: { svyId: survey.id, svyType: survey.svyType, preURL: currentURL }
                                   }} 
                               className="group"
                               >
-                              <div>
-                                <Image
+                              <div>                          
+                                {/* <Image
                                   className="object-cover object-center w-full h-full"
                                   src={svyThumbnail}
                                   alt="Form Duo"
-                                />
+                                /> */}
+                                {
+                                    (imgNum++)%2 == 0
+                                    ? 
+                                    <Image
+                                    layout="fill"
+                                    className="object-cover object-center w-full h-full"
+                                    src={svyThumbnail1}
+                                    alt="Form Duo"
+                                    />
+                                    : 
+                                    <Image
+                                    layout="fill"
+                                    className="object-cover object-center w-full h-full"
+                                    src={svyThumbnail2}
+                                    alt="Form Duo"
+                                    />
+                                }
                               </div>
                           </Link>
                       </div>
@@ -220,7 +312,7 @@ export default function SurveyGridList() {
                                                           ({ active }) => (
                                                               <Link
                                                                 //   href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.type, preURL: currentURL } }}     // TODO: survey.type 구분 추가 후 변경하기
-                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + "basic" : item.href + survey.id, query: { svyId: survey.id, svyType: survey.id, preURL: currentURL } }}
+                                                                  href={{ pathname: item.href === '/survey/preview/' ? item.href + survey.svyType : item.href + survey.id, query: { svyId: survey.id, svyType: survey.svyType, preURL: currentURL } }}
                                                               >
                                                                   <div className={classNames(
                                                                       active ? 'bg-neutral-100' : '',

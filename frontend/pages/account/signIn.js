@@ -8,7 +8,7 @@ import axios from "axios";
 import {accToken} from '../../atoms/accToken'
 import {refToken} from '../../atoms/refToken'
 import { useRouter } from 'next/router'
-import {setCookie} from "cookies-next";
+import {getCookie, setCookie} from "cookies-next";
 import {Dialog, Transition} from "@headlessui/react";
 
 const SignIn =()=> {
@@ -28,17 +28,17 @@ const SignIn =()=> {
 
     const onEmailChange = (e) => {
         userEmail.current = e.target.value;
-        console.log("Email : "+userEmail.current);
+        // console.log("Email : "+userEmail.current);
     };
     const onPwChange = (e) => {
         userPw.current = e.target.value;
-        console.log("userPw : "+userPw.current);
+        // console.log("userPw : "+userPw.current);
     };
 
     async function reqLogin(){
         //로그인 입력 확인
-        console.log("userEmail : " + userEmail.current);
-        console.log("userPw : " + userPw.current);
+        // console.log("userEmail : " + userEmail.current);
+        // console.log("userPw : " + userPw.current);
         if(!userEmail.current){
             alert("이메일을 입력해주세요.");
             return <SignIn></SignIn>;
@@ -50,17 +50,17 @@ const SignIn =()=> {
 
         //로그인 api 호출
         const data = new Object();
-        console.log("userEmail : " + userEmail.current);
-        console.log("userPw : " + userPw.current);
+        // console.log("userEmail : " + userEmail.current);
+        // console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
         data.password = userPw.current;
         try{
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/login", data);
 
-            console.log("Result : " + JSON.stringify(result.data));
-            console.log("accessToken : "+ result.data["accessToken"]);
-            console.log("refreshToken : "+ result.data["refreshToken"]);
-
+            // console.log("Result : " + JSON.stringify(result.data));
+            // console.log("accessToken : "+ result.data["accessToken"]);
+            // console.log("refreshToken : "+ result.data["refreshToken"]);
+            // console.log(getCookie("access_token"))
             setAcctoken(result.data["accessToken"]);
             setReftoken(result.data["refreshToken"]);
             setCookie("accessToken",result.data["accessToken"])

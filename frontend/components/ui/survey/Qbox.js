@@ -238,14 +238,14 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
 
     const handlePage = (event) => {
         const nowPageInt = parseInt(event.target.outerText);
-        console.log("Now Page : "+ event.target.getLabelText)
-        console.log("Now Page : "+nowPageInt)
+        // console.log("Now Page : "+ event.target.getLabelText)
+        // console.log("Now Page : "+nowPageInt)
         setPage(nowPageInt);
     }
 
 
     const tabChanged = (e) => {
-        console.log("tab change : " + e.target.name)
+        // console.log("tab change : " + e.target.name)
         setNowTab(e.target.name);
         setPage(1);
     }

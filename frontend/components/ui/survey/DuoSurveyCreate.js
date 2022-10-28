@@ -8,6 +8,8 @@ import Link from "next/link.js";
 import axios from "axios";
 import { useRouter } from 'next/router'
 import DatePicker from "react-datepicker";
+import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
+import { useRecoilState } from "recoil";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -32,6 +34,7 @@ export default function BasicSurveyCreate () {
     const [svyEndDt, setSvyEndDt] = useState(Today)
     const [svyEndMsg, setSvyEndMsg] = useState("")
     const [svyRespMax, setSvyRespMax] = useState(100)
+    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState)
 
     useEffect(() => {
         if (svyStartDt > svyEndDt) {
@@ -106,8 +109,8 @@ export default function BasicSurveyCreate () {
         if(svyTitle != "") {
             data.svyTitle = svyTitle
         } else {
-            Today = new Date();
-            let tempTitle = Today.toISOString().substring(0, 10) + " " + Today.toISOString().substring(12, 16) + " 생성 설문";
+            let now = new Date();
+            let tempTitle = now.toISOString().substring(0, 10) + " " + now.toISOString().substring(11, 16) + " 생성 설문";
             data.svyTitle = tempTitle
         }
         data.svyIntro = svyIntro;
@@ -118,6 +121,7 @@ export default function BasicSurveyCreate () {
         data.svySt = "";
         data.svyRespMax = svyRespMax;
         data.svyRespCount = 0;
+        data.svyType="duo";
 
         if (isSettingModalOpen) {
             closeSettingModal();
@@ -162,9 +166,10 @@ export default function BasicSurveyCreate () {
 
     function showPreview() {
         const data = saveDuoSurvey();
+        setGlbSvyContents(data);
         router.push({
-            pathname: '/survey/preview/basic',
-            query: { svyContent: JSON.stringify(data), preURL: currentURL }
+            pathname: '/survey/preview/duo',
+            query: { svyContent: JSON.stringify(data), preURL: currentURL, create: true }
         });
     }
 
@@ -174,7 +179,9 @@ export default function BasicSurveyCreate () {
             {/* 제목 입력 */}
             <SurveyTitleInput bgColor="bg-fdyellowbright"
                               setSvyTitle={onTitleChange}
-                              setSvyIntro={onIntroChange}
+                              setSvyIntro={onIntroChange}  
+                              receiveIntro={glbSvyContents.svyIntro}
+                              receiveTitle={glbSvyContents.svyTitle}
             />
             
             {/* 문항 목록 */}
@@ -277,15 +284,11 @@ export default function BasicSurveyCreate () {
                     </Link>
                 </div>
                 <div className="inline-flex mx-2 ml-3 rounded-md shadow">
-                    <Link 
-                        href={{
-                            pathname: '/survey/preview/basic'
-                        }} 
-                    > 
-                    <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
-                        설문 미리보기
-                    </div>
-                    </Link>
+                    <button onClick={showPreview}>
+                        <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-gray-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
+                            설문 미리보기
+                        </div>
+                    </button>
                 </div>
                 <div className="inline-flex mx-2 rounded-md shadow">
                     <a

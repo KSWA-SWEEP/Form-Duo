@@ -35,21 +35,21 @@ const BasicPreview = () => {
                 if (!query.hasOwnProperty("svyResId") && !query.hasOwnProperty("svyContent")) {
                     // 설문 목록에서 실행한 미리보기인 경우
                     await getSurvey(query.svyId);
-                    console.log("목록 미리보기인 경우");
+                    // console.log("목록 미리보기인 경우");
                     setLoading(false);
                 } else if (query.hasOwnProperty("svyResId")) {
                     // 설문 결과에서 실행한 미리보기인 경우
                     await getSurvey(query.svyId);
                     setSvyResContents(JSON.parse(query.svyResContents));
                     setIsResult(true);
-                    console.log(query.svyResContents);
-                    console.log("결과분석인 경우");
+                    // console.log(query.svyResContents);
+                    // console.log("결과분석인 경우");
                     setLoading(false);
                 } else {
                     // 설문 생성에서 실행한 미리보기인 경우
                     setSvyContents(JSON.parse(query.svyContent));
-                    console.log(svyContents);
-                    console.log("생성에서 미리보기인 경우");
+                    // console.log(svyContents);
+                    // console.log("생성에서 미리보기인 경우");
                     setLoading(false);
                     setIsModify(false);
                 }
@@ -85,7 +85,7 @@ const BasicPreview = () => {
     return (
         <>
             <PageTitle title={isResult ? "설문결과" : "설문 미리보기"}/>
-            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} svyResContents = {svyResContents} isModify ={isModify}/>
+            <SurveyPreview svyContents={svyContents} preURL={router.query.preURL} svyId={router.query.svyId} svyResContents = {svyResContents} isModify ={isModify}/>
         </>
     );
 };
