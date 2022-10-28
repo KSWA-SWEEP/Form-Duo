@@ -9,18 +9,6 @@ import {waitFor} from '@testing-library/dom'
 describe("signIn page test", () => {
     it('should move to main page when user login succeeded', async () => {
 
-        // const mock =  function() {
-        //     return {
-        //       observe: jest.fn(),
-        //       disconnect: jest.fn(),
-        //     };
-        //   };
-          
-        //   window.IntersectionObserver = mock;
-
-
-
-
         // 로그인 페이지를 렌더링한다.
         const { getByLabelText } = render(
             <RecoilRoot>
@@ -41,11 +29,6 @@ describe("signIn page test", () => {
 
         const submitBtn = screen.getByText("로그인");
         fireEvent.click(submitBtn);
-
-        // // 로그인 버튼이 화면에서 없어질 때까지 기다린다.
-        // await waitFor(() => {
-        //     expect(screen.getByText("로 그 인")).not.toBeInTheDocument();
-        // });
 
         // 로그인 성공 후 페이지 이동을 확인한다.
         await waitFor(() => {

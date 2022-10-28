@@ -118,12 +118,12 @@ export default function Header () {
                               <Image
                                   className="w-auto h-12 mr-3"
                                   src={logoIcon}
-                                  alt="Form Duo"
+                                  alt="Form Duo logoIcon"
                               />
                               <Image
                                   className="w-auto h-10"
                                   src={logoMixed}
-                                  alt="Form Duo"
+                                  alt="Form Duo logoMixed"
                               />
                             </div>
                           </Link>

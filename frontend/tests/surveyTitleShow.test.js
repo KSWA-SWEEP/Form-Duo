@@ -17,20 +17,5 @@ describe("surveyTitleShow", () => {
         expect(screen.queryByTestId("intro")).toBeInTheDocument();
     });
 
-    // // check title and intro
-    // it("title and intro test", async () => {
-
-    //     render(
-    //         <RecoilRoot>
-    //             <SurveyTitleShow />
-    //         </RecoilRoot>
-    //     );
-
-    //     const title = screen.queryByTestId("title");
-    //     const intro = screen.queryByTestId("intro");
-
-    //     expect(title).toHaveTextContent("제목입니당");
-
-    // });
 });
 

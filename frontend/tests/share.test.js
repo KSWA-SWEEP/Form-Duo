@@ -12,7 +12,6 @@ describe("share", () => {
             </RecoilRoot>
         );
 
-        // check if all components are rendered
         expect(screen.queryByTestId("share")).toBeInTheDocument();
 
     });
