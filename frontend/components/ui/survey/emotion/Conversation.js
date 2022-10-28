@@ -2,12 +2,9 @@ import axios from "axios";
 import React, { Fragment, useState, useEffect } from "react";
 import {getCookie} from "cookies-next";
 import Piechart from "./PieChart";
-import error from "./Error";
 
 export default function Conversation(props) {
     
-    const [msg, setMsg] = useState("!@!");
-    const [allResp, setAllResp] = useState(0);
     const [good_motion, setGood_motion] = useState(0);
     const [bad_motion, setBad_motion] = useState(0);
     const [normal_motion, setNormal_motion] = useState(0);
@@ -46,7 +43,6 @@ export default function Conversation(props) {
         axios.defaults.withCredentials = true;
         try {
             const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
-            console.log(result)
             msg_Arr = [];
             result.data.map(function(element){
                 let messages = "";
@@ -57,7 +53,6 @@ export default function Conversation(props) {
                 setAllResp((prevState)=> prevState + 1)
             })
             setConv_end("Conv Done");
-            console.log(msg_Arr) // 정상
         } catch (e) {
             return <error/>
         }
@@ -65,11 +60,8 @@ export default function Conversation(props) {
 
     async function getEmotion2 () {
         getConversation(); 
-        console.log("Get Emotion 2 Started")
         try{
-            console.log(msg_Arr)
             for (let i = 0; i < msg_Arr.length; i++){
-                console.log("Msg : " + msg_Arr[i])
                 data.msg=msg_Arr[i];
                 axios.defaults.headers = {
                     'Content-Type': "application/json",
@@ -77,9 +69,7 @@ export default function Conversation(props) {
                 };
                 axios.defaults.mode = "cors";
                 axios.defaults.withCredentials = true;
-                console.log(data)
                 const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/conv', data);
-                console.log(result.data.emotion);
                 switch(result.data.emotion){
                     case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
                     case "놀람" : setGood_motion((prevState) => prevState+1); break;
