@@ -1,7 +1,108 @@
 import * as React from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 
-export  default  function BarChart() {
+import {useEffect, useRef, useState} from "react";
+import { ResponsivePie } from '@nivo/pie';
+import axios from "axios";
+
+export default function BarChart(props){
+
+    const svyCont = useRef(); // Question 정보
+    let svyAnsval = {};
+
+    //객관식, checkbox, drop box
+    //설문 전체 form 받기
+    async function getSurvey(){
+        try{
+            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.resContents[0].svyId);
+            // console.log("Ana##svyContents : " + JSON.stringify(svyContents));
+            return svyContents;
+        }catch (e) {
+            console.log(e);
+        }
+    }
+    function setSvyAnsval(){
+        svyCont.current.map((svyQ)=>{
+            svyAnsval[svyQ.qId] = []
+            if(svyQ.contentYn && svyQ.qContents !== undefined){
+                console.log("Ana##qCont : " + JSON.stringify(svyQ))
+                const qCont = svyQ.qContents
+                // console.log("Ana##qCont : " + JSON.stringify(qCont))
+                qCont.map((contents)=>{
+                    let contValue = contents.qContentVal
+                    svyAnsval[svyQ.qId] = [...svyAnsval[svyQ.qId] ,{ key : contValue, value : 0}]
+                })
+            }
+        })
+    }
+    function ansCount(){
+        props.resContents.map((resC)=>{
+            // console.log("Ana##resC : "+JSON.stringify(resC))
+            resC.svyRespContent.map((respCont)=>{
+                if(respCont.qType !== "Subjective"){
+                    respCont.ansVal.map((ans)=>{
+                        svyAnsval[respCont.qId].map((res, idx)=>{
+                            if(res.key === ans.resp){
+                                // console.log("Ana##respCont : " + svyAnsval[respCont.qId][idx].key + "   " + ans.resp + "    " + res.key)
+                                svyAnsval[respCont.qId][idx].value++;
+                            }
+                        })
+                    })
+                }
+            })
+        })
+    }
+
+    const anaData = useRef([])
+    const keys = useRef([])
+    const [ready, setReady] = useState(true)
+
+    // console.log("Ana##00Question : " + JSON.stringify(svyAnsval))
+    function setAnaData(){
+        // console.log("Ana##11Question : " + JSON.stringify(svyAnsval))
+        Object.values(svyAnsval).map((question,idx)=>{
+            if(question.length > 0 ){
+                // console.log("Ana##22Question : " + JSON.stringify(question))
+                if(ready)
+                    anaData.current = [...anaData.current, setqData(question,idx)]
+            }
+        })
+    }
+    function setqData(question,idx){
+        // console.log("Ana##33Question : " + JSON.stringify(question))
+        let q_data = {}
+        q_data["index"] = idx+1
+        for(var i = 0; i <= question.length ; i++){
+            if(i == question.length){
+                return q_data
+            }
+            // q_data[i] = {}
+            keys.current = [...keys.current, question[i].key]
+            // console.log("Ana##ITEM : " + question[i].key)
+            q_data[question[i].key] = question[i].value
+
+        }
+    }
+
+    getSurvey().then((r)=>{
+        svyCont.current = r.data.svyContent;
+        // console.log("Ana##svyContents : "+JSON.stringify(svyCont.current))
+    }).then(()=>{
+        setSvyAnsval()
+    }).then(()=>{
+        ansCount()
+    }).then(()=>{
+        setAnaData()
+        // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
+    }).then(()=>{
+        anaData.current.map((ana)=>{
+            // console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
+        })
+        console.log("keys : "+ anaData.current.length)
+    }).then(()=>{
+        setReady(false)
+    })
+
     const handle = {
         barClick: (data) => {
             // console.log(data);
@@ -14,24 +115,20 @@ export  default  function BarChart() {
 
     return (
         // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-        <div style={{ width: '600px', height: '350px', margin: '0 auto' }}>
+        <div style={{ width: '600px', height: '550px', margin: '0 auto' }}>
             <ResponsiveBar
                 /**
                  * chart에 사용될 데이터
                  */
-                data={[
-                    { bottle: '365ml', cola: 1200, cidar: 1000, fanta: 1100 },
-                    { bottle: '500ml', cola: 2200, cidar: 2000, fanta: 2100 },
-                    { bottle: '1000ml', cola: 3200, cidar: 3000, fanta: 3100 },
-                ]}
+                data={anaData.current}
                 /**
                  * chart에 보여질 데이터 key (측정되는 값)
                  */
-                keys={['cola', 'cidar', 'fanta']}
+                keys={keys.current}
                 /**
                  * keys들을 그룹화하는 index key (분류하는 값)
                  */
-                indexBy="bottle"
+                indexBy="index"
                 /**
                  * chart margin
                  */
@@ -97,7 +194,7 @@ export  default  function BarChart() {
                     tickSize: 5, // 값 설명하기 위해 튀어나오는 점 크기
                     tickPadding: 5, // tick padding
                     tickRotation: 0, // tick 기울기
-                    legend: 'bottle', // bottom 글씨
+                    legend: '문항번호', // bottom 글씨
                     legendPosition: 'middle', // 글씨 위치
                     legendOffset: 40, // 글씨와 chart간 간격
                 }}
@@ -108,9 +205,9 @@ export  default  function BarChart() {
                     tickSize: 5, // 값 설명하기 위해 튀어나오는 점 크기
                     tickPadding: 5, // tick padding
                     tickRotation: 0, // tick 기울기
-                    legend: 'price', // left 글씨
+                    legend: '응답수', // left 글씨
                     legendPosition: 'middle', // 글씨 위치
-                    legendOffset: -60, // 글씨와 chart간 간격
+                    legendOffset: -50, // 글씨와 chart간 간격
                 }}
                 /**
                  * label 안보이게 할 기준 width
@@ -156,4 +253,4 @@ export  default  function BarChart() {
             />
         </div>
     );
-};
+}
