@@ -116,9 +116,20 @@ const Voice = (props) => {
   useEffect(() => {
         if (audioUrl) {
             // console.log(URL.createObjectURL(audioUrl)); // 출력된 링크에서 녹음된 오디오 확인 가능
-            setUrlToPlay(URL.createObjectURL(audioUrl))
+            // setUrlToPlay(URL.createObjectURL(audioUrl))
+            blobToBase64(audioUrl)
         }
     }, [onRec])
+
+    async function blobToBase64 (url) {
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Url = reader.result;
+        setUrlToPlay(base64Url);
+      }
+      reader.readAsDataURL(url);
+    }
 
   if (!props.isModify) return (
     <div className="mt-5 border-2 border-gray-100 shadow-lg rounded-2xl">

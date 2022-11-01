@@ -12,7 +12,7 @@ export default function SurveyPreview(props) {
     const [preURL, setPreURL] = useState(props.preURL);
     const [svyType, setSvyType] = useState(props.svyType);
     const router = useRouter();
-
+    console.log("@@@ pros.svyResContents: " + JSON.stringify(props.svyResContents));        // 삭제 금지
     useEffect(() => {
         if (!props.svyResContents) {
             initResContents();
@@ -36,8 +36,6 @@ export default function SurveyPreview(props) {
 
     if (isLoading) return <div>Loading</div>;
     if (!svyContents || !svyRespContents || !preURL) return <div>Data is not exist.</div>;
-
-    console.log("@@@ svypreview preURL: " + preURL);
     return (
         <div>
             {/* 제목 입력 */}
