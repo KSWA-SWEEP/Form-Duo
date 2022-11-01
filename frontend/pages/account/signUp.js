@@ -173,7 +173,7 @@ const SignUp = () =>{
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
-                                {userEmail.current.length > 0 && <span color={red} className={`message ${isEmail ? 'success' : 'error text-red-500'}`}>{emailMessage}</span>}
+                                {userEmail.current.length > 0 && <span className={`message ${isEmail ? 'success text-xs' : 'error text-xs text-red-500'}`}>{emailMessage}</span>}
                             </div>
                             <div>
                                 <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
@@ -190,7 +190,7 @@ const SignUp = () =>{
                                     onChange={onPwChange}
                                 />
                                 {userPw.current.length > 0 && (
-                                    <span color={red} className={`message ${isPassword ? 'success' : 'error text-red-500'}`}>{passwordMessage}</span>
+                                    <span className={`message ${isPassword ? 'success text-xs' : 'error text-xs text-red-500'}`}>{passwordMessage}</span>
                                 )}
                             </div>
                             <div>
@@ -208,7 +208,7 @@ const SignUp = () =>{
                                     onChange={onPwChkChange}
                                 />
                                 {userPwChk.current.length > 0 && (
-                                    <span className={`message ${isPasswordConfirm ? 'success' : 'error text-red-500'}`}>{passwordConfirmMessage}</span>
+                                    <span className={`message ${isPasswordConfirm ? 'success text-xs' : 'error text-xs text-red-500'}`}>{passwordConfirmMessage}</span>
                                 )}
                             </div>
                         </div>

@@ -20,27 +20,27 @@ export default function UserInfo() {
   const [isFailModalOpen, setIsFailModalOpen] = useState(false)
   const [isUserInfoChgModalOpen, setIsUserInfoChgModalOpen] = useState(false)
 
-  const [pwdCheckState, setPwdCheckState] = useState(false);
-  
-  const [btnState, setBtnState] = useState(false);
+  const [btnState, setBtnState] = useState(true);
 
   const [acctoken,setAcctoken] = useRecoilState(accToken);
-  
+
+  const [isPassword, setIsPassword] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState('');
+
   useEffect(() => {
     setLoading(true)
     getUserInfo()
-    setPwdCheckState(false)
   }, [])
 
   useEffect(() => {
     // console.log((userName.length > 0)+" / "+(userEmail.length > 0)+" / "+(!pwdCheckState))
-    if((userEmail.length > 0)&&(userName.length > 0)&&(pwdCheckState))
+    if(userName.length > 0)
     {
       setBtnState(true);
     } else {
       setBtnState(false);
     }
-  }, [userEmail, userName, pwdCheckState])
+  }, [userEmail, userName])
 
   useEffect(() => {
     pwdCheck();
@@ -101,13 +101,21 @@ export default function UserInfo() {
         console.log(e);
     }
   }
-  
+
   function pwdCheck() {
-    if(userPwd == userPwdCheck) {
-      setPwdCheckState(true);
-    } else {
-      setPwdCheckState(false)
-    }
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+
+      if (!passwordRegex.test(userPwd)) {
+          setPasswordMessage('‼️숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요‼️')
+          setIsPassword(false)
+      } else if(userPwd !== userPwdCheck){
+          setPasswordMessage('비밀번호가 달라요. 다시 확인해주세요😢')
+          setIsPassword(false)
+      } else {
+          setPasswordMessage('안전한 비밀번호에요 ✅')
+          setIsPassword(true)
+      }
+
   }  
 
   return (
@@ -228,18 +236,10 @@ export default function UserInfo() {
                               onChange={(e) => setUserPwdCheck(e.target.value)}
                           />
                           </div>
-
-                          {
-                            !pwdCheckState
-                            ? 
-                            <div className="col-span-6">
-                              <p className="text-xs text-red-600">비밀번호와 일치한 비밀번호 확인을 입력하세요</p>
-                            </div>
-                            :
-                            <></>
-                          }
-
                       </div>
+                      {userPwd.length > 0 && (
+                          <span className={`message ${isPassword ? 'success text-xs' : 'error text-xs text-red-500'}`}>{passwordMessage}</span>
+                      )}
                   </div>
 
                   <div className="flex justify-center mt-4">
@@ -255,8 +255,8 @@ export default function UserInfo() {
                           type="button"
                           className="inline-flex justify-center px-2 py-2 mx-2 text-xs font-semibold text-blue-900 bg-blue-100 border border-transparent rounded-md disabled:bg-neutral-200 disabled:text-neutral-300 hover:bg-blue-200 focus:outline-none "
                           onClick={updateUserInfo}
-                          disabled={!btnState}
-                          >
+                          disabled={!(btnState && isPassword)}
+                      >
                           저장하기
                       </button>
                   </div>
