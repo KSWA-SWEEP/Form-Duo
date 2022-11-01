@@ -3,10 +3,11 @@ import Image from 'next/future/image';
 import logoIcon from '../../public/img/mixed.png'
 import axios from "axios";
 import {useRouter} from "next/router";
-import {Fragment, useRef} from "react";
+import {Fragment, useEffect, useRef} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {useState} from "react";
-import {red} from "@mui/material/colors";
+
+import { init,send } from 'emailjs-com';
 
 const SignUp = () =>{
     let [isOpen, setIsOpen] = useState(false)
@@ -33,9 +34,14 @@ const SignUp = () =>{
     const userEmail = useRef("");
     const userPw = useRef("");
     const userPwChk = useRef("");
+    //메일 인증
+    const userAuth = useRef(""); // 인증번호 입력값
+    const [authMessage, setAuthMessage] = useState('') // 인증번호 오류 메세지
+    const [isAuthConfirm, setIsAuthConfirm] = useState(false) // 인증 번호가 일치하는지 확인
+    let randNum = useRef("00000"); // 인증번호
+    let [isAuthIng, setIsAuthIng] = useState(false) //메일 인증 중인지 확인
 
     //오류메시지 상태저장
-    const [nameMessage, setNameMessage] = useState('')
     const [emailMessage, setEmailMessage] = useState('')
     const [passwordMessage, setPasswordMessage] = useState('')
     const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('')
@@ -59,11 +65,31 @@ const SignUp = () =>{
         if (!emailRegex.test(userEmail.current)) {
             setEmailMessage('이메일 형식이 틀렸어요. 다시 확인해주세요😢')
             setIsEmail(false)
+            //메일 변경 시 인증번호 창 다시 막고, 인증 다시하도록 인증 관련 변수 초기화
+            setIsAuthConfirm(false)
+            setAuthMessage('인증 번호가 틀렸습니다. 다시 확인해주세요😢')
+            setIsAuthIng(false)
         } else {
             setEmailMessage('올바른 이메일 형식이에요 ✅')
+            //인증번호 발급
+            randNum.current = parseInt(Math.random() * 100000 + "");
             setIsEmail(true)
         }
     };
+    //이메일 인증
+    const onAuthChange = (e) => {
+        userAuth.current = e.target.value;
+        // console.log("인증번호##" + randNum.current)
+
+        if (randNum.current != userAuth.current) {
+            setAuthMessage('인증 번호가 틀렸습니다. 다시 확인해주세요😢')
+            setIsAuthConfirm(false)
+        } else {
+            setAuthMessage('인증 번호가 확인되었습니다. ✅')
+            setIsAuthConfirm(true)
+        }
+    };
+
     const onPwChange = (e) => {
         const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
         userPw.current = e.target.value;
@@ -126,6 +152,21 @@ const SignUp = () =>{
         }
     }
 
+    //메일인증
+    useEffect(()=>{
+        init("cPndipwNGrbp1LMBT");
+    })
+
+    const sendAuthMail =()=>{
+        //인증 중
+        setIsAuthIng(true)
+        send("service_xefuilp", "template_xfz7szn", {
+            to_name: userName.current,
+            message: "인증번호는 " + randNum.current + " 입니다.",
+            user_email: userEmail.current,
+        },"cPndipwNGrbp1LMBT").then(r  =>{});
+    }
+
     return (
         <>
             <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -151,7 +192,6 @@ const SignUp = () =>{
                                     id="user-name"
                                     name="username"
                                     type="text"
-                                    autoComplete="email"
                                     required
                                     className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="User name"
@@ -174,6 +214,30 @@ const SignUp = () =>{
                                     onChange={onEmailChange}
                                 />
                                 {userEmail.current.length > 0 && <span className={`message ${isEmail ? 'success text-xs' : 'error text-xs text-red-500'}`}>{emailMessage}</span>}
+                                <button
+                                    type="button"
+                                    onClick ={sendAuthMail}
+                                    disabled={!(isEmail)}
+                                    className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                >
+                                    인증 메일 전송
+                                </button>
+                            </div>
+                            <div>
+                                <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
+                                    이메일 인증
+                                </label>
+                                <input
+                                    id="email-auth"
+                                    name="email-auth"
+                                    type="text"
+                                    required
+                                    disabled={!(isAuthIng)}
+                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="Authentication Number"
+                                    onChange={onAuthChange}
+                                />
+                                {userAuth.current.length > 0 && <span className={`message ${isAuthConfirm ? 'success text-xs' : 'error text-xs text-red-500'}`}>{authMessage}</span>}
                             </div>
                             <div>
                                 <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
@@ -216,7 +280,7 @@ const SignUp = () =>{
                             <button
                                 type="button"
                                 onClick ={reqSignup}
-                                disabled={!(isEmail && isPassword && isPasswordConfirm)}
+                                disabled={!(isEmail && isPassword && isPasswordConfirm && isAuthConfirm)}
                                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
