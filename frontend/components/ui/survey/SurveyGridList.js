@@ -58,6 +58,7 @@ export default function SurveyGridList() {
     "전체 설문": [],
     "일반 설문": [],
     "듀오 설문": [],
+    "발화 분석 설문" : []
   })
 
   let imgNum = 1;
@@ -103,6 +104,16 @@ export default function SurveyGridList() {
                         }
                         if(index == 2) {
                             getSvyListByType("duo").then(r => {
+                                if(r == undefined){
+                                    setData(null)
+                                } else {
+                                    setSvyList(r.data)
+                                    setData(r.data)
+                                }
+                            });
+                        }
+                        if(index == 3) {
+                            getSvyListByType("emotion").then(r => {
                                 if(r == undefined){
                                     setData(null)
                                 } else {
@@ -275,6 +286,16 @@ export default function SurveyGridList() {
                                 setData(r.data)
                             }
                           });
+                    }
+                    if(index == 3) {
+                        getSvyListByType("emotion").then(r => {
+                            if(r == undefined){
+                                setData(null)
+                            } else {
+                                setSvyList(r.data)
+                                setData(r.data)
+                            }
+                        });
                     }
 
                     console.log(data);

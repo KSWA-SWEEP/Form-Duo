@@ -33,6 +33,7 @@ const navigationBeforeLogin = [
 const svyType = [
   { name: '일반 설문', href: '/survey/create/basic', icon: 'DocumentTextIcon' },
   { name: '듀오 설문', href: '/survey/create/duo', icon: 'MicrophoneIcon' },
+  { name: '발화분석 설문', href: '/survey/create/emotion', icon: 'DocumentTextIcon'}
 ]
 
 function classNames(...classes) {
