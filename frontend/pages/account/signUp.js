@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import {Fragment, useRef} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {useState} from "react";
+import {red} from "@mui/material/colors";
 
 const SignUp = () =>{
     let [isOpen, setIsOpen] = useState(false)
@@ -33,21 +34,58 @@ const SignUp = () =>{
     const userPw = useRef("");
     const userPwChk = useRef("");
 
+    //오류메시지 상태저장
+    const [nameMessage, setNameMessage] = useState('')
+    const [emailMessage, setEmailMessage] = useState('')
+    const [passwordMessage, setPasswordMessage] = useState('')
+    const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('')
+    // 유효성 검사
+    const [isEmail, setIsEmail] = useState(false)
+    const [isPassword, setIsPassword] = useState(false)
+    const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
+
     const onNameChange = (e) => {
         userName.current = e.target.value;
         // console.log("userPw : "+userName.current);
+
+
     };
     const onEmailChange = (e) => {
+        const emailRegex =
+            /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
         userEmail.current = e.target.value;
         // console.log("Email : "+userEmail.current);
+
+        if (!emailRegex.test(userEmail.current)) {
+            setEmailMessage('이메일 형식이 틀렸어요. 다시 확인해주세요😢')
+            setIsEmail(false)
+        } else {
+            setEmailMessage('올바른 이메일 형식이에요 ✅')
+            setIsEmail(true)
+        }
     };
     const onPwChange = (e) => {
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
         userPw.current = e.target.value;
         // console.log("userPw : "+userPw.current);
+        if (!passwordRegex.test(userPw.current)) {
+            setPasswordMessage('‼️숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요‼️')
+            setIsPassword(false)
+        } else {
+            setPasswordMessage('안전한 비밀번호에요 ✅')
+            setIsPassword(true)
+        }
     };
     const onPwChkChange = (e) => {
         userPwChk.current = e.target.value;
         // console.log("userPwChk : "+userPwChk.current);
+        if (userPw.current === userPwChk.current) {
+            setPasswordConfirmMessage('비밀번호를 똑같이 입력했어요 ✅')
+            setIsPasswordConfirm(true)
+        } else {
+            setPasswordConfirmMessage('비밀번호가 달라요. 다시 확인해주세요😢')
+            setIsPasswordConfirm(false)
+        }
     };
 
     async function reqSignup(){
@@ -119,6 +157,7 @@ const SignUp = () =>{
                                     placeholder="User name"
                                     onChange={onNameChange}
                                 />
+
                             </div>
                             <div>
                                 <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
@@ -134,6 +173,7 @@ const SignUp = () =>{
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
+                                {userEmail.current.length > 0 && <span color={red} className={`message ${isEmail ? 'success' : 'error text-red-500'}`}>{emailMessage}</span>}
                             </div>
                             <div>
                                 <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
@@ -149,6 +189,9 @@ const SignUp = () =>{
                                     placeholder="Password"
                                     onChange={onPwChange}
                                 />
+                                {userPw.current.length > 0 && (
+                                    <span color={red} className={`message ${isPassword ? 'success' : 'error text-red-500'}`}>{passwordMessage}</span>
+                                )}
                             </div>
                             <div>
                                 <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
@@ -164,12 +207,16 @@ const SignUp = () =>{
                                     placeholder="Password Check"
                                     onChange={onPwChkChange}
                                 />
+                                {userPwChk.current.length > 0 && (
+                                    <span className={`message ${isPasswordConfirm ? 'success' : 'error text-red-500'}`}>{passwordConfirmMessage}</span>
+                                )}
                             </div>
                         </div>
                         <div>
                             <button
                                 type="button"
                                 onClick ={reqSignup}
+                                disabled={!(isEmail && isPassword && isPasswordConfirm)}
                                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
