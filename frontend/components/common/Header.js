@@ -5,7 +5,7 @@ import logoMixed from '../../public/img/mixed@3x.png'
 import logoIcon from '../../public/img/icon@3x.png'
 import Link from 'next/link';
 import {getCookie, getCookies, setCookie} from "cookies-next";
-import { Bars3Icon, DocumentTextIcon, MicrophoneIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, DocumentTextIcon, MicrophoneIcon, XMarkIcon, ChartPieIcon } from '@heroicons/react/24/outline'
 import {useRecoilState} from "recoil";
 import {refToken} from "../../atoms/refToken";
 import {accToken} from "../../atoms/accToken";
@@ -33,7 +33,7 @@ const navigationBeforeLogin = [
 const svyType = [
   { name: '일반 설문', href: '/survey/create/basic', icon: 'DocumentTextIcon' },
   { name: '듀오 설문', href: '/survey/create/duo', icon: 'MicrophoneIcon' },
-  { name: '발화분석 설문', href: '/survey/create/emotion', icon: 'DocumentTextIcon'}
+  { name: '발화분석 설문', href: '/survey/create/emotion', icon: 'ChartPieIcon'}
 ]
 
 function classNames(...classes) {
@@ -184,6 +184,7 @@ export default function Header () {
                                                                   {
                                                                     'DocumentTextIcon': <DocumentTextIcon className='w-4 h-4 mr-2'/>,
                                                                     'MicrophoneIcon': <MicrophoneIcon className='w-4 h-4 mr-2'/>,
+                                                                    'ChartPieIcon': <ChartPieIcon className='w-4 h-4 mr-2'/>,
                                                                   }[item.icon]
                                                                 }
                                                                 {item.name}
