@@ -178,7 +178,7 @@ export default function DuoSurveyCreate() {
             comp: selected.comp,
             contentYn: selected.contentYn,
         };
-        setSvyContents(svyContents.concat(svyContent));
+        setSvyContents(Array.isArray(svyContents) ? svyContents.concat(svyContent) : null);
         questionId.current += 1; // nextId 1 씩 더하기
     }
 
