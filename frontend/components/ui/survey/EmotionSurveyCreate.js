@@ -273,17 +273,17 @@ export default function EmotionSurveyCreate() {
                 <div className="overflow-hidden shadow bg-neutral-200 rounded-2xl">
                     <div className="px-4 py-5 space-y-6 sm:p-6">
                         <h2 className="font-bold">문항 추가</h2>
-                        <div className="grid grid-cols-7 gap-4">
+                        <div className="grid grid-cols-6 gap-4">
                             <div className="col-span-6 sm:col-span-5">
                                 <Listbox value={selected} onChange={setSelected}>
                                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                            <span className="block truncate">{selected.name}</span>
-                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <span className="block truncate">{selected.name}</span>
+                                        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                             <ChevronUpDownIcon
                                                 className="w-5 h-5 text-gray-400"
                                                 aria-hidden="true"
                                             />
-                                            </span>
+                                        </span>
                                     </Listbox.Button>
                                     <Transition
                                         as={Fragment}
@@ -329,17 +329,11 @@ export default function EmotionSurveyCreate() {
                             >
                                 추가하기
                             </button>
-                            <button
-                                type="button"
-                                className="inline-flex items-center justify-center col-span-6 text-sm font-medium text-white duration-200 border border-transparent rounded-md shadow-sm sm:col-span-1 bg-fdblue hover:bg-fdbluedark hover:scale-105"
-                                onClick={openQboxModal}
-                            >
-                                Q-Box
-                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             {/* 하단 버튼 */}
             <div className="flex justify-center m-7">
