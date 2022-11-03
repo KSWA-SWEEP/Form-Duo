@@ -235,7 +235,7 @@ export default function SurveyModify (props) {
         router.push({
             pathname: '/survey/preview/basic',
             query: { svyContent: JSON.stringify(data), preURL: currentURL }
-        });
+        }, '/survey/preview/' + svyType);
     }
 
     function reinitSvyContents() {
