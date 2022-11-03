@@ -46,7 +46,6 @@ const BasicPreview = () => {
                 } else {
                     // 설문 생성에서 실행한 미리보기인 경우
                     setSvyContents(JSON.parse(query.svyContent));
-                    // console.log(svyContents);
                     // console.log("생성에서 미리보기인 경우");
                     setLoading(false);
                     setIsModify(false);
@@ -87,5 +86,18 @@ const BasicPreview = () => {
         </>
     );
 };
+
+// export async function getServerSideProps(context) {
+
+//     const svyContent = context.query.svyContent;
+//     const preURL = context.query.preURL;
+
+//     return {
+//         props: {
+//             svyContent: svyContent,
+//             preURL: preURL
+//         },
+//     };
+// }
 
 export default BasicPreview;

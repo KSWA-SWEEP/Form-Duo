@@ -12,7 +12,7 @@ export default function SurveyPreview(props) {
     const [preURL, setPreURL] = useState(props.preURL);
     const [svyType, setSvyType] = useState(props.svyType);
     const router = useRouter();
-    console.log("@@@ pros.svyResContents: " + JSON.stringify(props.svyResContents));        // 삭제 금지
+
     useEffect(() => {
         if (!props.svyResContents) {
             initResContents();
