@@ -10,6 +10,7 @@ import {refToken} from '../../atoms/refToken'
 import { useRouter } from 'next/router'
 import {getCookie, setCookie} from "cookies-next";
 import {Dialog, Transition} from "@headlessui/react";
+import FindUserEmail from "../../components/ui/account/FindUserEmail";
 
 const SignIn =()=> {
     const router = useRouter();
@@ -24,6 +25,14 @@ const SignIn =()=> {
     }
     function openFailModal() {
         setIsFailOpen(true)
+    }
+    const [isFindMailOpen, setIsFindMailOpen] = useState(false)
+    //이메일 계정 조회 모달
+    function openCheckEmail() {
+        setIsFindMailOpen(true)
+    }
+    function closeCheckEmail() {
+        setIsFindMailOpen(false)
     }
 
     const onEmailChange = (e) => {
@@ -122,7 +131,26 @@ const SignIn =()=> {
                                 />
                             </div>
                         </div>
-
+                        <div className="flex items-center float-left justify-between">
+                            <div className="text-sm">
+                                <button
+                                    type="button"
+                                    onClick={openCheckEmail}
+                                >
+                                    <a className="font-bold text-fdbluedark hover:text-fdblue mr-2">
+                                        계정 조회
+                                    </a>
+                                </button>
+                                /
+                                <Link
+                                    href="/account/changePw"
+                                >
+                                    <a className="font-bold text-fdbluedark hover:text-fdblue ml-2">
+                                        비밀번호 재설정
+                                    </a>
+                                </Link>
+                            </div>
+                        </div>
                         <div className="flex items-center float-right justify-between">
                             <div className="text-sm">
                                 <Link
@@ -150,6 +178,9 @@ const SignIn =()=> {
                     </form>
                 </div>
             </div>
+
+            {/*Email check Modal*/}
+            <FindUserEmail show={isFindMailOpen} onHide={()=>{closeCheckEmail()}} init={true}/>
 
             {/*  signIn Fail Modal */}
             <Transition appear show={isFailOpen} as={Fragment}>
