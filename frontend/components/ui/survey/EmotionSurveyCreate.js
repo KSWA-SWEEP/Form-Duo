@@ -210,7 +210,7 @@ export default function EmotionSurveyCreate() {
         router.push({
             pathname: '/survey/preview/basic',
             query: { svyContent: JSON.stringify(data), preURL: currentURL }
-        });
+        }, '/survey/preview/emotion');
     }
 
     return (

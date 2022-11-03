@@ -42,8 +42,6 @@ const DuoPreview = () => {
                     await getSurvey(query.svyId);
                     setSvyResContents(JSON.parse(query.svyResContents));
                     setIsResult(true);
-                    // console.log(query.svyResContents);
-                    // console.log("결과분석인 경우");
                     setLoading(false);
                 } else {
                     // 설문 생성에서 실행한 미리보기인 경우

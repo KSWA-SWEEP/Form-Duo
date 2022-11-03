@@ -143,16 +143,14 @@ export default function SurveyResponse(props) {
         try {
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
             setIsSettingModalOpen(false);
-            // router.push({
-            //     pathname: '/survey/share/finish',
-            //     shallow: true,
-            //     query: {endMsg: JSON.stringify(svyContents.svyEndMsg)}
-            // });
 
             // 스크롤 이슈 처리
             // 일단.. 급한 만큼 engMsg에서 큰따옴표 모두 없앱니다 . . . . 추후 수정
             const endMsg = JSON.stringify(svyContents.svyEndMsg).replace(/\"/gi, "");
-            document.location.href = "/survey/share/finish?endMsg="+endMsg;
+            router.push({
+                pathname: '/survey/share/finish',
+                query: {endMsg: endMsg}
+            }, 'finish');
         } catch (e) {
             console.log(e);
             openFailModal();

@@ -192,7 +192,7 @@ export default function DuoSurveyCreate() {
         router.push({
             pathname: '/survey/preview/duo',
             query: { svyContent: JSON.stringify(data), preURL: currentURL, create: true }
-        });
+        }, '/survey/preview/duo');
     }
 
 
