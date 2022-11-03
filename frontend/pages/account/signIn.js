@@ -137,10 +137,18 @@ const SignIn =()=> {
                                     type="button"
                                     onClick={openCheckEmail}
                                 >
-                                    <a className="font-bold text-fdbluedark hover:text-fdblue">
+                                    <a className="font-bold text-fdbluedark hover:text-fdblue mr-2">
                                         계정 조회
                                     </a>
                                 </button>
+                                /
+                                <Link
+                                    href="/account/changePw"
+                                >
+                                    <a className="font-bold text-fdbluedark hover:text-fdblue ml-2">
+                                        비밀번호 재설정
+                                    </a>
+                                </Link>
                             </div>
                         </div>
                         <div className="flex items-center float-right justify-between">

@@ -44,8 +44,6 @@ const FindUserEmail = ({show, onHide, init}) => {
         emailMessage.current = ""
         // setEmailMessage('')
         const data = new Object();
-        // console.log("userEmail : " + userEmail.current);
-        // console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
         try{
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
@@ -57,8 +55,8 @@ const FindUserEmail = ({show, onHide, init}) => {
 
     function checkEmail(){
         isMember().then(r =>{
-            const result = r.data
-            console.log("Result : "+ result)
+            const result = r.data.username
+            // console.log("Result : "+ result)
             if(isChecking)
                 setIsChecking(false)
             else

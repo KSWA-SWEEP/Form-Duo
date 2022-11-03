@@ -75,7 +75,10 @@ export default function UserInfo() {
 
   async function updateUser(data){
       try{
-          const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data);
+          const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data,{
+              headers: {
+                  'Authorization': `Bearer ${acctoken}`
+              }});
           setIsUserInfoChgModalOpen(false)
           location.reload();
       }catch (e) {
