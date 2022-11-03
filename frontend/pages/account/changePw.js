@@ -70,7 +70,7 @@ const ChangePw = () =>{
     //이메일 인증
     const onAuthChange = (e) => {
         userAuth.current = e.target.value;
-        console.log("인증번호##" + randNum.current)
+        // console.log("인증번호##" + randNum.current)
 
         if (randNum.current != userAuth.current) {
             setAuthMessage('인증 번호가 틀렸습니다. 다시 확인해주세요😢')
@@ -168,14 +168,14 @@ const ChangePw = () =>{
             if(result){
                 //인증 중
                 setIsAuthIng(true)
-                console.log("메일인증")
-                // send("service_xefuilp", "template_xfz7szn", {
-                //     to_name: userName.current,
-                //     message: "인증번호는 " + randNum.current + " 입니다.",
-                //     user_email: userEmail.current,
-                // },"cPndipwNGrbp1LMBT").then(r  =>{});
+                // console.log("메일인증")
+                send("service_xefuilp", "template_xfz7szn", {
+                    to_name: userName.current,
+                    message: "인증번호는 " + randNum.current + " 입니다.",
+                    user_email: userEmail.current,
+                },"cPndipwNGrbp1LMBT").then(r  =>{});
             }else{
-                console.log("계정 존재")
+                // console.log("계정 존재")
                 openFailModal();
             }
         })
