@@ -113,6 +113,19 @@ const SignUp = () =>{
             setIsPasswordConfirm(false)
         }
     };
+    //이미 가입 된 메일인지 확인
+    async function isMember(){
+        const data = new Object();
+        console.log("userEmail : " + userEmail.current);
+        // console.log("userPw : " + userPw.current);
+        data.email = userEmail.current;
+        try{
+            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
+            return result;
+        }catch (e) {
+            console.log(e);
+        }
+    }
 
     async function reqSignup(){
         //입력 창 확인
@@ -158,13 +171,24 @@ const SignUp = () =>{
     })
 
     const sendAuthMail =()=>{
-        //인증 중
-        setIsAuthIng(true)
-        send("service_xefuilp", "template_xfz7szn", {
-            to_name: userName.current,
-            message: "인증번호는 " + randNum.current + " 입니다.",
-            user_email: userEmail.current,
-        },"cPndipwNGrbp1LMBT").then(r  =>{});
+        isMember().then(r =>{
+            const result = r.data
+            // console.log("Result : "+ JSON.stringify(r))
+            if(!result){
+                //인증 중
+                setIsAuthIng(true)
+                // console.log("메일인증")
+                send("service_xefuilp", "template_xfz7szn", {
+                    to_name: userName.current,
+                    message: "인증번호는 " + randNum.current + " 입니다.",
+                    user_email: userEmail.current,
+                },"cPndipwNGrbp1LMBT").then(r  =>{});
+            }else{
+                // console.log("계정 존재")
+                openFailModal();
+            }
+        })
+
     }
 
     return (
