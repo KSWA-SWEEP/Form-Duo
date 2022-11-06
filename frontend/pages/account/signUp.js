@@ -193,7 +193,7 @@ const SignUp = () =>{
 
     return (
         <>
-            <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <Image
@@ -201,7 +201,7 @@ const SignUp = () =>{
                             src={logoIcon}
                             alt="FormDuo"
                         />
-                        <h2 className="mt-5 text-center text-1xl font-bold tracking-tight text-fdblue">
+                        <h2 className="mt-5 font-bold tracking-tight text-center text-1xl dark:text-fdyellowlight text-fdblue">
                             회원 가입
                         </h2>
                     </div>
@@ -209,7 +209,7 @@ const SignUp = () =>{
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div className="space-y-4 rounded-md shadow-sm">
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="email-address" className="block ml-2 text-sm text-neutral-900 dark:text-neutral-200">
                                     사용자 이름
                                 </label>
                                 <input
@@ -217,14 +217,14 @@ const SignUp = () =>{
                                     name="username"
                                     type="text"
                                     required
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="User name"
                                     onChange={onNameChange}
                                 />
 
                             </div>
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="email-address" className="block ml-2 text-sm text-neutral-900 dark:text-neutral-200">
                                     이메일 주소
                                 </label>
                                 <input
@@ -233,7 +233,7 @@ const SignUp = () =>{
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
@@ -242,13 +242,13 @@ const SignUp = () =>{
                                     type="button"
                                     onClick ={sendAuthMail}
                                     disabled={!(isEmail)}
-                                    className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    className="relative flex justify-center w-full px-4 py-2 mt-2 text-sm font-medium text-white border border-transparent rounded-md group bg-fdbluedark hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-fdyellowlight dark:text-neutral-700"
                                 >
                                     인증 메일 전송
                                 </button>
                             </div>
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="email-address" className="block ml-2 text-sm text-neutral-900 dark:text-neutral-200">
                                     이메일 인증
                                 </label>
                                 <input
@@ -257,14 +257,14 @@ const SignUp = () =>{
                                     type="text"
                                     required
                                     disabled={!(isAuthIng)}
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Authentication Number"
                                     onChange={onAuthChange}
                                 />
                                 {userAuth.current.length > 0 && <span className={`message ${isAuthConfirm ? 'success text-xs' : 'error text-xs text-red-500'}`}>{authMessage}</span>}
                             </div>
                             <div>
-                                <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="password" className="block ml-2 text-sm text-neutral-900 dark:text-neutral-200">
                                     비밀번호
                                 </label>
                                 <input
@@ -273,7 +273,7 @@ const SignUp = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-t-md rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password"
                                     onChange={onPwChange}
                                 />
@@ -282,7 +282,7 @@ const SignUp = () =>{
                                 )}
                             </div>
                             <div>
-                                <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="password" className="block ml-2 text-sm text-neutral-900 dark:text-neutral-200">
                                     비밀번호 확인
                                 </label>
                                 <input
@@ -291,7 +291,7 @@ const SignUp = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-t-md rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password Check"
                                     onChange={onPwChkChange}
                                 />
@@ -305,10 +305,10 @@ const SignUp = () =>{
                                 type="button"
                                 onClick ={reqSignup}
                                 disabled={!(isEmail && isPassword && isPasswordConfirm && isAuthConfirm)}
-                                className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-fdbluedark hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-fdyellowlight dark:text-neutral-700"
                             >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <LockClosedIcon className="h-5 w-5 text-fdbluelight group-hover:text-fdbluedark" aria-hidden="true" />
+                  <LockClosedIcon className="w-5 h-5 text-fdbluelight group-hover:text-fdbluedark dark:text-neutral-700" aria-hidden="true" />
                 </span>
                                 회원가입
                             </button>
@@ -346,12 +346,12 @@ const SignUp = () =>{
                                 <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     <Dialog.Title
                                         as="h3"
-                                        className="text-lg font-extrabold leading-6 text-gray-900"
+                                        className="text-lg font-extrabold leading-6 text-neutral-900"
                                     >
                                         회원 가입
                                     </Dialog.Title>
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-neutral-500">
                                             회원가입이 완료되었습니다. 로그인 해주세요☺️
                                         </p>
                                     </div>
@@ -401,12 +401,12 @@ const SignUp = () =>{
                                 <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     <Dialog.Title
                                         as="h3"
-                                        className="text-lg font-extrabold leading-6 text-gray-900"
+                                        className="text-lg font-extrabold leading-6 text-neutral-900"
                                     >
                                         회원 가입 오류
                                     </Dialog.Title>
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-neutral-500">
                                             이미 등록 된 회원입니다!😢
                                         </p>
                                     </div>

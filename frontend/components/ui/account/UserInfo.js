@@ -122,18 +122,18 @@ export default function UserInfo() {
   }  
 
   return (
-    <div className="flex items-center justify-center bg-white mt-28">
+    <div className="flex items-center justify-center mt-28">
       <div className="flex overflow-hidden rounded-full h-36 w-36 custom-profile-position bg-neutral-300">
         <Image
           src={userBasicImg}
           className="w-100 h-100"/>
       </div>
-      <div className="flex items-center justify-start w-1/3 bg-white ml-14 md:h-56">
+      <div className="flex items-center justify-start w-1/3 ml-14 md:h-56">
         <div className="sm:text-center lg:text-left">
-          <h1 className="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl md:text-2xl" data-testid="name">
+          <h1 className="text-xl font-extrabold tracking-tight text-neutral-900 sm:text-2xl md:text-2xl dark:text-white" data-testid="name">
             {userData.username}
           </h1>
-          <p className="mt-2 text-base text-gray-500 sm:mx-auto sm:mt-2 sm:max-w-xl sm:text-base md:mt-2 md:text-lg lg:mx-0">
+          <p className="mt-2 text-base text-neutral-500 sm:mx-auto sm:mt-2 sm:max-w-xl sm:text-base md:mt-2 md:text-lg lg:mx-0">
             {userData.email}
           </p>
           <div className="mt-5 sm:mt-5 sm:flex sm:justify-center lg:justify-start">
@@ -177,15 +177,15 @@ export default function UserInfo() {
                   <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <Dialog.Title
                       as="h3"
-                      className="text-lg font-extrabold leading-6 text-gray-900"
+                      className="text-lg font-extrabold leading-6 text-neutral-900"
                       data-testid="modify"
                   >
                       개인정보 수정
                   </Dialog.Title>
-                  <div className="px-2 py-5 bg-white">
+                  <div className="px-2 py-5">
                       <div className="grid grid-cols-6 gap-2">
                           <div className="col-span-6">
-                          <label htmlFor="userName" className="block text-xs font-medium text-gray-500">
+                          <label htmlFor="userName" className="block text-xs font-medium text-neutral-500">
                               이름 
                           </label>
                           <input
@@ -200,7 +200,7 @@ export default function UserInfo() {
                           </div>
 
                           <div className="col-span-6 mt-2">
-                          <label htmlFor="userEmail" className="block text-xs font-medium text-gray-500">
+                          <label htmlFor="userEmail" className="block text-xs font-medium text-neutral-500">
                               이메일
                           </label>
                           <input
@@ -215,7 +215,7 @@ export default function UserInfo() {
                           </div>
 
                           <div className="col-span-3 mt-2">
-                          <label htmlFor="userPwd" className="block text-xs font-medium text-gray-500">
+                          <label htmlFor="userPwd" className="block text-xs font-medium text-neutral-500">
                               비밀번호
                           </label>
                           <input
@@ -228,7 +228,7 @@ export default function UserInfo() {
                           </div>
                           
                           <div className="col-span-3 mt-2">
-                          <label htmlFor="userPwdCheck" className="block text-xs font-medium text-gray-500">
+                          <label htmlFor="userPwdCheck" className="block text-xs font-medium text-neutral-500">
                               비밀번호 확인
                           </label>
                           <input
@@ -299,12 +299,12 @@ export default function UserInfo() {
                   <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                   <Dialog.Title
                       as="h3"
-                      className="text-lg font-extrabold leading-6 text-gray-900"
+                      className="text-lg font-extrabold leading-6 text-neutral-900"
                   >
                       사용자 정보 수정 실패
                   </Dialog.Title>
                   <div className="mt-2">
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-neutral-500">
                       사용자 정보 수정에 실패하였습니다. 잠시후 다시 시도해주세요
                       </p>
                   </div>

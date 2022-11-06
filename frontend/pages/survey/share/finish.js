@@ -19,10 +19,10 @@ const Finish = (props) => {
             <LazyShow>
                 <div className="mx-8 my-44">
                     <div className="lg:text-center">
-                        <p className="mt-2 text-3xl font-bold leading-8 tracking-tight text-gray-900 sm:text-4xl">
+                        <p className="mt-2 text-3xl font-bold leading-8 tracking-tight text-neutral-900 sm:text-4xl">
                             설문 응답이 완료되었습니다
                         </p>
-                        <p className="max-w-2xl mt-4 text-xl text-gray-500 lg:mx-auto">
+                        <p className="max-w-2xl mt-4 text-xl text-neutral-500 lg:mx-auto">
                             {endMessage}
                         </p>
 

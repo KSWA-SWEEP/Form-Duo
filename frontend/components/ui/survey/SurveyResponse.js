@@ -202,12 +202,12 @@ export default function SurveyResponse(props) {
                                     <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                         <Dialog.Title
                                             as="h3"
-                                            className="text-lg font-extrabold leading-6 text-gray-900"
+                                            className="text-lg font-extrabold leading-6 text-neutral-900"
                                         >
                                             설문 제출
                                         </Dialog.Title>
                                         <div className="mt-2">
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 작성한 설문을 제출하시겠습니까?
                                             </p>
                                         </div>
@@ -264,12 +264,12 @@ export default function SurveyResponse(props) {
                                     <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                         <Dialog.Title
                                             as="h3"
-                                            className="text-lg font-extrabold leading-6 text-gray-900"
+                                            className="text-lg font-extrabold leading-6 text-neutral-900"
                                         >
                                             응답 내역 받기
                                         </Dialog.Title>
                                         <div className="mt-2">
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 이메일을 입력해 주시면 설문 응답 내역을 보내드립니다😚
                                             </p>
                                         </div>
@@ -284,13 +284,13 @@ export default function SurveyResponse(props) {
                                                         onChange={handleCheck}
                                                     />
                                                     <div className="w-4/5">
-                                                        <p className="text-xs text-gray-500">
+                                                        <p className="text-xs text-neutral-500">
                                                             메일로 받기
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <div className="mt-2">
-                                                    <label htmlFor="svyRespEmail" className="block mt-6 text-xs font-medium text-gray-500">
+                                                    <label htmlFor="svyRespEmail" className="block mt-6 text-xs font-medium text-neutral-500">
                                                         {emailInfoMsg}
                                                     </label>
                                                     <input
@@ -356,12 +356,12 @@ export default function SurveyResponse(props) {
                                     <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                         <Dialog.Title
                                             as="h3"
-                                            className="text-lg font-extrabold leading-6 text-gray-900"
+                                            className="text-lg font-extrabold leading-6 text-neutral-900"
                                         >
                                             설문 제출 실패
                                         </Dialog.Title>
                                         <div className="mt-2">
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 설문 제출에 실패하였습니다. 잠시후 다시 시도해주세요
                                             </p>
                                         </div>

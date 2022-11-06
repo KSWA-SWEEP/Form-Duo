@@ -202,7 +202,7 @@ const ChangePw = () =>{
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div className="space-y-4 rounded-md shadow-sm">
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="email-address" className="ml-2 block text-sm text-neutral-900">
                                     이메일 주소
                                 </label>
                                 <input
@@ -211,7 +211,7 @@ const ChangePw = () =>{
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
@@ -226,7 +226,7 @@ const ChangePw = () =>{
                                 </button>
                             </div>
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="email-address" className="ml-2 block text-sm text-neutral-900">
                                     이메일 인증
                                 </label>
                                 <input
@@ -235,14 +235,14 @@ const ChangePw = () =>{
                                     type="text"
                                     required
                                     disabled={!(isAuthIng)}
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Authentication Number"
                                     onChange={onAuthChange}
                                 />
                                 {userAuth.current.length > 0 && <span className={`message ${isAuthConfirm ? 'success text-xs' : 'error text-xs text-red-500'}`}>{authMessage}</span>}
                             </div>
                             <div>
-                                <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="password" className="ml-2 block text-sm text-neutral-900">
                                     비밀번호
                                 </label>
                                 <input
@@ -251,7 +251,7 @@ const ChangePw = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password"
                                     onChange={onPwChange}
                                 />
@@ -260,7 +260,7 @@ const ChangePw = () =>{
                                 )}
                             </div>
                             <div>
-                                <label htmlFor="password" className="ml-2 block text-sm text-gray-900">
+                                <label htmlFor="password" className="ml-2 block text-sm text-neutral-900">
                                     비밀번호 확인
                                 </label>
                                 <input
@@ -269,7 +269,7 @@ const ChangePw = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password Check"
                                     onChange={onPwChkChange}
                                 />
@@ -324,12 +324,12 @@ const ChangePw = () =>{
                                 <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     <Dialog.Title
                                         as="h3"
-                                        className="text-lg font-extrabold leading-6 text-gray-900"
+                                        className="text-lg font-extrabold leading-6 text-neutral-900"
                                     >
                                         비밀번호 재설정
                                     </Dialog.Title>
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-neutral-500">
                                             비밀번호가 재설정 되었습니다. 새로운 비밀번호로 로그인 해주세요☺️
                                         </p>
                                     </div>
@@ -379,12 +379,12 @@ const ChangePw = () =>{
                                 <Dialog.Panel className="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                                     <Dialog.Title
                                         as="h3"
-                                        className="text-lg font-extrabold leading-6 text-gray-900"
+                                        className="text-lg font-extrabold leading-6 text-neutral-900"
                                     >
                                         메일 인증 오류
                                     </Dialog.Title>
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-neutral-500">
                                             해당 메일로 등록 된 계정이 없습니다!😢
                                         </p>
                                     </div>
