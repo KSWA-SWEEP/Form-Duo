@@ -73,12 +73,11 @@ const SignIn =()=> {
             setAcctoken(result.data["accessToken"]);
             setReftoken(result.data["refreshToken"]);
             setCookie("accessToken",result.data["accessToken"],{
-                httpOnly: true,
-                secure:true,
+                secure: true,
+
             })
             setCookie("refreshToken",result.data["refreshToken"],{
-                httpOnly: true,
-                secure:true,
+                secure: true,
             })
 
             await router.push('/');
