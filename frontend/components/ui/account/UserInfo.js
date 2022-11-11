@@ -77,6 +77,7 @@ export default function UserInfo() {
       try{
           const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data,{
               headers: {
+                  withCredentials: true,
                   'Authorization': `Bearer ${acctoken}`
               }});
           setIsUserInfoChgModalOpen(false)
@@ -94,6 +95,7 @@ export default function UserInfo() {
     try{
         const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members', {
           headers: {
+              withCredentials: true,
             'Authorization': `Bearer ${acctoken}`
           }});
         setUserData(result.data)

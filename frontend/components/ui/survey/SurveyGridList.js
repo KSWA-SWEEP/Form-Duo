@@ -12,11 +12,13 @@ import QR from "qrcode.react";
 import { getCookie, getCookies } from "cookies-next"
 import Loading from "../../common/Loading"
 import { Tab } from '@headlessui/react'
+import AxiosWithToken from "../../customAxios/axiosWithToken";
+import {accToken} from "../../../atoms/accToken";
+import {useRecoilState} from "recoil";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
@@ -35,7 +37,7 @@ const closedSurveyMenu = [
   { name: '설문 미리보기', href: '/survey/preview/' },
 ]
 
-export default function SurveyGridList() {
+function SurveyGridList() {
   const router = useRouter(); 
   const currentURL = router.asPath;
   const dateToday = new Date();
@@ -53,6 +55,8 @@ export default function SurveyGridList() {
   const [today, setToday] = useState(dateToday.toISOString())
   // 설문 전체 데이터
   const [data, setData] = useState(null);
+
+  const [acctoken,setAcctoken] = useRecoilState(accToken);
   
   let [categories] = useState({
     "전체 설문": [],
@@ -74,6 +78,16 @@ export default function SurveyGridList() {
               setData(r.data)
           }
       });
+
+      // console.log(JSON.stringify(result))
+      // if(result == undefined){
+      //     setAcctoken(accessToken)
+      //     setData(null)
+      // }else{
+      //     setAcctoken(accessToken)
+      //     setSvyList(result.data)
+      //     setData(result.data)
+      // }
    }, []);
    
    if (!data || data.length === 0) return (
@@ -153,10 +167,15 @@ export default function SurveyGridList() {
 
   async function getSvyList(){
     try{
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
-                'Content-Type': "application/json",
-                "Authorization": "Bearer " + getCookie("accessToken"),
-            }});
+        const result = AxiosWithToken('get','/api/v1/surveys',acctoken,{})
+            // await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
+            //     'Content-Type': "application/json",
+            //     // "Authorization": "Bearer " + getCookie("accessToken"),
+            // }});
+        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
+
+        console.log("REsult : " + JSON.stringify(result))
+        setLoading(false)
         return result;
     }catch (e) {
         console.log(e);
@@ -165,10 +184,11 @@ export default function SurveyGridList() {
 
   async function getSvyListByType(type){
     try{
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/type?type='+type, {headers : {
-                'Content-Type': "application/json",
-                "Authorization": "Bearer " + getCookie("accessToken"),
-            }});
+        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/type?type='+type, {headers : {
+        //         'Content-Type': "application/json",
+        //         "Authorization": "Bearer " + getCookie("accessToken"),
+        //     }});
+        const result = AxiosWithToken('get', '/api/v1/surveys/type?type='+type, acctoken, {})
         return result;
     }catch (e) {
         console.log(e);
@@ -738,3 +758,4 @@ export default function SurveyGridList() {
     </div>
   )
 }
+export default SurveyGridList
