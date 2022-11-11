@@ -72,13 +72,8 @@ const SignIn =()=> {
             // console.log(getCookie("access_token"))
             setAcctoken(result.data["accessToken"]);
             setReftoken(result.data["refreshToken"]);
-            setCookie("accessToken",result.data["accessToken"],{
-                secure: true,
-
-            })
-            setCookie("refreshToken",result.data["refreshToken"],{
-                secure: true,
-            })
+            setCookie("accessToken",result.data["accessToken"])
+            setCookie("refreshToken",result.data["refreshToken"])
 
             await router.push('/');
             return <></>;
