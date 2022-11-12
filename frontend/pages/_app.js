@@ -10,12 +10,12 @@ import {
 } from 'recoil';
 import {getCookie} from "cookies-next";
 
-axios.defaults.headers = {
-    'Content-Type': "application/json",
-    "Authorization": "Bearer " + getCookie("accessToken"),
-};
 axios.defaults.mode = "cors";
 axios.defaults.withCredentials = true;
+axios.defaults.headers = {
+    withCredentials: true,
+    'Content-Type': "application/json"
+}
 
 export default function App({
   Component,

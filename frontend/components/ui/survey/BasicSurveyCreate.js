@@ -14,6 +14,9 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import Respond from "./input/Respond.js";
 import "react-datepicker/dist/react-datepicker.css";
+import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import {accToken} from "../../../atoms/accToken";
+import CustomAxios from "../../customAxios/customAxios";
 
 const qTypes = [
     { name: '객관식', comp: "Objective", contentYn: true },
@@ -49,6 +52,9 @@ export default function BasicSurveyCreate() {
     
     //Qbox
     const [isQboxOpen, setIsQboxOpen] = useState(false)
+
+    //Access Token
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
 
     useEffect(() => {
         setLoading(true)
@@ -153,7 +159,7 @@ export default function BasicSurveyCreate() {
 
         if (isSettingModalOpen) {
             closeSettingModal();
-            makeSvy(data);
+            makeSvy(data).then(r => {});
         }
 
         return data;
@@ -176,9 +182,18 @@ export default function BasicSurveyCreate() {
 
     async function makeSvy(data) {
         try {
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys', data);
-            setIsSettingModalOpen(false)
-            document.location.href = "/survey/create/finish"
+            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys', data);
+            // setIsSettingModalOpen(false)
+            // document.location.href = "/survey/create/finish"
+
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('post','/api/v1/surveys',r,data).then(r=>{
+                    setIsSettingModalOpen(false)
+                    document.location.href = "/survey/create/finish"
+                })
+            })
+
         } catch (e) {
             console.log(e);
             openFailModal();

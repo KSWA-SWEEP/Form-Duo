@@ -4,8 +4,14 @@ import { ResponsiveBar } from '@nivo/bar';
 import {useEffect, useRef, useState} from "react";
 import { ResponsivePie } from '@nivo/pie';
 import axios from "axios";
+import CheckAxiosToken from "../../../../customAxios/checkAccessToken";
+import {useRecoilState} from "recoil";
+import {accToken} from "../../../../../atoms/accToken";
+import CustomAxios from "../../../../customAxios/customAxios";
 
 export default function BarChart(props){
+    //Access Token
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
 
     const svyCont = useRef(); // Question 정보
     let svyAnsval = {};
@@ -14,9 +20,30 @@ export default function BarChart(props){
     //설문 전체 form 받기
     async function getSurvey(){
         try{
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.resContents[0].svyId);
-            // console.log("Ana##svyContents : " + JSON.stringify(svyContents));
-            return svyContents;
+            // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.resContents[0].svyId);
+            // // console.log("Ana##svyContents : " + JSON.stringify(svyContents));
+            // return svyContents;
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('get','/api/v1/surveys/' + props.resContents[0].svyId, r, {}).then((r)=>{
+                    svyCont.current = r.data.svyContent;
+                    // console.log("Ana##svyContents : "+JSON.stringify(svyCont.current))
+                }).then(()=>{
+                    setSvyAnsval()
+                }).then(()=>{
+                    ansCount()
+                }).then(()=>{
+                    setAnaData()
+                    // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
+                }).then(()=>{
+                    anaData.current.map((ana)=>{
+                        // console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
+                    })
+                    // console.log("keys : "+ anaData.current.length)
+                }).then(()=>{
+                    setReady(false)
+                })
+            })
         }catch (e) {
             console.log(e);
         }
@@ -25,7 +52,7 @@ export default function BarChart(props){
         svyCont.current.map((svyQ)=>{
             svyAnsval[svyQ.qId] = []
             if(svyQ.contentYn && svyQ.qContents !== undefined){
-                console.log("Ana##qCont : " + JSON.stringify(svyQ))
+                // console.log("Ana##qCont : " + JSON.stringify(svyQ))
                 const qCont = svyQ.qContents
                 // console.log("Ana##qCont : " + JSON.stringify(qCont))
                 qCont.map((contents)=>{
@@ -75,7 +102,7 @@ export default function BarChart(props){
 
     }
     function setqData(question,idx){
-        console.log("Ana##33Question : " + JSON.stringify(question))
+        // console.log("Ana##33Question : " + JSON.stringify(question))
         let q_data = {}
         q_data["index"] = idx+1
         for(var i = 0; i <= question.length ; i++){
@@ -91,22 +118,22 @@ export default function BarChart(props){
     }
 
     getSurvey().then((r)=>{
-        svyCont.current = r.data.svyContent;
-        // console.log("Ana##svyContents : "+JSON.stringify(svyCont.current))
-    }).then(()=>{
-        setSvyAnsval()
-    }).then(()=>{
-        ansCount()
-    }).then(()=>{
-        setAnaData()
-        // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
-    }).then(()=>{
-        anaData.current.map((ana)=>{
-            console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
-        })
-        console.log("keys : "+ anaData.current.length)
-    }).then(()=>{
-        setReady(false)
+    //     svyCont.current = r.data.svyContent;
+    //     // console.log("Ana##svyContents : "+JSON.stringify(svyCont.current))
+    // }).then(()=>{
+    //     setSvyAnsval()
+    // }).then(()=>{
+    //     ansCount()
+    // }).then(()=>{
+    //     setAnaData()
+    //     // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
+    // }).then(()=>{
+    //     anaData.current.map((ana)=>{
+    //         console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
+    //     })
+    //     console.log("keys : "+ anaData.current.length)
+    // }).then(()=>{
+    //     setReady(false)
     })
 
     const handle = {

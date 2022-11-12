@@ -7,6 +7,8 @@ import { Pagination } from "@mui/material";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../atoms/accToken";
+import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CustomAxios from "../../customAxios/customAxios";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -81,42 +83,47 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     //API로 질문 가져오기
     async function getMySvyList(){
         try{
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{
-                headers: {
-                    'Authorization': `Bearer ${acctoken}`
-                }});
-            return result;
+            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{
+            //     headers: {
+            //         'Authorization': `Bearer ${acctoken}`
+            //     }});
+            // return result;
+
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('get','/api/v1/surveys',r,{}).then(r=>{
+                    //데이터 가져오기
+                    svyList.current = r.data;
+                    // console.log("svyList : " + JSON.stringify(svyList))
+                    svyList.current.map((survey) =>{
+                        mySvy = mySvy.concat(survey.svyContent)
+                    })
+                    //check log
+                    // console.log("MySvy : "+ JSON.stringify(mySvy));
+                }).then(r=>{
+                    //데이터 key값 설정
+                    mySvy.map((svy,idx) => {
+                        svy.key = idx;
+                        svy.qId = idx;
+                    })
+                }).then(r => {
+                    //내가 했던 질문 data Setting
+                    //check log
+                    // console.log("MySvy : "+ JSON.stringify(mySvy));
+                    // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
+                    sampleQsts.current.내가했던질문 = mySvy;
+                }).then(r=>{
+                    //데이터 설정 후 랜더링을 위해 useState 값 변경
+                    setMyData(true)
+                })
+            })
         }catch (e) {
             console.log(e);
         }
     }
     //내가 했던 질문 Setting function
     function settingMyQuestion(){
-        getMySvyList().then(r=>{
-            //데이터 가져오기
-            svyList.current = r.data;
-            // console.log("svyList : " + JSON.stringify(svyList))
-            svyList.current.map((survey) =>{
-                mySvy = mySvy.concat(survey.svyContent)
-            })
-            //check log
-            // console.log("MySvy : "+ JSON.stringify(mySvy));
-        }).then(r=>{
-            //데이터 key값 설정
-            mySvy.map((svy,idx) => {
-                svy.key = idx;
-                svy.qId = idx;
-            })
-        }).then(r => {
-            //내가 했던 질문 data Setting
-            //check log
-            // console.log("MySvy : "+ JSON.stringify(mySvy));
-            // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
-            sampleQsts.current.내가했던질문 = mySvy;
-        }).then(r=>{
-            //데이터 설정 후 랜더링을 위해 useState 값 변경
-            setMyData(true)
-        })
+        getMySvyList().then(r=>{})
     }
 
     //Qbox
@@ -125,76 +132,81 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     //API로 값 불러오기
     async function getQboxList(){
         try{
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/qbox', {
-                headers: {
-                    'Authorization': `Bearer ${acctoken}`
-                }});
-            return result;
+            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/qbox', {
+            //     headers: {
+            //         'Authorization': `Bearer ${acctoken}`
+            //     }});
+            // return result;
+            let qbox =[];
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('get', '/api/v1/qbox',r,{}).then(r=>{
+                    //데이터 가져오기
+                    qboxList.current = r.data;
+                    // console.log("svyList : " + JSON.stringify(svyList))
+                    qboxList.current.map((survey) =>{
+                        if(survey.delYn == null && survey.name != "string" && survey.qtitle != ""){
+                            survey.qId = survey.qid
+                            survey.key = survey.qid
+                            survey.qTitle = survey.qtitle
+                            survey.qInfo = survey.qinfo
+                            survey.qContents = survey.qcontents
+                            switch (survey.name){
+                                case "주관식" :
+                                    survey.qType = "Subjective"
+                                    survey.contentYn = false
+                                    qbox = [...qbox, survey]
+                                    break;
+                                case "객관식" :
+                                    survey.qType = "Objective"
+                                    survey.contentYn = true
+                                    qbox = [...qbox, survey]
+                                    // qbox = qbox.concat(survey)
+                                    break;
+                                case "체크박스" :
+                                    survey.qType = "Checkbox"
+                                    survey.contentYn = true
+                                    qbox = [...qbox, survey]
+                                    // qbox = qbox.concat(survey)
+                                    break;
+                                case "드롭박스" :
+                                    survey.qType = "Dropbox"
+                                    survey.contentYn = true
+                                    qbox = [...qbox, survey]
+                                    // qbox = qbox.concat(survey)
+                                    break;
+                                case "날짜" :
+                                    survey.qType = "Date"
+                                    survey.contentYn = false
+                                    qbox = [...qbox, survey]
+                                    // qbox = qbox.concat(survey)
+                                    break;
+                                default :
+                                    break;
+                            }
+
+                        }
+                    })
+                    //check log
+                    // console.log("Qbox : "+ JSON.stringify(qbox));
+                }).then(r => {
+                    //내가 했던 질문 data Setting
+                    //check log
+                    // console.log("MySvy : "+ JSON.stringify(mySvy));
+                    // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
+                    // console.log("Qbox : "+ JSON.stringify(qbox));
+                    sampleQsts.current.QBox = qbox
+                    setQboxQ(true)
+                })
+            })
+
         }catch (e) {
             console.log(e);
         }
     }
     //Qbox 질문 Setting function
     function settingQbox(){
-        let qbox =[];
-        getQboxList().then(r=>{
-            //데이터 가져오기
-            qboxList.current = r.data;
-            // console.log("svyList : " + JSON.stringify(svyList))
-            qboxList.current.map((survey) =>{
-                if(survey.delYn == null && survey.name != "string" && survey.qtitle != ""){
-                    survey.qId = survey.qid
-                    survey.key = survey.qid
-                    survey.qTitle = survey.qtitle
-                    survey.qInfo = survey.qinfo
-                    survey.qContents = survey.qcontents
-                    switch (survey.name){
-                        case "주관식" :
-                            survey.qType = "Subjective"
-                            survey.contentYn = false
-                            qbox = [...qbox, survey]
-                            break;
-                        case "객관식" :
-                            survey.qType = "Objective"
-                            survey.contentYn = true
-                            qbox = [...qbox, survey]
-                            // qbox = qbox.concat(survey)
-                            break;
-                        case "체크박스" :
-                            survey.qType = "Checkbox"
-                            survey.contentYn = true
-                            qbox = [...qbox, survey]
-                            // qbox = qbox.concat(survey)
-                            break;
-                        case "드롭박스" :
-                            survey.qType = "Dropbox"
-                            survey.contentYn = true
-                            qbox = [...qbox, survey]
-                            // qbox = qbox.concat(survey)
-                            break;
-                        case "날짜" :
-                            survey.qType = "Date"
-                            survey.contentYn = false
-                            qbox = [...qbox, survey]
-                            // qbox = qbox.concat(survey)
-                            break;
-                        default :
-                            break;
-                    }
-
-                }
-            })
-            //check log
-            // console.log("Qbox : "+ JSON.stringify(qbox));
-        }).then(r => {
-            //내가 했던 질문 data Setting
-            //check log
-            // console.log("MySvy : "+ JSON.stringify(mySvy));
-            // console.log("내가한질문 : " + JSON.stringify(sampleQsts.current.내가했던질문))
-            // console.log("Qbox : "+ JSON.stringify(qbox));
-            sampleQsts.current.QBox = qbox
-            setQboxQ(true)
-        })
+        getQboxList().then(r=>{})
     }
 
     //Qbox 질문 가져오기
