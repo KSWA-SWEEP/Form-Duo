@@ -21,13 +21,13 @@ export default function Conversation(props) {
     const data = new Object();
 
     useEffect(()=>{
-        init();
-        getConversation()
-        .then(()=>{
-            if(conv_end != "!@!"){
-                getEmotion2().then(r => {});
-            }
-        })
+        init().then(r => {});
+        getConversation().then(r=>{})
+        // .then(r=>{
+        //     if(conv_end != "!@!"){
+        //         getEmotion2().then(r => {});
+        //     }
+        // })
     }, [conv_end])
 
     useEffect(() => {
@@ -72,7 +72,12 @@ export default function Conversation(props) {
                     })
                     setConv_end("Conv Done");
                 }).then(r=>{
+                    // console.log("Message : "+ msg_Arr)
                     setConv_end("Conv Done");
+                }).then(r=>{
+                    if(conv_end != "!@!"){
+                        getEmotion2().then(r => {});
+                    }
                 })
             })
         } catch (e) {
@@ -81,10 +86,11 @@ export default function Conversation(props) {
     }
 
     async function getEmotion2 () {
-        await getConversation();
+        // await getConversation();
         try{
             for (let i = 0; i < msg_Arr.length; i++){
                 data.msg=msg_Arr[i];
+                // console.log("MSG : " + msg_Arr[i])
                 // axios.defaults.headers = {
                 //     'Content-Type': "application/json",
                 //     "Authorization": "Bearer " + getCookie("accessToken"),
