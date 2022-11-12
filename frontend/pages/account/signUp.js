@@ -172,11 +172,10 @@ const SignUp = () =>{
 
     const sendAuthMail =()=>{
         isMember().then(r =>{
-            const result = r.data
             // console.log("Result : "+ JSON.stringify(r))
-            if(!result){
+            if(!r){
                 //인증 중
-                setIsAuthIng(true)
+                // setIsAuthIng(true)
                 // console.log("메일인증")
                 send("service_xefuilp", "template_xfz7szn", {
                     to_name: userName.current,

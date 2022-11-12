@@ -6,7 +6,6 @@ import QboxQuestion from "../survey/input/QboxQuestion";
 import {Pagination} from "@mui/material";
 import Image from "next/future/image";
 import logoIcon from "../../../public/img/mixed.png";
-import CustomAxios from "../../customAxios/customAxios";
 
 const FindUserEmail = ({show, onHide, init}) => {
     const userEmail = useRef("");
@@ -36,7 +35,7 @@ const FindUserEmail = ({show, onHide, init}) => {
             setIsEmail(false)
         } else {
             emailMessage.current ='올바른 이메일 형식이에요 ✅'
-                // setEmailMessage('올바른 이메일 형식이에요 ✅')
+            // setEmailMessage('올바른 이메일 형식이에요 ✅')
             setIsEmail(true)
         }
     };
@@ -47,8 +46,7 @@ const FindUserEmail = ({show, onHide, init}) => {
         const data = new Object();
         data.email = userEmail.current;
         try{
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
-            const result = CustomAxios('post', '/api/v1/auth/isMember', "",data);
+            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
             return result;
         }catch (e) {
             console.log(e);
@@ -57,20 +55,20 @@ const FindUserEmail = ({show, onHide, init}) => {
 
     function checkEmail(){
         isMember().then(r =>{
-            const result = r.data.username
             // console.log("Result : "+ result)
             if(isChecking)
                 setIsChecking(false)
             else
                 setIsChecking(true)
             //계정이 없을 때
-            if(!result){
+            if(!r){
                 emailMessage.current ='등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗'
-                    // setEmailMessage('등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗')
+                // setEmailMessage('등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗')
                 setIsExist(false)
             }else{
+                const result = r.data.username
                 emailMessage.current ='이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️'
-                    // setEmailMessage('이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️')
+                // setEmailMessage('이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️')
                 setIsExist(true)
             }
         })
