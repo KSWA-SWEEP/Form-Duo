@@ -7,6 +7,7 @@ import axios from "axios";
 import {init, send} from "emailjs-com";
 import SignIn from "./signIn";
 import {Dialog, Transition} from "@headlessui/react";
+import CustomAxios from "../../components/customAxios/customAxios";
 
 const ChangePw = () =>{
     let [isOpen, setIsOpen] = useState(false)
@@ -105,21 +106,6 @@ const ChangePw = () =>{
         }
     };
 
-    //이미 가입 된 메일인지 확인
-    async function isMember(){
-        const data = new Object();
-        console.log("userEmail : " + userEmail.current);
-        // console.log("userPw : " + userPw.current);
-        data.email = userEmail.current;
-        try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
-            userName.current = result.data.username
-            return result;
-        }catch (e) {
-            console.log(e);
-        }
-    }
-
     async function reqChangePw(){
         //입력 창 확인
         if(!userEmail.current){
@@ -161,7 +147,13 @@ const ChangePw = () =>{
     })
 
     const sendAuthMail =()=>{
-        isMember().then(r =>{
+
+        //이미 가입 된 메일인지 확인
+        const data = new Object();
+        console.log("userEmail : " + userEmail.current);
+        // console.log("userPw : " + userPw.current);
+        data.email = userEmail.current;
+        CustomAxios('post', '/api/v1/auth/isMember', "",data).then(r =>{
             const result = r.data.username
             userName.current = result
             // console.log("Result : "+ JSON.stringify(r.data))

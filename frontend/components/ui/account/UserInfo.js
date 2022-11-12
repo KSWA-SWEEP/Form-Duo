@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
 import {accToken} from '../../../atoms/accToken'
 import {useRecoilState} from "recoil";
+import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CustomAxios from "../../customAxios/customAxios";
 
 
 export default function UserInfo() {
@@ -75,13 +77,23 @@ export default function UserInfo() {
 
   async function updateUser(data){
       try{
-          const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data,{
-              headers: {
-                  withCredentials: true,
-                  'Authorization': `Bearer ${acctoken}`
-              }});
-          setIsUserInfoChgModalOpen(false)
-          location.reload();
+          // const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data,{
+          //     headers: {
+          //         withCredentials: true,
+          //         'Authorization': `Bearer ${acctoken}`
+          //     }});
+          // setIsUserInfoChgModalOpen(false)
+          // location.reload();
+
+          CheckAxiosToken(acctoken).then(r=>{
+              // console.log("##acctoken : " + r)
+              setAcctoken(r)
+              CustomAxios('put','/api/v1/members',r,data).then(r =>{
+                  // console.log("##result : " + JSON.stringify(r))
+                  setIsUserInfoChgModalOpen(false)
+                  location.reload();
+              })
+          })
       }catch (e) {
           console.log(e);
           openFailModal();
@@ -93,15 +105,28 @@ export default function UserInfo() {
 
   async function getUserInfo(){
     try{
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members', {
-          headers: {
-              withCredentials: true,
-            'Authorization': `Bearer ${acctoken}`
-          }});
-        setUserData(result.data)
-        setLoading(false)
-        setUserEmail(result.data.email)
-        setUserName(result.data.username)
+        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members', {
+        //   headers: {
+        //       withCredentials: true,
+        //     'Authorization': `Bearer ${acctoken}`
+        //   }});
+        // setUserData(result.data)
+        // setLoading(false)
+        // setUserEmail(result.data.email)
+        // setUserName(result.data.username)
+
+        CheckAxiosToken(acctoken).then(r=>{
+            // console.log("##acctoken : " + r)
+            setAcctoken(r)
+            CustomAxios('get','/api/v1/members',r,{}).then(r =>{
+                // console.log("##result : " + JSON.stringify(r))
+                setUserData(r.data)
+                setLoading(false)
+                setUserEmail(r.data.email)
+                setUserName(r.data.username)
+            })
+        })
+
     }catch (e) {
         console.log(e);
     }

@@ -6,6 +6,7 @@ import QboxQuestion from "../survey/input/QboxQuestion";
 import {Pagination} from "@mui/material";
 import Image from "next/future/image";
 import logoIcon from "../../../public/img/mixed.png";
+import CustomAxios from "../../customAxios/customAxios";
 
 const FindUserEmail = ({show, onHide, init}) => {
     const userEmail = useRef("");
@@ -46,7 +47,8 @@ const FindUserEmail = ({show, onHide, init}) => {
         const data = new Object();
         data.email = userEmail.current;
         try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
+            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
+            const result = CustomAxios('post', '/api/v1/auth/isMember', "",data);
             return result;
         }catch (e) {
             console.log(e);

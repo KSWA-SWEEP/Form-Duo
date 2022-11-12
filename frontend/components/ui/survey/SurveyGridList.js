@@ -12,9 +12,10 @@ import QR from "qrcode.react";
 import { getCookie, getCookies } from "cookies-next"
 import Loading from "../../common/Loading"
 import { Tab } from '@headlessui/react'
-import AxiosWithToken from "../../customAxios/axiosWithToken";
+import CustomAxios from "../../customAxios/customAxios";
 import {accToken} from "../../../atoms/accToken";
 import {useRecoilState} from "recoil";
+import CheckAxiosToken from "../../customAxios/checkAccessToken";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -69,15 +70,8 @@ function SurveyGridList() {
 
   useEffect(() => {
       setLoading(true)
-      setIsTokenExist(getCookies("accessToken"))
-      getSvyList().then(r => {
-          if(r == undefined){
-              setData(null)
-          } else {
-              setSvyList(r.data)
-              setData(r.data)
-          }
-      });
+      setIsTokenExist(getCookies("isLogin"))
+      getSvyList().then(r => {})
 
       // console.log(JSON.stringify(result))
       // if(result == undefined){
@@ -97,14 +91,7 @@ function SurveyGridList() {
                 <Tab.Group
                     onChange={(index) => {
                         if(index == 0) {
-                            getSvyList().then(r => {
-                                if(r == undefined){
-                                    setData(null)
-                                } else {
-                                    setSvyList(r.data)
-                                    setData(r.data)
-                                }
-                            });
+                            getSvyList().then(r => {});
                         }
                         if(index == 1) {
                             getSvyListByType("basic").then(r => {
@@ -167,16 +154,35 @@ function SurveyGridList() {
 
   async function getSvyList(){
     try{
-        const result = AxiosWithToken('get','/api/v1/surveys',acctoken,{})
+
+        //초안
             // await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
             //     'Content-Type': "application/json",
             //     // "Authorization": "Bearer " + getCookie("accessToken"),
             // }});
         // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
 
-        console.log("REsult : " + JSON.stringify(result))
-        setLoading(false)
-        return result;
+        // 1차 수정
+        // const result = CustomAxios('get','/api/v1/surveys',acctoken,{})
+        // console.log("##result : " + JSON.stringify(result))
+        // setLoading(false)
+        // return result;
+
+        CheckAxiosToken(acctoken).then(r=>{
+            setAcctoken(r)
+            const result = CustomAxios('get','/api/v1/surveys',r,{})
+            return result;
+        }).then(r=>{
+            if(r == undefined){
+                setData(null)
+            } else {
+                setSvyList(r.data)
+                setData(r.data)
+            }
+            // console.log("##result : " + JSON.stringify(r))
+            setLoading(false)
+            return r;
+        })
     }catch (e) {
         console.log(e);
     }
@@ -188,8 +194,19 @@ function SurveyGridList() {
         //         'Content-Type': "application/json",
         //         "Authorization": "Bearer " + getCookie("accessToken"),
         //     }});
-        const result = AxiosWithToken('get', '/api/v1/surveys/type?type='+type, acctoken, {})
-        return result;
+        CheckAxiosToken(acctoken).then(r=>{
+            setAcctoken(r)
+            CustomAxios('get', '/api/v1/surveys/type?type='+type, acctoken, {}).then(r=>{
+                if(r == undefined){
+                    setData(null)
+                } else {
+                    setSvyList(r.data)
+                    setData(r.data)
+                }
+                return r;
+            })
+        })
+
     }catch (e) {
         console.log(e);
     }
@@ -256,8 +273,12 @@ function SurveyGridList() {
   
   async function deleteSelected(svyId){
     try{
-        const result = await axios.delete(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/'+svyId);
-        return result;
+        // const result = await axios.delete(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/'+svyId);
+        // return result;
+        CheckAxiosToken(acctoken).then(r=>{
+            setAcctoken(r)
+            return CustomAxios('delete','/api/v1/surveys/'+svyId,r,{})
+        })
     }catch (e) {
         closeDeleteModal();
         openFailModal();
@@ -280,10 +301,7 @@ function SurveyGridList() {
             <Tab.Group
                 onChange={(index) => {
                     if(index == 0) {
-                        getSvyList().then(r => {
-                            setSvyList(r.data)
-                            setData(r.data)
-                          });
+                        getSvyList().then(r => {});
                     }
                     if(index == 1) {
                         console.log("Type basic")

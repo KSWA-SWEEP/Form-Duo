@@ -13,6 +13,9 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import "react-datepicker/dist/react-datepicker.css";
 import Qbox from "./Qbox";
+import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CustomAxios from "../../customAxios/customAxios";
+import {accToken} from "../../../atoms/accToken";
 
 
 const qTypes = [
@@ -53,6 +56,8 @@ export default function SurveyModify (props) {
     const [isSettingModalOpen, setIsSettingModalOpen] = useState(false)
     //Qbox
     const [isQboxOpen, setIsQboxOpen]= useState(false)
+    //Access Token
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
     
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기
@@ -66,23 +71,23 @@ export default function SurveyModify (props) {
         if(svyId !== undefined && glbSvyContents.length == 0){
             setSvyId(props.svyId);
             getSurvey().then(r => {
-                let resultData = r.data;
-                let svyContent = resultData.svyContent;
-                let savedSvyTitle = resultData.svyTitle;
-                let savedSvyIntro = resultData.svyIntro;
-                let startDt = resultData.svyStartDt;
-                let endDt = resultData.svyEndDt;
-
-                setSvyContents(svyContent);
-                setSvyData(resultData);
-                setSvyTitle(savedSvyTitle);
-                setSvyIntro(savedSvyIntro);
-                setSvyStartDt(new Date(startDt));
-                setSvyEndDt(new Date(endDt));
-                
-                const lastSvyContent = svyContent.slice(-1)[0];
-                const lastQId = lastSvyContent.qId;
-                questionId.current = lastQId;
+                // let resultData = r.data;
+                // let svyContent = resultData.svyContent;
+                // let savedSvyTitle = resultData.svyTitle;
+                // let savedSvyIntro = resultData.svyIntro;
+                // let startDt = resultData.svyStartDt;
+                // let endDt = resultData.svyEndDt;
+                //
+                // setSvyContents(svyContent);
+                // setSvyData(resultData);
+                // setSvyTitle(savedSvyTitle);
+                // setSvyIntro(savedSvyIntro);
+                // setSvyStartDt(new Date(startDt));
+                // setSvyEndDt(new Date(endDt));
+                //
+                // const lastSvyContent = svyContent.slice(-1)[0];
+                // const lastQId = lastSvyContent.qId;
+                // questionId.current = lastQId;
             });
         }
     }, [svyId]);
@@ -105,9 +110,32 @@ export default function SurveyModify (props) {
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
       try{
-          const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
-        //   console.log(svyContents);
-          return svyContents;         
+        //   const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
+        // //   console.log(svyContents);
+        //   return svyContents;
+
+          CheckAxiosToken(acctoken).then(r=>{
+              setAcctoken(r)
+              CustomAxios('get','/api/v1/surveys/'+ props.svyId,r,{}).then(r => {
+                  let resultData = r.data;
+                  let svyContent = resultData.svyContent;
+                  let savedSvyTitle = resultData.svyTitle;
+                  let savedSvyIntro = resultData.svyIntro;
+                  let startDt = resultData.svyStartDt;
+                  let endDt = resultData.svyEndDt;
+
+                  setSvyContents(svyContent);
+                  setSvyData(resultData);
+                  setSvyTitle(savedSvyTitle);
+                  setSvyIntro(savedSvyIntro);
+                  setSvyStartDt(new Date(startDt));
+                  setSvyEndDt(new Date(endDt));
+
+                  const lastSvyContent = svyContent.slice(-1)[0];
+                  const lastQId = lastSvyContent.qId;
+                  questionId.current = lastQId;
+              });
+          })
       }catch (e) {
           console.log(e);
       }
@@ -181,16 +209,24 @@ export default function SurveyModify (props) {
 
         if(isSettingModalOpen) {
             closeSettingModal();
-            updateSvy(data);
+            updateSvy(data).then(r => {});
         }
         return data;
     }
 
     async function updateSvy(data){
         try{
-            const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId, data);
-            setIsSettingModalOpen(false)
-            document.location.href = "/survey/create/finish"
+            // const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId, data);
+            // setIsSettingModalOpen(false)
+            // document.location.href = "/survey/create/finish"
+
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('put','/api/v1/surveys/' + props.svyId, r, data).then(r=>{
+                    setIsSettingModalOpen(false)
+                    document.location.href = "/survey/create/finish"
+                })
+            })
         }catch (e) {
             console.log(e);
             openFailModal();

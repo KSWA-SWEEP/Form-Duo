@@ -2,6 +2,10 @@ import axios from "axios";
 import React, { Fragment, useState, useEffect } from "react";
 import {getCookie} from "cookies-next";
 import Piechart from "./PieChart";
+import CheckAxiosToken from "../../../customAxios/checkAccessToken";
+import {useRecoilState} from "recoil";
+import {accToken} from "../../../../atoms/accToken";
+import CustomAxios from "../../../customAxios/customAxios";
 
 export default function Conversation(props) {
     
@@ -11,6 +15,9 @@ export default function Conversation(props) {
     const [conv_end, setConv_end] = useState("!@!");
     var msg_Arr = [];
 
+    //Access Token
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
+
     const data = new Object();
 
     useEffect(()=>{
@@ -18,7 +25,7 @@ export default function Conversation(props) {
         getConversation()
         .then(()=>{
             if(conv_end != "!@!"){
-                getEmotion2();
+                getEmotion2().then(r => {});
             }
         })
     }, [conv_end])
@@ -34,52 +41,87 @@ export default function Conversation(props) {
     }
 
     async function getConversation() {
-        axios.defaults.headers = {
-            'Content-Type': "application/json",
-            "Authorization": "Bearer " + getCookie("accessToken"),
-        };
-        axios.defaults.mode = "cors";
-        axios.defaults.withCredentials = true;
+        // axios.defaults.headers = {
+        //     'Content-Type': "application/json",
+        //     "Authorization": "Bearer " + getCookie("accessToken"),
+        // };
+        // axios.defaults.mode = "cors";
+        // axios.defaults.withCredentials = true;
         try {
-            const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
-            msg_Arr = [];
-            result.data.map(function(element){
-                let messages = "";
-                for ( let j = 0; j < element.svyRespContent.length; j++){
-                    messages = messages + element.svyRespContent[j].ansVal[0].resp + '|'
-                }
-                msg_Arr.push(messages)
+            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${props.cvId.convId}/resp`);
+            // msg_Arr = [];
+            // result.data.map(function(element){
+            //     let messages = "";
+            //     for ( let j = 0; j < element.svyRespContent.length; j++){
+            //         messages = messages + element.svyRespContent[j].ansVal[0].resp + '|'
+            //     }
+            //     msg_Arr.push(messages)
+            // })
+            // setConv_end("Conv Done");
+
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('get','/api/v1/surveys/'+props.cvId.convId + '/resp',r,{}).then(r=>{
+                    msg_Arr = [];
+                    r.data.map(function(element){
+                        let messages = "";
+                        for ( let j = 0; j < element.svyRespContent.length; j++){
+                            messages = messages + element.svyRespContent[j].ansVal[0].resp + '|'
+                        }
+                        msg_Arr.push(messages)
+                    })
+                    setConv_end("Conv Done");
+                }).then(r=>{
+                    setConv_end("Conv Done");
+                })
             })
-            setConv_end("Conv Done");
         } catch (e) {
             return <error/>
         }
     }
 
     async function getEmotion2 () {
-        getConversation(); 
+        await getConversation();
         try{
             for (let i = 0; i < msg_Arr.length; i++){
                 data.msg=msg_Arr[i];
-                axios.defaults.headers = {
-                    'Content-Type': "application/json",
-                    "Authorization": "Bearer " + getCookie("accessToken"),
-                };
-                axios.defaults.mode = "cors";
-                axios.defaults.withCredentials = true;
-                const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/conv', data);
-                switch(result.data.emotion){
-                    case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
-                    case "놀람" : setGood_motion((prevState) => prevState+1); break;
-                    case "두려움" : setBad_motion((prevState) => prevState+1); break;
-                    case "불확실" : setNormal_motion((prevState) => prevState+1); break;
-                    case "슬픔" : setBad_motion((prevState) => prevState+1); break;
-                    case "싫음" : setBad_motion((prevState) => prevState+1); break;
-                    case "좋음" : setGood_motion((prevState) => prevState+1); break;
-                    case "지루함" : setBad_motion((prevState) => prevState+1); break;
-                    case "창피함" : setNormal_motion((prevState) => prevState+1); break;
-                    default : console.log("Switch Error")
-                }
+                // axios.defaults.headers = {
+                //     'Content-Type': "application/json",
+                //     "Authorization": "Bearer " + getCookie("accessToken"),
+                // };
+                // axios.defaults.mode = "cors";
+                // axios.defaults.withCredentials = true;
+                // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/conv', data);
+                // switch(result.data.emotion){
+                //     case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
+                //     case "놀람" : setGood_motion((prevState) => prevState+1); break;
+                //     case "두려움" : setBad_motion((prevState) => prevState+1); break;
+                //     case "불확실" : setNormal_motion((prevState) => prevState+1); break;
+                //     case "슬픔" : setBad_motion((prevState) => prevState+1); break;
+                //     case "싫음" : setBad_motion((prevState) => prevState+1); break;
+                //     case "좋음" : setGood_motion((prevState) => prevState+1); break;
+                //     case "지루함" : setBad_motion((prevState) => prevState+1); break;
+                //     case "창피함" : setNormal_motion((prevState) => prevState+1); break;
+                //     default : console.log("Switch Error")
+                // }
+
+                CheckAxiosToken(acctoken).then(r=>{
+                    setAcctoken(r)
+                    CustomAxios('post','/api/v1/conv',r,data).then(r=>{
+                        switch(r.data.emotion){
+                            case "감정없음" : setNormal_motion((prevState) => prevState+1); break;
+                            case "놀람" : setGood_motion((prevState) => prevState+1); break;
+                            case "두려움" : setBad_motion((prevState) => prevState+1); break;
+                            case "불확실" : setNormal_motion((prevState) => prevState+1); break;
+                            case "슬픔" : setBad_motion((prevState) => prevState+1); break;
+                            case "싫음" : setBad_motion((prevState) => prevState+1); break;
+                            case "좋음" : setGood_motion((prevState) => prevState+1); break;
+                            case "지루함" : setBad_motion((prevState) => prevState+1); break;
+                            case "창피함" : setNormal_motion((prevState) => prevState+1); break;
+                            default : console.log("Switch Error")
+                        }
+                    })
+                })
             }
         }catch (e) {
             console.log(e)

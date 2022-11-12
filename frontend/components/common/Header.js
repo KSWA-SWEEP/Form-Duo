@@ -12,7 +12,7 @@ import {accToken} from "../../atoms/accToken";
 import {useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
-import AxiosWithToken from "../customAxios/axiosWithToken";
+import CustomAxios from "../customAxios/customAxios";
 import CheckAxiosToken from "../customAxios/checkAccessToken";
 
 // 임시 사용자 id
@@ -71,7 +71,7 @@ export default function Header () {
   //     //     'Authorization': `Bearer ${acctoken}`
   //     //   }});
   //     console.log("acctoken : "+acctoken)
-  //     const result = AxiosWithToken('post', '/api/v1/members/logout', acctoken,{});
+  //     const result = CustomAxios('post', '/api/v1/members/logout', acctoken,{});
   //     // console.log(result.data);
   //
   //   } catch (e) {
@@ -93,16 +93,18 @@ export default function Header () {
   async function logOut() {
 
     checkAccToken().then((result)=>{
-      // console.log("acctoken : " + result)
+      // console.log("##acctoken : " + result)
       setAcctoken(result)
-      const r = AxiosWithToken('post', '/api/v1/members/logout', result,{});
+      const r = CustomAxios('post', '/api/v1/members/logout', result,{});
       }).then(() => {
-      // console.log("acctoken recoil : " + acctoken)
       setAcctoken("");
+      setCookie("isLogin","false")
+
+      // console.log("acctoken recoil : " + acctoken)
       // setReftoken("");
       // setCookie("accessToken","");
       // setCookie("refreshToken","")
-      setCookie("isLogin","false")
+
     }).then(()=>{
       // console.log("log out acctoken recoil : " + acctoken)
     });
