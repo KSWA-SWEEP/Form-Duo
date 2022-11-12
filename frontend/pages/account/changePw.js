@@ -165,18 +165,23 @@ const ChangePw = () =>{
             // console.log("Result : "+ JSON.stringify(r.data))
             if(r){
                 const result = r.data.username
-                userName.current = result
-                //인증 중
-                setIsAuthIng(true)
-                // console.log("메일인증")
-                // console.log("인증번호 : " + randNum.current)
-                send("service_xefuilp", "template_xfz7szn", {
-                    to_name: userName.current,
-                    message: "인증번호는 " + randNum.current + " 입니다.",
-                    user_email: userEmail.current,
-                },"cPndipwNGrbp1LMBT").then(r  =>{});
+                if(!result){
+                    // console.log("계정 없음")
+                    openFailModal();
+                }else{
+                    userName.current = result
+                    //인증 중
+                    setIsAuthIng(true)
+                    // console.log("메일인증")
+                    // console.log("인증번호 : " + randNum.current)
+                    send("service_xefuilp", "template_xfz7szn", {
+                        to_name: userName.current,
+                        message: "인증번호는 " + randNum.current + " 입니다.",
+                        user_email: userEmail.current,
+                    },"cPndipwNGrbp1LMBT").then(r  =>{});
+                }
             }else{
-                // console.log("계정 존재")
+                // console.log("계정 없음")
                 openFailModal();
             }
         })
