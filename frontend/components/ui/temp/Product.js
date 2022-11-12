@@ -4,10 +4,10 @@ import TalkSvg from '../icon/TalkSvg';
 
 const Product = () => {
   return (
-    <section className='py-8 mt-20 mb-24 bg-background' id="product">      <div className='container max-w-5xl m-8 mx-auto'>
+    <section className='py-8 mt-10 mb-5 sm:mb-24 sm:mt-20 bg-background' id="product">      <div className='container max-w-5xl m-8 mx-auto'>
         <div className='flex flex-wrap items-center'>
-          <div className='w-5/6 p-6 sm:w-1/2'>
-            <h3 className='mb-3 text-3xl font-bold leading-snug text-neutral-800 dark:text-white'>
+          <div className='p-6 sm:w-1/2'>
+            <h3 className='mb-3 text-2xl font-bold leading-snug sm:text-3xl text-neutral-800 dark:text-white'>
               새로운 설문 형식, <span className='text-fdblue dark:text-fdyellowlight'>듀오 설문</span>
             </h3>
             <p className='leading-loose text-neutral-600 dark:text-neutral-400'>
@@ -30,7 +30,7 @@ const Product = () => {
           </div>
           <div className='w-full p-6 sm:w-1/2'>
             <div className='align-middle'>
-              <h3 className='mb-3 text-3xl font-bold leading-snug text-neutral-800 dark:text-white'>
+              <h3 className='mb-3 text-2xl font-bold leading-snug sm:text-3xl text-neutral-800 dark:text-white'>
                 당신의 설문 비서, <span className='text-fdblue dark:text-fdyellowlight'>Q-Box</span>
               </h3>
               <p className='mb-10 leading-loose text-neutral-600 dark:text-neutral-400'>

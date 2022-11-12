@@ -105,7 +105,7 @@ export default function Header () {
             {({ open }) => (
                 <>
                   <div className="px-4 mx-auto border-b-2 border-gray-200 dark:border-neutral-700 max-w-7xl sm:px-6 lg:px-5">
-                    <div className="flex items-center justify-between h-24">
+                    <div className="flex items-center justify-between h-20 md:h-24">
 
                       {/* logo */}
                       <div className="flex items-center duration-50 hover:scale-105">
@@ -117,12 +117,12 @@ export default function Header () {
                           >
                             <div className="flex items-center">
                               <Image
-                                  className="w-auto h-12 mr-3"
+                                  className="w-auto h-8 mr-3 md:h-12"
                                   src={logoIcon}
                                   alt="Form Duo logoIcon"
                               />
                               <Image
-                                  className="w-auto h-10"
+                                  className="w-auto h-8 md:h-10"
                                   src={logoMixed}
                                   alt="Form Duo logoMixed"
                               />
@@ -253,7 +253,7 @@ export default function Header () {
                               <div className="flex items-center ml-4 md:ml-6">
                                 <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
                                   <Link href='/account/myPage'>
-                                    <button className="text-sm font-normal text-neutral-500 duration-200 dark:text-fdyellowbright whitespace-nowrap hover:text-fdbluedark hover:scale-105 dark:hover:text-fdyellow">
+                                    <button className="text-sm font-normal duration-200 text-neutral-500 dark:text-fdyellowbright whitespace-nowrap hover:text-fdbluedark hover:scale-105 dark:hover:text-fdyellow">
                                       마이페이지
                                     </button>
                                   </Link>
@@ -268,8 +268,8 @@ export default function Header () {
                               <div className="flex items-center ml-4 md:ml-6">
                                 <div className="items-center justify-end hidden md:flex md:flex-1 lg:w-0">
                                   <Link href='/account/signIn'>
-                                    {/*<button onClick={() => signIn("kakao")} className="text-sm font-normal text-neutral-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105">*/}
-                                    <button className="text-sm font-normal text-neutral-500 duration-200 whitespace-nowrap hover:text-fdbluedark hover:scale-105 dark:text-fdyellowbright dark:hover:text-fdyellow">
+                                    {/*<button onClick={() => signIn("kakao")} className="text-sm font-normal duration-200 text-neutral-500 whitespace-nowrap hover:text-fdbluedark hover:scale-105">*/}
+                                    <button className="text-sm font-normal duration-200 text-neutral-500 whitespace-nowrap hover:text-fdbluedark hover:scale-105 dark:text-fdyellowbright dark:hover:text-fdyellow">
                                       {/*Sign In with Kakao*/}
                                       로그인
                                     </button>
@@ -299,22 +299,89 @@ export default function Header () {
                   </div>
 
                   <Disclosure.Panel className="md:hidden">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <div className="px-3 pt-2 pb-3 m-2 space-y-1 sm:px-3 bg-neutral-100 rounded-2xl">
                       {/*로그인 여부에 따라 메뉴 버튼 설정*/}
                       { isLogin ? navigation.map((item) => (
-                          <Disclosure.Button
-                              key={item.name}
-                              as="a"
-                              href={item.href}
-                              className={classNames(
-                                  item.current ? 'bg-fdblue text-white' : 'text-neutral-500 hover:bg-fdblue hover:text-white',
-                                  'block px-3 py-2 rounded-md text-sm font-medium'
-                              )}
-                              aria-current={item.current ? 'page' : undefined}
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                      )) : navigationBeforeLogin.map((item) => (
+                          item.name == "설문 제작"
+                              ?
+                              // 설문 제작의 경우 바로 페이지로 넘어가지 않고 일반/듀오 선택
+                              
+                              <Disclosure.Button
+                                  key={item.name}
+                                  as="a"
+                                  href={item.href}
+                                  className={classNames(
+                                      item.current ? 'bg-fdblue text-white' : 'text-neutral-500 hover:bg-fdblue hover:text-white',
+                                      'block px-3 py-2 rounded-md text-sm font-medium'
+                                  )}
+                                  aria-current={item.current ? 'page' : undefined}
+                              >
+                                <Menu as="div" className="relative" key={item.name}>
+                                  <div>
+                                    <Menu.Button>
+                                      <a
+                                          aria-current={item.current ? 'page' : undefined}
+                                      >
+                                        {item.name}
+                                      </a>
+                                    </Menu.Button>
+                                  </div>
+                                  <Transition
+                                      as={Fragment}
+                                      enter="transition ease-out duration-100"
+                                      enterFrom="transform opacity-0 scale-95"
+                                      enterTo="transform opacity-100 scale-100"
+                                      leave="transition ease-in duration-75"
+                                      leaveFrom="transform opacity-100 scale-100"
+                                      leaveTo="transform opacity-0 scale-95"
+                                  >
+                                    <Menu.Items className="absolute z-10 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg dark:bg-neutral-700 w-36 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                      {svyType.map((item) => (
+                                          <Menu.Item key={item.name}>
+                                            {({ active }) => (
+                                                <a
+                                                    href={item.href}
+                                                    className={classNames(
+                                                        active ? 'bg-neutral-100' : '',
+                                                        'content-center block px-4 py-2 text-sm font-bold text-neutral-700 border-b-2 border-gray-100 dark:border-neutral-500 dark:hover:bg-neutral-800 dark:text-fdyellowbright dark:hover:text-fdyellowlight'
+                                                    )}
+                                                >
+                                                  <div className='flex items-center'>
+                                                    {/* 타입에 따라 icon 변경 */}
+                                                    {
+                                                      {
+                                                        'DocumentTextIcon': <DocumentTextIcon className='w-4 h-4 mr-2'/>,
+                                                        'MicrophoneIcon': <MicrophoneIcon className='w-4 h-4 mr-2'/>,
+                                                        'ChartPieIcon': <ChartPieIcon className='w-4 h-4 mr-2'/>,
+                                                      }[item.icon]
+                                                    }
+                                                    {item.name}
+                                                  </div>
+                                                </a>
+                                            )}
+                                          </Menu.Item>
+                                      ))}
+                                    </Menu.Items>
+                                  </Transition>
+                                </Menu>
+                              </Disclosure.Button>
+                              
+                              
+                              :
+                              <Disclosure.Button
+                                  key={item.name}
+                                  as="a"
+                                  href={item.href}
+                                  className={classNames(
+                                      item.current ? 'bg-fdblue text-white' : 'text-neutral-500 hover:bg-fdblue hover:text-white',
+                                      'block px-3 py-2 rounded-md text-sm font-medium'
+                                  )}
+                                  aria-current={item.current ? 'page' : undefined}
+                              >
+                                {item.name}
+                              </Disclosure.Button>
+                      )) 
+                      : navigationBeforeLogin.map((item) => (
                           <Disclosure.Button
                               key={item.name}
                               as="a"

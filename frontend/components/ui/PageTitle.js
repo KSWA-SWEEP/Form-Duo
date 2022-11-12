@@ -1,5 +1,5 @@
 const PageTitle = props => (
-    <p className="px-8 text-xl font-extrabold text-neutral-600 dark:text-fdyellowlight">
+    <p className="px-4 text-xl font-extrabold sm:px-8 text-neutral-600 dark:text-fdyellowlight">
       {props.title}
     </p>
   )

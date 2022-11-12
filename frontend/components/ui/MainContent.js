@@ -17,12 +17,12 @@ export default function MainContent() {
     });
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4 md:grid-cols-11 my-28">
-        <div className="flex items-center col-span-4 md:col-span-5">
-          <div className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
-            <span className="block text-3xl leading-relaxed text-neutral-600 dark:text-fdyellowbright">새로운 차원의 설문 조사,</span>
-            <span className="block text-4xl leading-relaxed text-fdblue dark:text-fdyellowlight"><span className="text-fdbluedark dark:text-fdyellowdark">폼듀</span>와 함께 경험해보세요</span>
-            <div className="flex mt-8 md:mt-5 lg:flex-shrink-0">
+      <div className="grid grid-cols-4 my-14 md:grid-cols-11 md:my-28">
+        <div className="flex items-center col-span-4 md:col-span-5 place-self-center md:place-content-start">
+          <div className="text-3xl font-bold tracking-tight text-neutral-900">
+            <span className="block text-2xl leading-relaxed text-center text-neutral-600 dark:text-fdyellowbright lg:text-3xl md:text-left">새로운 차원의 설문 조사,</span>
+            <span className="block text-3xl leading-relaxed text-center text-fdblue dark:text-fdyellowlight lg:text-4xl lg:mt-3 md:text-left"><span className="text-fdbluedark dark:text-fdyellowdark">폼듀</span>와 함께 경험해보세요</span>
+            <div className="flex justify-center mt-5 md:mt-5 lg:flex-shrink-0 md:justify-start">
               <div className="inline-flex rounded-md shadow">
                   {isLogin?<Link
                       href={{

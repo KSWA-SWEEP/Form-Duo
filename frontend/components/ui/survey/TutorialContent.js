@@ -27,7 +27,7 @@ export default function TutorialContent() {
         //           </div>
         //       </div>
         //   </div>
-        <div className="justify-center ml-15 mr-15">
+        <div className="justify-center mx-5 sm:mx-15">
             <LazyShow>
                 <div className="mt-10 mb-20 lg:text-center">
                     <h2 className="text-lg font-semibold text-fdblue dark:text-white">새로운 차원의 설문조사,</h2>
@@ -37,11 +37,11 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={menu}
                         className="col-span-1" />
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 1
                         </p>
@@ -52,9 +52,9 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 2
                         </p>
@@ -69,9 +69,9 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
 
                         </p>
@@ -85,12 +85,12 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={createSubjective}
                         className="col-span-1" />
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 3
                         </p>
@@ -102,12 +102,12 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={createObjective}
                         className="col-span-1" />
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl">
                         </p>
                         <p className='text-xl leading-loose text-neutral-600 dark:text-white'>
@@ -118,9 +118,9 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 4
                         </p>
@@ -135,19 +135,19 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-1 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-1">
                     <Image
                         src={preview}
                         className="col-span-1" />
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={createButtons}
                         className="col-span-1" />
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 5
                         </p>
@@ -159,11 +159,11 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={saveChildPopup}
                         className="col-span-1" />
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                         </p>
                         <p className='text-xl leading-loose text-neutral-600 dark:text-white'>
@@ -176,9 +176,9 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 6
                         </p>
@@ -193,9 +193,9 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
 
                         </p>
@@ -210,12 +210,12 @@ export default function TutorialContent() {
                 </div>
             </LazyShow>
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={listShare}
                         className="col-span-1" />
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 7
                         </p>
@@ -228,9 +228,9 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
 
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 8
                         </p>
@@ -244,11 +244,11 @@ export default function TutorialContent() {
                 </div>
             </LazyShow >
             <LazyShow>
-                <div className="grid items-center grid-cols-2 mb-20">
+                <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={analyze_chart}
                         className="col-span-1" />
-                    <div className='col-span-1 ml-10'>
+                    <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 9
                         </p>

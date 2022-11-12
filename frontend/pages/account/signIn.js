@@ -85,16 +85,16 @@ const SignIn =()=> {
 
     return (
         <>
-            <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <Image
-                            className="h-auto mx-auto w-60"
+                            className="w-20 h-auto mx-auto md:w-60"
                             src={logoIcon}
                             alt="FormDuo"
                         />
-                        <h2 className="mt-5 text-2xl font-bold tracking-tight text-center text-fdblue dark:text-fdyellowlight">
-                            로 그 인
+                        <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-center text-fdblue dark:text-fdyellowlight">
+                            로그인
                         </h2>
                     </div>
                     <form className="mt-8 space-y-4" method="POST">
@@ -110,7 +110,7 @@ const SignIn =()=> {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 rounded-none appearance-none text-neutral-900 rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
@@ -125,7 +125,7 @@ const SignIn =()=> {
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 rounded-none appearance-none text-neutral-900 rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password"
                                     onChange={onPwChange}
                                 />

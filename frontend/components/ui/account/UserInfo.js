@@ -122,25 +122,27 @@ export default function UserInfo() {
   }  
 
   return (
-    <div className="flex items-center justify-center mt-28">
-      <div className="flex overflow-hidden rounded-full h-36 w-36 custom-profile-position bg-neutral-300">
+    <div className="items-center justify-center sm:flex mt-28">
+    <div className="flex justify-center mb-7 sm:mb-0">
+      <div className="flex overflow-hidden rounded-full h-36 w-36 sm:custom-profile-position bg-neutral-300">
         <Image
           src={userBasicImg}
           className="w-100 h-100"/>
+        </div>
       </div>
-      <div className="flex items-center justify-start w-1/3 ml-14 md:h-56">
-        <div className="sm:text-center lg:text-left">
-          <h1 className="text-xl font-extrabold tracking-tight text-neutral-900 sm:text-2xl md:text-2xl dark:text-white" data-testid="name">
+      <div className="flex items-center place-content-center sm:justify-start sm:w-1/3 sm:ml-14 sm:h-56">
+        <div className="text-center sm:text-left">
+          <h1 className="text-xl font-extrabold tracking-tight text-neutral-900 sm:text-2xl dark:text-white" data-testid="name">
             {userData.username}
           </h1>
-          <p className="mt-2 text-base text-neutral-500 sm:mx-auto sm:mt-2 sm:max-w-xl sm:text-base md:mt-2 md:text-lg lg:mx-0">
+          <p className="mt-2 text-base text-neutral-500 sm:mt-2 sm:max-w-xl sm:text-lg sm:mx-0">
             {userData.email}
           </p>
-          <div className="mt-5 sm:mt-5 sm:flex sm:justify-center lg:justify-start">
+          <div className="flex justify-center mt-5 sm:justify-start">
             <div className="rounded-md shadow">
               <a
                 onClick={openUserInfoChgModal}
-                className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white border border-transparent rounded-md bg-neutral-400 hover:bg-neutral-500 md:py-2 md:px-3 md:text-sm"
+                className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white border border-transparent rounded-md bg-neutral-400 hover:bg-neutral-500 sm:py-2 sm:px-3 sm:text-sm"
               >
                 개인정보 수정
               </a>

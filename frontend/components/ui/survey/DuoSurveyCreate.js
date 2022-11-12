@@ -251,7 +251,7 @@ export default function DuoSurveyCreate() {
                     <div className="px-4 py-5 space-y-6 sm:p-6">
                         <h2 className="font-bold">문항 추가</h2>
                         <div className="grid grid-cols-6 gap-4">
-                            <div className="col-span-6 sm:col-span-5">
+                            <div className="col-span-7 sm:col-span-5">
                                 <Listbox value={selected} onChange={setSelected}>
                                     <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm dark:text-neutral-600">
                                         <span className="block truncate">{selected.name}</span>
@@ -301,7 +301,7 @@ export default function DuoSurveyCreate() {
                             </div>
                             <button
                                 type="button"
-                                className="inline-flex items-center justify-center col-span-6 text-sm font-medium text-white duration-200 border border-transparent rounded-md shadow-sm sm:col-span-1 bg-fdblue hover:bg-fdbluedark hover:scale-105 dark:bg-fdyellowlight dark:text-neutral-600 dark:hover:bg-fdyellow"
+                                className="inline-flex items-center justify-center col-span-7 text-sm font-medium text-white duration-200 border border-transparent rounded-md shadow-sm h-9 sm:col-span-1 bg-fdblue hover:bg-fdbluedark hover:scale-105 dark:bg-fdyellowlight dark:text-neutral-600 dark:hover:bg-fdyellow"
                                 onClick={addSelected}
                             >
                                 추가하기
@@ -312,29 +312,29 @@ export default function DuoSurveyCreate() {
             </div>
 
             {/* 하단 버튼 */}
-            <div className="flex justify-center m-7">
-                <div className="inline-flex mx-2 ml-3 rounded-md shadow">
+            <div className="justify-center sm:flex sm:m-7">
+                <div className="inline-flex w-full rounded-md shadow sm:w-fit mt-7 sm:mt-0 sm:ml-3 sm:mx-2">
                     <Link
                         href={{
                             pathname: '/'
                         }}
                     >
-                        <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white border border-transparent rounded-md bg-neutral-300 hover:bg-neutral-400 dark:bg-neutral-400 dark:hover:bg-neutral-500">
+                        <div className="inline-flex items-center justify-center w-full py-2 text-sm font-semibold text-white border border-transparent rounded-md sm:w-fit sm:px-4 bg-neutral-300 hover:bg-neutral-400 dark:bg-neutral-400 dark:hover:bg-neutral-500">
                             취소
                         </div>
                     </Link>
                 </div>
-                <div className="inline-flex mx-2 ml-3 rounded-md shadow">
-                    <button onClick={showPreview}>
-                        <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-neutral-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
+                <div className="inline-flex w-full mt-4 rounded-md shadow sm:mx-2 sm:ml-3 sm:w-fit sm:mt-0">
+                    <button onClick={showPreview} className="w-full sm:w-fit">
+                        <div className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-semibold bg-white border border-gray-200 rounded-md sm:w-fit text-neutral-500 hover:bg-neutral-200">
                             설문 미리보기
                         </div>
                     </button>
                 </div>
-                <div className="inline-flex mx-2 rounded-md shadow">
+                <div className="inline-flex w-full mt-4 rounded-md shadow sm:mx-2 sm:w-fit sm:mt-0">
                     <a
                         onClick={openSaveModal}
-                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-500 dark:bg-fdyellow dark:hover:bg-fdyellowdark dark:text-neutral-700"
+                        className="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-semibold text-white bg-blue-400 border border-transparent rounded-md sm:w-fit hover:bg-blue-500 dark:bg-fdyellow dark:hover:bg-fdyellowdark dark:text-neutral-700"
                     >
                         설문 저장하기
                     </a>

@@ -34,12 +34,12 @@ const Features = () => {
           >
             Features 
           </h2>
-          <p className="mt-2 text-3xl font-extrabold leading-8 tracking-tight text-neutral-900 sm:text-4xl dark:text-white">
+          <p className="mt-2 text-xl font-extrabold leading-8 tracking-tight text-neutral-900 sm:text-4xl dark:text-white">
             폼듀에서는 이런 것들이 가능합니다!
           </p>
         </div>
 
-        <div className="flex mt-10 place-content-center">
+        <div className="flex sm:mt-10 place-content-center">
           <dl className="mt-10 space-y-10 md:w-10/12 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
             {featuresList.map((feature) => (
               <div key={feature.name} className="relative">

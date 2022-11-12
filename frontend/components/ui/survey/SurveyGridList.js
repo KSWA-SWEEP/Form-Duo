@@ -256,7 +256,7 @@ export default function SurveyGridList() {
   return (
     <div>
       <div className="max-w-2xl px-4 py-8 mx-auto sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div className="mt-5 mb-7">
+        <div className="sm:mt-5 mb-7">
             <Tab.Group
                 onChange={(index) => {
                     if(index == 0) {
@@ -306,7 +306,7 @@ export default function SurveyGridList() {
                     key={category}
                     className={({ selected }) =>
                         classNames(
-                        'w-full rounded-lg py-2.5 text-sm font-bold leading-5',
+                        'w-full rounded-lg py-2.5 text-xs sm:text-sm font-bold leading-5',
                         'ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2',
                         selected
                             ? 'text-white bg-blue-900/40'
@@ -363,7 +363,7 @@ export default function SurveyGridList() {
                       </div>
                       <div className="flex justify-between m-4">
                           <div className="w-3/4">
-                              <p className="text-base font-bold text-neutral-900 truncate dark:text-fdyellowbright">{survey.svyTitle}</p>
+                              <p className="text-base font-bold truncate text-neutral-900 dark:text-fdyellowbright">{survey.svyTitle}</p>
                               <div className="mt-2">
                                 <span className={( survey.svyEndDt < today ? "text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800" : "text-blue-800 bg-blue-100 dark:bg-blue-200 dark:text-blue-800") + " text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-lg"}>
                                     {survey.svyEndDt < today
@@ -412,7 +412,7 @@ export default function SurveyGridList() {
                                                           :
                                                           <a
                                                               onClick={() => showModal(item.name, survey.id)}
-                                                              className='block px-4 py-2 text-sm text-neutral-700 border-b-2 border-gray-100 hover:bg-neutral-100 dark:border-neutral-600 dark:text-neutral-200 dark:hover:bg-neutral-600'
+                                                              className='block px-4 py-2 text-sm border-b-2 border-gray-100 text-neutral-700 hover:bg-neutral-100 dark:border-neutral-600 dark:text-neutral-200 dark:hover:bg-neutral-600'
                                                           >
                                                               {item.name}
                                                           </a>
@@ -537,12 +537,12 @@ export default function SurveyGridList() {
                       <div className="flex mt-2 rounded-md shadow-sm">
                         <input
                           type="text"
-                          className="flex-1 block w-full text-xs text-neutral-600 border-gray-300 rounded-none rounded-l-md focus:border-gray-300 focus:ring-0"
+                          className="flex-1 block w-full text-xs border-gray-300 rounded-none text-neutral-600 rounded-l-md focus:border-gray-300 focus:ring-0"
                           placeholder="경로"
                           value={shareUrl}
                           readOnly
                         />
-                        <span className="inline-flex items-center px-3 text-sm text-neutral-500 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 hover:bg-gray-100 hover:text-neutral-600" onClick={() => copyUrl()}>
+                        <span className="inline-flex items-center px-3 text-sm border border-l-0 border-gray-300 text-neutral-500 rounded-r-md bg-gray-50 hover:bg-gray-100 hover:text-neutral-600" onClick={() => copyUrl()}>
                           복사
                         </span>
                       </div>
