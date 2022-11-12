@@ -5,6 +5,10 @@ import SurveyAnalysis from "../../../components/ui/survey/result/SurveyAnalysis"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Slider } from "../../../components/ui/survey/result/chart/Slider";
+import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
+import {accToken} from "../../../atoms/accToken";
+import {useRecoilState} from "recoil";
+import CustomAxios from "../../../components/customAxios/customAxios";
 
 const SurveyResult = () => {
 
@@ -17,6 +21,8 @@ const SurveyResult = () => {
     // 설문 응답자
     const [isLoading, setLoading] = useState(false)
     const [viewChart, setViewChart] = useState(true);
+    //Access Token
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
 
     // if (!isLoading) getContents(Object.values(router.query))
 
@@ -33,17 +39,25 @@ const SurveyResult = () => {
     // alert(message + " " + surveyId);
 
     useEffect(() => {
-        if (surveyId) getContents(surveyId);
+        if (surveyId) getContents(surveyId).then(r => {});
     }, [surveyId])
 
 
     async function getContents(surveyId) {
         try {
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/resp')
-            setData(svyContents.data);
+            // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/resp')
+            // setData(svyContents.data);
+
             // console.log("@@@: " + JSON.stringify(date));
             // setLoading(false);
             // return svyContents;
+
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('get','/api/v1/surveys/' + surveyId + '/resp', r, {}).then(r=>{
+                    setData(r.data);
+                })
+            })
         } catch (e) {
             console.log(e);
         }

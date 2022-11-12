@@ -12,11 +12,14 @@ import QR from "qrcode.react";
 import { getCookie, getCookies } from "cookies-next"
 import Loading from "../../common/Loading"
 import { Tab } from '@headlessui/react'
+import CustomAxios from "../../customAxios/customAxios";
+import {accToken} from "../../../atoms/accToken";
+import {useRecoilState} from "recoil";
+import CheckAxiosToken from "../../customAxios/checkAccessToken";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
 
 // 진행중 설문 세부 메뉴
 const activeSurveyMenu = [
@@ -35,7 +38,7 @@ const closedSurveyMenu = [
   { name: '설문 미리보기', href: '/survey/preview/' },
 ]
 
-export default function SurveyGridList() {
+function SurveyGridList() {
   const router = useRouter(); 
   const currentURL = router.asPath;
   const dateToday = new Date();
@@ -53,6 +56,8 @@ export default function SurveyGridList() {
   const [today, setToday] = useState(dateToday.toISOString())
   // 설문 전체 데이터
   const [data, setData] = useState(null);
+
+  const [acctoken,setAcctoken] = useRecoilState(accToken);
   
   let [categories] = useState({
     "전체 설문": [],
@@ -65,15 +70,18 @@ export default function SurveyGridList() {
 
   useEffect(() => {
       setLoading(true)
-      setIsTokenExist(getCookies("accessToken"))
-      getSvyList().then(r => {
-          if(r == undefined){
-              setData(null)
-          } else {
-              setSvyList(r.data)
-              setData(r.data)
-          }
-      });
+      setIsTokenExist(getCookies("isLogin"))
+      getSvyList().then(r => {})
+
+      // console.log(JSON.stringify(result))
+      // if(result == undefined){
+      //     setAcctoken(accessToken)
+      //     setData(null)
+      // }else{
+      //     setAcctoken(accessToken)
+      //     setSvyList(result.data)
+      //     setData(result.data)
+      // }
    }, []);
    
    if (!data || data.length === 0) return (
@@ -83,14 +91,7 @@ export default function SurveyGridList() {
                 <Tab.Group
                     onChange={(index) => {
                         if(index == 0) {
-                            getSvyList().then(r => {
-                                if(r == undefined){
-                                    setData(null)
-                                } else {
-                                    setSvyList(r.data)
-                                    setData(r.data)
-                                }
-                            });
+                            getSvyList().then(r => {});
                         }
                         if(index == 1) {
                             getSvyListByType("basic").then(r => {
@@ -153,11 +154,35 @@ export default function SurveyGridList() {
 
   async function getSvyList(){
     try{
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
-                'Content-Type': "application/json",
-                "Authorization": "Bearer " + getCookie("accessToken"),
-            }});
-        return result;
+
+        //초안
+            // await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
+            //     'Content-Type': "application/json",
+            //     // "Authorization": "Bearer " + getCookie("accessToken"),
+            // }});
+        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
+
+        // 1차 수정
+        // const result = CustomAxios('get','/api/v1/surveys',acctoken,{})
+        // console.log("##result : " + JSON.stringify(result))
+        // setLoading(false)
+        // return result;
+
+        CheckAxiosToken(acctoken).then(r=>{
+            setAcctoken(r)
+            const result = CustomAxios('get','/api/v1/surveys',r,{})
+            return result;
+        }).then(r=>{
+            if(r == undefined){
+                setData(null)
+            } else {
+                setSvyList(r.data)
+                setData(r.data)
+            }
+            // console.log("##result : " + JSON.stringify(r))
+            setLoading(false)
+            return r;
+        })
     }catch (e) {
         console.log(e);
     }
@@ -165,11 +190,23 @@ export default function SurveyGridList() {
 
   async function getSvyListByType(type){
     try{
-        const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/type?type='+type, {headers : {
-                'Content-Type': "application/json",
-                "Authorization": "Bearer " + getCookie("accessToken"),
-            }});
-        return result;
+        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/type?type='+type, {headers : {
+        //         'Content-Type': "application/json",
+        //         "Authorization": "Bearer " + getCookie("accessToken"),
+        //     }});
+        CheckAxiosToken(acctoken).then(r=>{
+            setAcctoken(r)
+            CustomAxios('get', '/api/v1/surveys/type?type='+type, acctoken, {}).then(r=>{
+                if(r == undefined){
+                    setData(null)
+                } else {
+                    setSvyList(r.data)
+                    setData(r.data)
+                }
+                return r;
+            })
+        })
+
     }catch (e) {
         console.log(e);
     }
@@ -236,8 +273,12 @@ export default function SurveyGridList() {
   
   async function deleteSelected(svyId){
     try{
-        const result = await axios.delete(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/'+svyId);
-        return result;
+        // const result = await axios.delete(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/'+svyId);
+        // return result;
+        CheckAxiosToken(acctoken).then(r=>{
+            setAcctoken(r)
+            return CustomAxios('delete','/api/v1/surveys/'+svyId,r,{})
+        })
     }catch (e) {
         closeDeleteModal();
         openFailModal();
@@ -260,10 +301,7 @@ export default function SurveyGridList() {
             <Tab.Group
                 onChange={(index) => {
                     if(index == 0) {
-                        getSvyList().then(r => {
-                            setSvyList(r.data)
-                            setData(r.data)
-                          });
+                        getSvyList().then(r => {});
                     }
                     if(index == 1) {
                         console.log("Type basic")
@@ -738,3 +776,4 @@ export default function SurveyGridList() {
     </div>
   )
 }
+export default SurveyGridList

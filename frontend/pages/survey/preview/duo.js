@@ -5,6 +5,9 @@ import SurveyPreview from "../../../components/ui/survey/SurveyPreview";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
+import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
+import CustomAxios from "../../../components/customAxios/customAxios";
+import {accToken} from "../../../atoms/accToken";
 
 // 설문 참여 페이지
 const DuoPreview = () => {
@@ -15,9 +18,9 @@ const DuoPreview = () => {
     const [svyResContents, setSvyResContents] = useState(null);
     const [isModify, setIsModify] = useState(false);
     const [isResult, setIsResult] = useState(false);
-    const [glbSvyContents, setGlbSvyContents] = useRecoilState(glbSvyContentsState);
 
-
+    //Access Token
+    const [acctoken,setAcctoken] = useRecoilState(accToken);
 
     useEffect(() => {
         setLoading(true)
@@ -61,10 +64,19 @@ const DuoPreview = () => {
 
     async function getSurvey() {
         try {
-            const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + query.svyId);
-            setSvyContents(svyContents.data);
-            setLoading(false);
-            return svyContents;
+            // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + query.svyId);
+            // setSvyContents(svyContents.data);
+            // setLoading(false);
+            // return svyContents;
+
+            CheckAxiosToken(acctoken).then(r=>{
+                setAcctoken(r)
+                CustomAxios('get','/api/v1/surveys/' + query.svyId, r,{}).then(r=>{
+                    setSvyContents(r.data);
+                    setLoading(false);
+                    return r;
+                })
+            })
         } catch (e) {
             console.log(e);
         }

@@ -10,7 +10,7 @@ export default function MainContent() {
     let [isLogin, setIsLogin] = useState(false)
     useEffect(() => {
         // console.log("Check Token : " + acctoken)
-        if(getCookie("accessToken")){
+        if(getCookie("isLogin")){
             setIsLogin(true);
         }
         else setIsLogin(false);

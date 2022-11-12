@@ -4,5 +4,5 @@ import {getCookie} from "cookies-next";
 
 export const refToken = atom({
     key: `refToken/${v1()}`,
-    default: getCookie("refreshToken"),
+    default: "",
 });

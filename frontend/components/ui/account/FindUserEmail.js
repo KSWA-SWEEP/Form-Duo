@@ -35,7 +35,7 @@ const FindUserEmail = ({show, onHide, init}) => {
             setIsEmail(false)
         } else {
             emailMessage.current ='올바른 이메일 형식이에요 ✅'
-                // setEmailMessage('올바른 이메일 형식이에요 ✅')
+            // setEmailMessage('올바른 이메일 형식이에요 ✅')
             setIsEmail(true)
         }
     };
@@ -55,21 +55,29 @@ const FindUserEmail = ({show, onHide, init}) => {
 
     function checkEmail(){
         isMember().then(r =>{
-            const result = r.data.username
             // console.log("Result : "+ result)
             if(isChecking)
                 setIsChecking(false)
             else
                 setIsChecking(true)
             //계정이 없을 때
-            if(!result){
+            if(!r){
                 emailMessage.current ='등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗'
-                    // setEmailMessage('등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗')
+                // setEmailMessage('등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗')
                 setIsExist(false)
             }else{
-                emailMessage.current ='이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️'
+                const result = r.data.username
+                if(result){
+                    console.log(result)
+                    emailMessage.current ='이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️'
                     // setEmailMessage('이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️')
-                setIsExist(true)
+                    setIsExist(true)
+                }else{
+                    emailMessage.current ='등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗'
+                    // setEmailMessage('등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗')
+                    setIsExist(false)
+                }
+
             }
         })
     }

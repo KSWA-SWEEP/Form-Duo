@@ -6,7 +6,7 @@ import {useRecoilState} from "recoil";
 import {Fragment, useRef, useState} from "react";
 import axios from "axios";
 import {accToken} from '../../atoms/accToken'
-import {refToken} from '../../atoms/refToken'
+// import {refToken} from '../../atoms/refToken'
 import { useRouter } from 'next/router'
 import {getCookie, setCookie} from "cookies-next";
 import {Dialog, Transition} from "@headlessui/react";
@@ -17,7 +17,7 @@ const SignIn =()=> {
     const userEmail = useRef("default");
     const userPw = useRef("default");
     const [acctoken,setAcctoken] = useRecoilState(accToken);
-    const [reftoken,setReftoken] = useRecoilState(refToken);
+    // const [reftoken,setReftoken] = useRecoilState(refToken);
     //로그인 오류 모달
     let [isFailOpen, setIsFailOpen] = useState(false)
     function closeFailModal() {
@@ -71,9 +71,12 @@ const SignIn =()=> {
             // console.log("refreshToken : "+ result.data["refreshToken"]);
             // console.log(getCookie("access_token"))
             setAcctoken(result.data["accessToken"]);
-            setReftoken(result.data["refreshToken"]);
-            setCookie("accessToken",result.data["accessToken"])
-            setCookie("refreshToken",result.data["refreshToken"])
+            //Refresh token 사용 안함
+            // setReftoken(result.data["refreshToken"]);
+
+            //로그인 상태와 만료 시간 확인
+            console.log("isLogin : " + getCookie("isLogin"))
+            console.log("expTime : " + getCookie("expTime"))
 
             await router.push('/');
             return <></>;
@@ -239,4 +242,4 @@ const SignIn =()=> {
         </>
     )
 };
-export  default SignIn;
+export default SignIn;
