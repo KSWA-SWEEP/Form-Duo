@@ -55,7 +55,7 @@ const SignIn =()=> {
             alert("비밀번호를 입력해주세요.");
             return <SignIn></SignIn>;
         }
-        console.log("Login Request");
+        // console.log("Login Request");
 
         //로그인 api 호출
         const data = new Object();
@@ -75,8 +75,13 @@ const SignIn =()=> {
             // setReftoken(result.data["refreshToken"]);
 
             //로그인 상태와 만료 시간 확인
-            console.log("isLogin : " + getCookie("isLogin"))
-            console.log("expTime : " + getCookie("expTime"))
+            // console.log("isLogin : " + getCookie("isLogin"))
+            // console.log("expTime : " + getCookie("expTime"))
+            
+            //로그인 상태와 만료 시간 localStorage에 저장
+            let expTime = result.data["expTime"]
+            localStorage.setItem("isLogin","true")
+            localStorage.setItem("expTime",expTime)
 
             await router.push('/');
             return <></>;

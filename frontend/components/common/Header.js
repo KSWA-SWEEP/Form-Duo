@@ -54,7 +54,8 @@ export default function Header () {
   }
 
   useEffect(() => {
-    if(getCookie("isLogin") == true){
+    //if(getCookie("isLogin") == true){
+    if(localStorage.getItem("isLogin") == "true"){
       setIsLogin(true);
     }
     else setIsLogin(false);
@@ -98,7 +99,9 @@ export default function Header () {
       const r = CustomAxios('post', '/api/v1/members/logout', result,{});
       }).then(() => {
       setAcctoken("");
-      setCookie("isLogin","false")
+      //setCookie("isLogin","false")
+      localStorage.setItem("isLogin","false")
+      localStorage.setItem("expTime","")
 
       // console.log("acctoken recoil : " + acctoken)
       // setReftoken("");
@@ -108,7 +111,7 @@ export default function Header () {
     }).then(()=>{
       // console.log("log out acctoken recoil : " + acctoken)
     });
-    console.log("Logout");
+    // console.log("Logout");
     //check
     // console.log("Acc : " + acctoken);
     // console.log("Cookies : "+JSON.stringify(getCookies()));

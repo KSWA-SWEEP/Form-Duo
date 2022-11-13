@@ -20,7 +20,8 @@ async function CheckAxiosToken(token) {
     //token 값이 비어있거나 만료 시간이 지났으면, reissue
     if(!token || now > getCookie("expTime")){
         // console.log("isLogin : " + getCookie("isLogin"))
-        if(getCookie("isLogin") == "true" || getCookie("isLogin") == true){
+        if(localStorage.getItem("isLogin") == "true" || localStorage.getItem("isLogin") == true){
+        //if(getCookie("isLogin") == "true" || getCookie("isLogin") == true){
             const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/reissue");
 
             acctoken = result.data["accessToken"];
