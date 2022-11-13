@@ -108,7 +108,7 @@ const FindUserEmail = ({show, onHide, init}) => {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="w-full rounded-xl p-3 max-w-md rounded-xl space-y-5 bg-fdyellowbright">
+                            <div className="w-full rounded-xl p-3 max-w-md space-y-5 bg-fdyellowbright">
                                 <div>
                                     <Image
                                         className="mt-8 w-40 h-auto mx-auto"

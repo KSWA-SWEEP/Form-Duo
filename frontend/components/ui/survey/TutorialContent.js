@@ -40,7 +40,8 @@ export default function TutorialContent() {
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={menu}
-                        className="col-span-1" />
+                        className="col-span-1"
+                        alt="Step 1" />
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 1
@@ -65,7 +66,8 @@ export default function TutorialContent() {
                     </div>
                     <Image
                         src={createDuo}
-                        className="col-span-1" />
+                        className="col-span-1"
+                        alt="Step 2" />
                 </div>
             </LazyShow >
             <LazyShow>
@@ -81,14 +83,16 @@ export default function TutorialContent() {
                     </div>
                     <Image
                         src={createQuestionTypes}
-                        className="col-span-1" />
+                        className="col-span-1"
+                        alt="Step 2" />
                 </div>
             </LazyShow>
             <LazyShow>
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={createSubjective}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 3" />
 
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
@@ -105,7 +109,8 @@ export default function TutorialContent() {
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={createObjective}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 3" />
 
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl">
@@ -131,21 +136,24 @@ export default function TutorialContent() {
                     </div>
                     <Image
                         src={createButtons}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 4" />
                 </div>
             </LazyShow >
             <LazyShow>
                 <div className="grid items-center mb-20 sm:grid-cols-1">
                     <Image
                         src={preview}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 4" />
                 </div>
             </LazyShow >
             <LazyShow>
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={createButtons}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 5" />
 
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
@@ -162,7 +170,8 @@ export default function TutorialContent() {
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={saveChildPopup}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 5" />
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                         </p>
@@ -189,7 +198,8 @@ export default function TutorialContent() {
                     </div>
                     <Image
                         src={listSvy}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 6" />
                 </div>
             </LazyShow >
             <LazyShow>
@@ -206,14 +216,16 @@ export default function TutorialContent() {
                     </div>
                     <Image
                         src={list}
-                        className="col-span-1"/>
+                        className="col-span-1"
+                        alt="Step 6" />
                 </div>
             </LazyShow>
             <LazyShow>
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={listShare}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 7" />
 
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
@@ -240,14 +252,16 @@ export default function TutorialContent() {
                     </div>
                     <Image
                         src={listAnalyze}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 8" />
                 </div>
             </LazyShow >
             <LazyShow>
                 <div className="grid items-center mb-20 sm:grid-cols-2">
                     <Image
                         src={analyze_chart}
-                        className="col-span-1" />
+                        className="col-span-1" 
+                        alt="Step 9" />
                     <div className='col-span-1 sm:ml-10'>
                         <p className="mt-3 mb-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl dark:text-fdyellowbright">
                             Step 9

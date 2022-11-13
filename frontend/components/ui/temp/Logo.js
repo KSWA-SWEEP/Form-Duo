@@ -52,10 +52,10 @@ export default function Logo() {
               <div className="flex items-center justify-center py-6 border-t border-b border-gray-200 md:w-2/3 dark:border-gray-500">
                 <div className='content-center justify-center w-full sm:px-16 '> 
                   <div className='flex items-center content-center mb-8 place-content-between'>
-                    <Image src={logoIcon} className="w-8 h-auto sm:w-16"/>
-                    <Image src={logoMixed} className="w-16 h-auto sm:w-24"/>
-                    <Image src={logoby} className="w-20 h-auto sm:w-32"/>
-                    <Image src={logoyb} className="w-20 h-auto sm:w-32"/>
+                    <Image src={logoIcon} className="w-8 h-auto sm:w-16" alt="logo Icon"/>
+                    <Image src={logoMixed} className="w-16 h-auto sm:w-24" alt="logo Text"/>
+                    <Image src={logoby} className="w-20 h-auto sm:w-32" alt="logo Text"/>
+                    <Image src={logoyb} className="w-20 h-auto sm:w-32" alt="logo Text"/>
                   </div>
                   <div className='flex items-center content-center'>
                   </div>
