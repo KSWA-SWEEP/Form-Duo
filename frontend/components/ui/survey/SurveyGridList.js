@@ -71,7 +71,7 @@ function SurveyGridList() {
   useEffect(() => {
       setLoading(true)
       //setIsTokenExist(getCookies("isLogin"))
-      setIsTokenExist(localStorage.getItem("isLogin"))
+      setIsTokenExist(sessionStorage.getItem("isLogin"))
       getSvyList().then(r => {})
 
       // console.log(JSON.stringify(result))

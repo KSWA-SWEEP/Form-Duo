@@ -55,7 +55,7 @@ export default function Header () {
 
   useEffect(() => {
     //if(getCookie("isLogin") == true){
-    if(localStorage.getItem("isLogin") == "true"){
+    if(sessionStorage.getItem("isLogin") == "true"){
       setIsLogin(true);
     }
     else setIsLogin(false);
@@ -100,8 +100,8 @@ export default function Header () {
       }).then(() => {
       setAcctoken("");
       //setCookie("isLogin","false")
-      localStorage.setItem("isLogin","false")
-      localStorage.setItem("expTime","")
+      sessionStorage.setItem("isLogin","false")
+      sessionStorage.setItem("expTime","")
 
       // console.log("acctoken recoil : " + acctoken)
       // setReftoken("");

@@ -78,10 +78,10 @@ const SignIn =()=> {
             // console.log("isLogin : " + getCookie("isLogin"))
             // console.log("expTime : " + getCookie("expTime"))
             
-            //로그인 상태와 만료 시간 localStorage에 저장
+            //로그인 상태와 만료 시간 sessionStorage에 저장
             let expTime = result.data["expTime"]
-            localStorage.setItem("isLogin","true")
-            localStorage.setItem("expTime",expTime)
+            sessionStorage.setItem("isLogin","true")
+            sessionStorage.setItem("expTime",expTime)
 
             await router.push('/');
             return <></>;
