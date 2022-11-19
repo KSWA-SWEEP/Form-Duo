@@ -26,8 +26,8 @@ export default function SurveyResults(props) {
         const tmp = JSON.parse(contents);
         let data = { id, date }
 
-        if(props.svyType == "basic"){ 
-            // console.log("tmp" + JSON.stringify(tmp));
+        if (props.svyType == "basic") {
+            console.log("tmp" + JSON.stringify(tmp));
             tmp.map((ans) => {
                 let trash = ""
                 ans.ansVal.map(item => {
@@ -56,32 +56,19 @@ export default function SurveyResults(props) {
     return (
         <>
             <Stack alignItems="center">
-                <h1 className="dark:text-neutral-200">총 응답 수 : {props.resPeople} / {props.maxResPeople}</h1>
                 <ResponseTable surveyId={props.resContents[0].svyId} svyType={props.svyType} contents={rows} />
                 <br />
                 {props.svyType !== "duo" ? <>
-                <div align="center">
                     <CSVLink
-                        className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105"
+                        className="inline-flex self-end my-2 px-3 py-2 ml-8 mr-7 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-neutral-400 hover:bg-neutral-600 hover:scale-105"
                         headers={excelHeader()} // header
                         data={excelData} // data
                         filename="설문결과"
                     >
                         CSV 다운로드
                     </CSVLink>
-                    <Link
-                        //surveyId = {props.resContents[0].svyId} 
-                        href={{ pathname: '/survey/emotion/' + props.resContents[0].svyId }}
-                    >
-                        <button
-                            className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap bg-fdblue hover:bg-fdbluedark hover:scale-105">
-                            설문 발화 분석
-                        </button>
-                    </Link>
-                </div>
                 </> : <></>}
             </Stack>
-
         </>
     );
 }

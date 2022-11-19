@@ -61,7 +61,7 @@ export default function Conversation(props) {
 
             CheckAxiosToken(acctoken).then(r=>{
                 setAcctoken(r)
-                CustomAxios('get','/api/v1/surveys/'+props.cvId.convId + '/resp',r,{}).then(r=>{
+                CustomAxios('get','/api/v1/surveys/'+props.cvId + '/resp',r,{}).then(r=>{
                     msg_Arr = [];
                     r.data.map(function(element){
                         let messages = "";
@@ -136,9 +136,9 @@ export default function Conversation(props) {
 
     return (
         <div>
-            <p className="lg:text-center mt-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl">
+            {/* <p className="lg:text-center mt-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl">
                     응답 발화 분석 차트
-                </p>
+                </p> */}
             <Piechart 
             good_motion = {good_motion}
             bad_motion = {bad_motion}

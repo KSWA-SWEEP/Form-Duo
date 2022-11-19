@@ -10,6 +10,7 @@ import { accToken } from "../../../atoms/accToken";
 import { useRecoilState } from "recoil";
 import CustomAxios from "../../../components/customAxios/customAxios";
 import { Tab } from '@headlessui/react'
+import Conversation from '../../../components/ui/survey/emotion/Conversation';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -119,7 +120,7 @@ const SurveyResult = () => {
                             <Tab.Panels>
                                 <Tab.Panel>
                                     <br />
-                                    <SurveyResults surveyType={surveyType} resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
+                                    <SurveyResults svyType={surveyType} resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
                                 </Tab.Panel>
                             </Tab.Panels>
                         </Tab.Group>
@@ -160,11 +161,15 @@ const SurveyResult = () => {
                             </Tab.List>
                             <Tab.Panels>
                                 <Tab.Panel>
-                                    <SurveyAnalysis resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
+                                    {(surveyType === "basic") ?
+                                        <SurveyAnalysis resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
+                                        :
+                                        <Conversation cvId = { Object.values(data)[0].svyId}/>
+                                    }
                                 </Tab.Panel>
                                 <Tab.Panel>
                                     <br />
-                                    <SurveyResults surveyType={surveyType} resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
+                                    <SurveyResults svyType={surveyType} resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
                                 </Tab.Panel>
                             </Tab.Panels>
                         </Tab.Group>
