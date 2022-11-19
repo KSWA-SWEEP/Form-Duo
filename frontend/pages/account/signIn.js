@@ -58,14 +58,52 @@ const SignIn =()=> {
         // console.log("Login Request");
 
         //로그인 api 호출
+        /*
         const data = new Object();
         // console.log("userEmail : " + userEmail.current);
         // console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
         data.password = userPw.current;
-        try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/login", data);
+        // try{
+        //     const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/login", data);
 
+        //     // console.log("Result : " + JSON.stringify(result.data));
+        //     // console.log("accessToken : "+ result.data["accessToken"]);
+        //     // console.log("refreshToken : "+ result.data["refreshToken"]);
+        //     // console.log(getCookie("access_token"))
+        //     setAcctoken(result.data["accessToken"]);
+        //     //Refresh token 사용 안함
+        //     // setReftoken(result.data["refreshToken"]);
+
+        //     //로그인 상태와 만료 시간 확인
+        //     // console.log("isLogin : " + getCookie("isLogin"))
+        //     // console.log("expTime : " + getCookie("expTime"))
+            
+        //     //로그인 상태와 만료 시간 sessionStorage에 저장
+        //     let expTime = result.data["expTime"]
+        //     sessionStorage.setItem("isLogin","true")
+        //     sessionStorage.setItem("expTime",expTime)
+
+        //     await router.push('/');
+        //     return <></>;
+        // }catch(e){
+        //     console.log(e);
+        //     openFailModal();
+        // }
+        */
+        const reqBody = {
+            email: userEmail.current,
+            text: userPw.current
+        }
+        
+        try{
+            const result = fetch('/api/login', {
+                method: 'POST',
+                body: JSON.stringify(reqBody),
+                headers: {
+                  'Content-type': 'application/json'
+                }
+            });
             // console.log("Result : " + JSON.stringify(result.data));
             // console.log("accessToken : "+ result.data["accessToken"]);
             // console.log("refreshToken : "+ result.data["refreshToken"]);
