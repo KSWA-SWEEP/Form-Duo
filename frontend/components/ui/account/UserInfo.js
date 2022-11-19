@@ -6,8 +6,8 @@ import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
 import {accToken} from '../../../atoms/accToken'
 import {useRecoilState} from "recoil";
-// import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../customAxios/checkAccessToken";
+import checkAccessToken from "../../../pages/api/checkAccessToken";
 // import CustomAxios from "../../customAxios/customAxios";
 import CustomAxios from "../../../pages/api/customAxios";
 
@@ -87,7 +87,7 @@ export default function UserInfo() {
           // setIsUserInfoChgModalOpen(false)
           // location.reload();
 
-          CheckAxiosToken(acctoken).then(r=>{
+          checkAccessToken(acctoken).then(r=>{
               // console.log("##acctoken : " + r)
               setAcctoken(r)
               CustomAxios('put','/api/v1/members',r,data).then(r =>{
@@ -117,7 +117,7 @@ export default function UserInfo() {
         // setUserEmail(result.data.email)
         // setUserName(result.data.username)
 
-        CheckAxiosToken(acctoken).then(r=>{
+        checkAccessToken(acctoken).then(r=>{
             // console.log("##acctoken : " + r)
             setAcctoken(r)
             CustomAxios('get','/api/v1/members',r,{}).then(r =>{

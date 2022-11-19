@@ -14,8 +14,8 @@ import {useRouter} from "next/router";
 import axios from "axios";
 // import CustomAxios from "../customAxios/customAxios";
 import CustomAxios from '../../pages/api/customAxios';
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
-// import CheckAxiosToken from "../customAxios/checkAccessToken";
+import checkAccessToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../customAxios/checkAccessToken";
 
 // 임시 사용자 id
 const userId = 'user001';
@@ -82,7 +82,7 @@ export default function Header () {
   //   }
   // }
   async function checkAccToken(){
-    const result = CheckAxiosToken(acctoken);
+    const result = checkAccessToken(acctoken);
     // console.log("##ACC : " + result)
     await setAcctoken(result)
     return result

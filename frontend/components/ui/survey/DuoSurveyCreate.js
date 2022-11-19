@@ -12,8 +12,8 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import { useRecoilState } from "recoil";
 import Respond from "./input/Respond.js";
 import "react-datepicker/dist/react-datepicker.css";
-// import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../customAxios/checkAccessToken";
+import checkAccessToken from "../../../pages/api/checkAccessToken.js";
 import {accToken} from "../../../atoms/accToken";
 // import CustomAxios from "../../customAxios/customAxios";
 import CustomAxios from "../../../pages/api/customAxios.js";
@@ -167,7 +167,7 @@ export default function DuoSurveyCreate() {
             // setIsSettingModalOpen(false)
             // document.location.href = "/survey/create/finish"
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('post','/api/v1/surveys',r,data).then(r=>{
                     setIsSettingModalOpen(false)

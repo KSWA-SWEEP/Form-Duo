@@ -1,7 +1,7 @@
 import {getCookie} from "cookies-next";
 import axios from "axios";
 
-async function CheckAxiosToken(token) {
+async function checkAccessToken(token) {
     let acctoken = token
 
     // 현재 시간
@@ -31,4 +31,4 @@ async function CheckAxiosToken(token) {
     }
     return acctoken
 }
-export default CheckAxiosToken
+export default checkAccessToken

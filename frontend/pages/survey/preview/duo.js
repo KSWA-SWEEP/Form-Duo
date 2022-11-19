@@ -5,8 +5,8 @@ import SurveyPreview from "../../../components/ui/survey/SurveyPreview";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
-// import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../../components/customAxios/checkAccessToken";
+import checkAccessToken from '../../api/checkAccessToken';
 // import CustomAxios from "../../../components/customAxios/customAxios";
 import CustomAxios from '../../api/customAxios';
 import {accToken} from "../../../atoms/accToken";
@@ -71,7 +71,7 @@ const DuoPreview = () => {
             // setLoading(false);
             // return svyContents;
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get','/api/v1/surveys/' + query.svyId, r,{}).then(r=>{
                     setSvyContents(r.data);

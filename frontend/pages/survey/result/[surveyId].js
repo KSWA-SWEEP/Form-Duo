@@ -5,8 +5,8 @@ import SurveyAnalysis from "../../../components/ui/survey/result/SurveyAnalysis"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Slider } from "../../../components/ui/survey/result/chart/Slider";
-// import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../../components/customAxios/checkAccessToken";
+import checkAccessToken from '../../api/checkAccessToken';
 import {accToken} from "../../../atoms/accToken";
 import {useRecoilState} from "recoil";
 // import CustomAxios from "../../../components/customAxios/customAxios";
@@ -54,7 +54,7 @@ const SurveyResult = () => {
             // setLoading(false);
             // return svyContents;
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get','/api/v1/surveys/' + surveyId + '/resp', r, {}).then(r=>{
                     setData(r.data);

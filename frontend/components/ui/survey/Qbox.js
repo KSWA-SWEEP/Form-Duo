@@ -7,8 +7,8 @@ import { Pagination } from "@mui/material";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../atoms/accToken";
-// import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../customAxios/checkAccessToken";
+import checkAccessToken from '../../../pages/api/checkAccessToken';
 // import CustomAxios from "../../customAxios/customAxios";
 import CustomAxios from '../../../pages/api/customAxios';
 
@@ -91,7 +91,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
             //     }});
             // return result;
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get','/api/v1/surveys',r,{}).then(r=>{
                     //데이터 가져오기
@@ -140,7 +140,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
             //     }});
             // return result;
             let qbox =[];
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get', '/api/v1/qbox',r,{}).then(r=>{
                     //데이터 가져오기

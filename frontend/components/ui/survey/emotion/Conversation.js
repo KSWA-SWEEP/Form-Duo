@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { Fragment, useState, useEffect } from "react";
 import {getCookie} from "cookies-next";
 import Piechart from "./PieChart";
-// import CheckAxiosToken from "../../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../../customAxios/checkAccessToken";
+import checkAccessToken from "../../../../pages/api/checkAccessToken";
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../../atoms/accToken";
 // import CustomAxios from "../../../customAxios/customAxios";
@@ -61,7 +61,7 @@ export default function Conversation(props) {
             // })
             // setConv_end("Conv Done");
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get','/api/v1/surveys/'+props.cvId.convId + '/resp',r,{}).then(r=>{
                     msg_Arr = [];
@@ -113,7 +113,7 @@ export default function Conversation(props) {
                 //     default : console.log("Switch Error")
                 // }
 
-                CheckAxiosToken(acctoken).then(r=>{
+                checkAccessToken(acctoken).then(r=>{
                     setAcctoken(r)
                     CustomAxios('post','/api/v1/conv',r,data).then(r=>{
                         switch(r.data.emotion){

@@ -4,8 +4,8 @@ import { ResponsiveBar } from '@nivo/bar';
 import {useEffect, useRef, useState} from "react";
 import { ResponsivePie } from '@nivo/pie';
 import axios from "axios";
-// import CheckAxiosToken from "../../../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../../../customAxios/checkAccessToken";
+import checkAccessToken from '../../../../../pages/api/checkAccessToken';
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../../../atoms/accToken";
 // import CustomAxios from "../../../../customAxios/customAxios";
@@ -25,7 +25,7 @@ export default function BarChart(props){
             // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.resContents[0].svyId);
             // // console.log("Ana##svyContents : " + JSON.stringify(svyContents));
             // return svyContents;
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get','/api/v1/surveys/' + props.resContents[0].svyId, r, {}).then((r)=>{
                     svyCont.current = r.data.svyContent;

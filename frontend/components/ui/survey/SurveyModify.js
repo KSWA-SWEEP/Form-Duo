@@ -13,8 +13,8 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import "react-datepicker/dist/react-datepicker.css";
 import Qbox from "./Qbox";
-// import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../customAxios/checkAccessToken";
+import checkAccessToken from "../../../pages/api/checkAccessToken.js";
 // import CustomAxios from "../../customAxios/customAxios";
 import CustomAxios from "../../../pages/api/customAxios.js";
 import {accToken} from "../../../atoms/accToken";
@@ -116,7 +116,7 @@ export default function SurveyModify (props) {
         // //   console.log(svyContents);
         //   return svyContents;
 
-          CheckAxiosToken(acctoken).then(r=>{
+          checkAccessToken(acctoken).then(r=>{
               setAcctoken(r)
               CustomAxios('get','/api/v1/surveys/'+ props.svyId,r,{}).then(r => {
                   let resultData = r.data;
@@ -222,7 +222,7 @@ export default function SurveyModify (props) {
             // setIsSettingModalOpen(false)
             // document.location.href = "/survey/create/finish"
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('put','/api/v1/surveys/' + props.svyId, r, data).then(r=>{
                     setIsSettingModalOpen(false)
@@ -416,7 +416,7 @@ export default function SurveyModify (props) {
                     <a 
                         onClick={initGlbSvyContents}
                     > 
-                    <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-neutral-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
+                    <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold bg-white border border-gray-200 rounded-md text-neutral-500 hover:bg-neutral-200">
                         설문 미리보기
                     </div>
                     </a>
@@ -809,7 +809,7 @@ export default function SurveyModify (props) {
                     <a 
                         onClick={initGlbSvyContents}
                     > 
-                    <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-neutral-500 bg-white border border-gray-200 rounded-md hover:bg-neutral-200">
+                    <div className="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold bg-white border border-gray-200 rounded-md text-neutral-500 hover:bg-neutral-200">
                         설문 미리보기
                     </div>
                     </a>

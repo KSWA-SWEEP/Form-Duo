@@ -16,8 +16,8 @@ import { Tab } from '@headlessui/react'
 import CustomAxios from "../../../pages/api/customAxios"
 import {accToken} from "../../../atoms/accToken";
 import {useRecoilState} from "recoil";
-// import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../customAxios/checkAccessToken";
+import checkAccessToken from "../../../pages/api/checkAccessToken"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -171,7 +171,7 @@ function SurveyGridList() {
         // setLoading(false)
         // return result;
 
-        CheckAxiosToken(acctoken).then(r=>{
+        checkAccessToken(acctoken).then(r=>{
             setAcctoken(r)
             const result = CustomAxios('get','/api/v1/surveys',r,{})
             return result;
@@ -197,7 +197,7 @@ function SurveyGridList() {
         //         'Content-Type': "application/json",
         //         "Authorization": "Bearer " + getCookie("accessToken"),
         //     }});
-        CheckAxiosToken(acctoken).then(r=>{
+        checkAccessToken(acctoken).then(r=>{
             setAcctoken(r)
             CustomAxios('get', '/api/v1/surveys/type?type='+type, acctoken, {}).then(r=>{
                 if(r == undefined){
@@ -278,7 +278,7 @@ function SurveyGridList() {
     try{
         // const result = await axios.delete(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/'+svyId);
         // return result;
-        CheckAxiosToken(acctoken).then(r=>{
+        checkAccessToken(acctoken).then(r=>{
             setAcctoken(r)
             return CustomAxios('delete','/api/v1/surveys/'+svyId,r,{})
         })

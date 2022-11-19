@@ -7,8 +7,8 @@ import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 // import CustomAxios from "../../../components/customAxios/customAxios";
 import CustomAxios from '../../api/customAxios';
-// import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
-import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import checkAccessToken from "../../../components/customAxios/checkAccessToken";
+import checkAccessToken from '../../api/checkAccessToken';
 import {accToken} from "../../../atoms/accToken";
 
 // 설문 참여 페이지
@@ -72,7 +72,7 @@ const EmotionPreview = () => {
             // setLoading(false);
             // return svyContents;
 
-            CheckAxiosToken(acctoken).then(r=>{
+            checkAccessToken(acctoken).then(r=>{
                 setAcctoken(r)
                 CustomAxios('get','/api/v1/surveys/' + query.svyId, r,{}).then(r=>{
                     setSvyContents(r.data);
