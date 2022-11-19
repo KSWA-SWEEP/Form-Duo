@@ -1,16 +1,17 @@
-const API_BASE_URL = process.env.API_BASE_URL
+import axios from "axios";
 
 export default async function handler(req, res) {
     const email = req.body.email;
     const password = req.body.password;
 
-    const path = "/api/v1/auth/login";
+    const data = { email, password }
+    const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/auth/login"
 
     try {
-        const requestUrl = `${process.env.API_BASE_URL}/${path}`
-        const result = await axios.post(requestUrl, data);
+        const result = await axios.post(url, data);
         res.status(200).send({ result })
     } catch (err) {
+        console.log(err)
         res.status(500).send({ error: 'failed to fetch data' })
     }
   }
