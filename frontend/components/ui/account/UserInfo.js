@@ -6,8 +6,10 @@ import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
 import {accToken} from '../../../atoms/accToken'
 import {useRecoilState} from "recoil";
-import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CustomAxios from "../../customAxios/customAxios";
+// import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import CustomAxios from "../../customAxios/customAxios";
+import CustomAxios from "../../../pages/api/customAxios";
 
 
 export default function UserInfo() {

@@ -13,8 +13,10 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import "react-datepicker/dist/react-datepicker.css";
 import Qbox from "./Qbox";
-import CheckAxiosToken from "../../customAxios/checkAccessToken";
-import CustomAxios from "../../customAxios/customAxios";
+// import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import CustomAxios from "../../customAxios/customAxios";
+import CustomAxios from "../../../pages/api/customAxios.js";
 import {accToken} from "../../../atoms/accToken";
 
 

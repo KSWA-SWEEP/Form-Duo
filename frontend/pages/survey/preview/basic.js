@@ -5,9 +5,11 @@ import SurveyPreview from "../../../components/ui/survey/SurveyPreview";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
-import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
+// import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
 import {accToken} from "../../../atoms/accToken";
-import CustomAxios from "../../../components/customAxios/customAxios";
+// import CustomAxios from "../../../components/customAxios/customAxios";
+import CustomAxios from '../../api/customAxios';
 
 // 설문 참여 페이지
 const BasicPreview = () => {

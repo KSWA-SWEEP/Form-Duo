@@ -5,10 +5,12 @@ import SurveyAnalysis from "../../../components/ui/survey/result/SurveyAnalysis"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Slider } from "../../../components/ui/survey/result/chart/Slider";
-import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
+// import CheckAxiosToken from "../../../components/customAxios/checkAccessToken";
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
 import {accToken} from "../../../atoms/accToken";
 import {useRecoilState} from "recoil";
-import CustomAxios from "../../../components/customAxios/customAxios";
+// import CustomAxios from "../../../components/customAxios/customAxios";
+import CustomAxios from '../../api/customAxios';
 
 const SurveyResult = () => {
 

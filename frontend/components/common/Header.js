@@ -12,8 +12,10 @@ import {accToken} from "../../atoms/accToken";
 import {useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
-import CustomAxios from "../customAxios/customAxios";
-import CheckAxiosToken from "../customAxios/checkAccessToken";
+// import CustomAxios from "../customAxios/customAxios";
+import CustomAxios from '../../pages/api/customAxios';
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
+// import CheckAxiosToken from "../customAxios/checkAccessToken";
 
 // 임시 사용자 id
 const userId = 'user001';

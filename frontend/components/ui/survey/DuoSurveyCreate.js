@@ -12,9 +12,11 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import { useRecoilState } from "recoil";
 import Respond from "./input/Respond.js";
 import "react-datepicker/dist/react-datepicker.css";
-import CheckAxiosToken from "../../customAxios/checkAccessToken";
+// import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
 import {accToken} from "../../../atoms/accToken";
-import CustomAxios from "../../customAxios/customAxios";
+// import CustomAxios from "../../customAxios/customAxios";
+import CustomAxios from "../../../pages/api/customAxios.js";
 
 
 const qTypes = [

@@ -12,10 +12,12 @@ import QR from "qrcode.react";
 import { getCookie, getCookies } from "cookies-next"
 import Loading from "../../common/Loading"
 import { Tab } from '@headlessui/react'
-import CustomAxios from "../../customAxios/customAxios";
+// import CustomAxios from "../../customAxios/customAxios";
+import CustomAxios from "../../../pages/api/customAxios"
 import {accToken} from "../../../atoms/accToken";
 import {useRecoilState} from "recoil";
-import CheckAxiosToken from "../../customAxios/checkAccessToken";
+// import CheckAxiosToken from "../../customAxios/checkAccessToken";
+import CheckAxiosToken from '../../pages/api/checkAccessToken';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
