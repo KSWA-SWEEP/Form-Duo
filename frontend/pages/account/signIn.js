@@ -97,29 +97,23 @@ const SignIn =()=> {
         }
         
         try{
-            const result = fetch('/api/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 body: JSON.stringify(reqBody),
                 headers: {
-                  'Content-type': 'application/json'
+                    'Content-type': 'application/json',
                 }
             });
-            // console.log("Result : " + JSON.stringify(result.data));
-            // console.log("accessToken : "+ result.data["accessToken"]);
-            // console.log("refreshToken : "+ result.data["refreshToken"]);
-            // console.log(getCookie("access_token"))
-            setAcctoken(ReadableStreamDefaultController["accessToken"]);
-            //Refresh token 사용 안함
-            // setReftoken(result.data["refreshToken"]);
 
-            //로그인 상태와 만료 시간 확인
-            // console.log("isLogin : " + getCookie("isLogin"))
-            // console.log("expTime : " + getCookie("expTime"))
+            const data = await response.json();
+            let jsonData = JSON.parse(data);
+
+            //recoil에 accessToken 저장
+            setAcctoken(jsonData.accessToken);
             
             //로그인 상태와 만료 시간 sessionStorage에 저장
-            let expTime = result["expTime"]
             sessionStorage.setItem("isLogin","true")
-            sessionStorage.setItem("expTime",expTime)
+            sessionStorage.setItem("expTime",jsonData.expTime)
 
             await router.push('/');
             return <></>;
