@@ -11,6 +11,7 @@ export default async function handler(req, res) {
 
     try {
         const result = await axios.post(url, data);
+        console.log(JSON.stringify(result.data))
         res.status(200).json(result.data)
     } catch (err) {
         console.log(err)
