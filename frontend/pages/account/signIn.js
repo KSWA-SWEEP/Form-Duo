@@ -93,7 +93,7 @@ const SignIn =()=> {
         */
         const reqBody = {
             email: userEmail.current,
-            text: userPw.current
+            password: userPw.current
         }
         
         try{
@@ -108,7 +108,7 @@ const SignIn =()=> {
             // console.log("accessToken : "+ result.data["accessToken"]);
             // console.log("refreshToken : "+ result.data["refreshToken"]);
             // console.log(getCookie("access_token"))
-            setAcctoken(result.data["accessToken"]);
+            setAcctoken(ReadableStreamDefaultController["accessToken"]);
             //Refresh token 사용 안함
             // setReftoken(result.data["refreshToken"]);
 
@@ -117,7 +117,7 @@ const SignIn =()=> {
             // console.log("expTime : " + getCookie("expTime"))
             
             //로그인 상태와 만료 시간 sessionStorage에 저장
-            let expTime = result.data["expTime"]
+            let expTime = result["expTime"]
             sessionStorage.setItem("isLogin","true")
             sessionStorage.setItem("expTime",expTime)
 
