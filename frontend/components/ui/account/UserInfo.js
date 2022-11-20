@@ -10,6 +10,7 @@ import {useRecoilState} from "recoil";
 import checkAccessToken from "../../../pages/api/checkAccessToken";
 // import CustomAxios from "../../customAxios/customAxios";
 import CustomAxios from "../../../pages/api/customAxios";
+import {getCookie} from "cookies-next";
 
 
 export default function UserInfo() {
@@ -106,30 +107,47 @@ export default function UserInfo() {
   if (!userData) return <div className="flex justify-center mt-20"><p>유저 정보가 없습니다.</p></div>
 
   async function getUserInfo(){
+    // token 정보 확인
     try{
-        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members', {
-        //   headers: {
-        //       withCredentials: true,
-        //     'Authorization': `Bearer ${acctoken}`
-        //   }});
-        // setUserData(result.data)
-        // setLoading(false)
-        // setUserEmail(result.data.email)
-        // setUserName(result.data.username)
+        const response = await fetch('/api/auth/checkAccessToken', {
+            method: 'POST',
+            body: JSON.stringify({ token: acctoken, isLogin : sessionStorage.getItem("isLogin"), expTime : getCookie("expTime") }),
+            headers: {
+                'Content-type': 'application/json',
+            }
+        });
+        console.log("acctoken >> "+acctoken);
+        
+        const data = await response.json();
+        let jsonData = JSON.parse(data);
+        console.log(jsonData);
 
-        checkAccessToken(acctoken).then(r=>{
-            // console.log("##acctoken : " + r)
-            setAcctoken(r)
-            CustomAxios('get','/api/v1/members',r,{}).then(r =>{
-                // console.log("##result : " + JSON.stringify(r))
-                setUserData(r.data)
-                setLoading(false)
-                setUserEmail(r.data.email)
-                setUserName(r.data.username)
-            })
-        })
+        // recoil에 accessToken 저장
+        setAcctoken(jsonData.accessToken);
+        // 만료 시간 sessionStorage에 저장
+        sessionStorage.setItem("expTime",jsonData.expTime);
 
     }catch (e) {
+        console.log(e);
+    }
+
+    // 유저 정보 가져오기
+    try{
+        const response = await fetch('/api/member/members', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+            }
+        });
+
+        const data = await response.json();
+        let jsonData = JSON.parse(data);
+
+        setUserData(jsonData)
+        setLoading(false)
+        setUserEmail(jsonData.email)
+        setUserName(jsonData.username)
+    }catch(e){
         console.log(e);
     }
   }

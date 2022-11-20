@@ -145,24 +145,48 @@ const SignUp = () =>{
 
         //회원가입 api 호출
         console.log("SignUp Request");
-        const data = new Object();
-        // console.log("userName : " + userName.current);
-        // console.log("userEmail : " + userEmail.current);
-        // console.log("userPw : " + userPw.current);
-        data.username = userName.current;
-        data.email = userEmail.current;
-        data.password = userPw.current;
+        // const data = new Object();
+        // // console.log("userName : " + userName.current);
+        // // console.log("userEmail : " + userEmail.current);
+        // // console.log("userPw : " + userPw.current);
+        // data.username = userName.current;
+        // data.email = userEmail.current;
+        // data.password = userPw.current;
+        const reqBody = {
+            email: userEmail.current,
+            password: userPw.current,
+            username: userName.current
+        }
+        
         try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/signup", data);
+            const response = await fetch('/api/auth/signup', {
+                method: 'POST',
+                body: JSON.stringify(reqBody),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            });
             //check
-            // console.log("Result : " + JSON.stringify(result.data));
-            // console.log("User email : "+ result.data["email"]);
+            console.log("Result : " + JSON.stringify(result.data));
+            console.log("User email : "+ result.data["email"]);
             openModal();
             return <></>;
         }catch (e) {
             console.log(e);
             openFailModal();
         }
+        
+        // try{
+        //     const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/signup", data);
+        //     //check
+        //     // console.log("Result : " + JSON.stringify(result.data));
+        //     // console.log("User email : "+ result.data["email"]);
+        //     openModal();
+        //     return <></>;
+        // }catch (e) {
+        //     console.log(e);
+        //     openFailModal();
+        // }
     }
 
     //메일인증

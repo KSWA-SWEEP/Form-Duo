@@ -97,7 +97,7 @@ const SignIn =()=> {
         }
         
         try{
-            const response = await fetch('/api/login', {
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 body: JSON.stringify(reqBody),
                 headers: {
