@@ -15,7 +15,7 @@ export default function BarChart(props) {
 
     const svyCont = useRef(); // Question 정보
     let svyAnsval = {};
-    let subjAnsval = [];
+    let subjAnsval = {};
 
     //객관식, checkbox, drop box
     //설문 전체 form 받기
@@ -31,6 +31,7 @@ export default function BarChart(props) {
                     // console.log("Ana##svyContents : "+JSON.stringify(svyCont.current))
                 }).then(() => {
                     setSvyAnsval()
+                    setSubjAnsval()
                 }).then(() => {
                     ansCount()
                 }).then(() => {
@@ -63,6 +64,18 @@ export default function BarChart(props) {
             }
         })
     }
+    function setSubjAnsval() {
+        svyCont.current.map((svyQ) => {
+            subjAnsval[svyQ.qId] = []
+            if (svyQ.contentYn && svyQ.qContents !== undefined) {
+                const qCont = svyQ.qContents
+                qCont.map((contents) => {
+                    let contValue = contents.qContentVal
+                    subjAnsval[svyQ.qId] = [...subjAnsval[svyQ.qId], { key: contValue, value: 0 }]
+                })
+            }
+        })
+    }
     function ansCount() {
         props.resContents.map((resC) => {
             console.log("Ana##resC : " + JSON.stringify(resC))
@@ -78,10 +91,11 @@ export default function BarChart(props) {
                     })
                 }
                 else {
-                    console.log("subjective answer")
-                    respCont.ansVal.map((ans) => {        // TODO: 문항별로 ansVal 담아야 함
-                        console.log("@@ " + ans.resp);
-                        subjAnsval.unshift(ans.resp);
+                    console.log("###### subjective answer")
+                    respCont.ansVal.map((ans) => {
+                        console.log("## qId: " + respCont.qId + ", recentResp: " + ans.resp);
+                        subjAnsval[respCont.qId].unshift(ans.resp);
+                        console.log("## AllResp: " + subjAnsval[respCont.qId]);     // TODO: qId별 최근 3개의 답변 출력하기
                     })
                 }
             })
