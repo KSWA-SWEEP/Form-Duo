@@ -8,10 +8,12 @@ import CheckAxiosToken from "../../../../customAxios/checkAccessToken";
 import { useRecoilState } from "recoil";
 import { accToken } from "../../../../../atoms/accToken";
 import CustomAxios from "../../../../customAxios/customAxios";
+import { subjAnsState } from '../../../../../atoms/subjAns';
 
 export default function BarChart(props) {
     //Access Token
     const [acctoken, setAcctoken] = useRecoilState(accToken);
+    const [subjAns, setSubjAns] = useRecoilState(subjAnsState);
 
     const svyCont = useRef(); // Question 정보
     let svyAnsval = {};
@@ -34,6 +36,8 @@ export default function BarChart(props) {
                     setSubjAnsval()
                 }).then(() => {
                     ansCount()
+                }).then(() => {
+                    setSubjAns(JSON.stringify(subjAnsval))
                 }).then(() => {
                     setAnaData()
                     // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
