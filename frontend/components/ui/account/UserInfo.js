@@ -111,13 +111,12 @@ export default function UserInfo() {
     try{
         const response = await fetch('/api/auth/checkAccessToken', {
             method: 'POST',
-            body: JSON.stringify({ token: acctoken, isLogin : sessionStorage.getItem("isLogin"), expTime : getCookie("expTime") }),
+            body: JSON.stringify({ token: acctoken, isLogin : sessionStorage.getItem("isLogin"), expTime : sessionStorage.getItem("expTime") }),
             headers: {
                 'Content-type': 'application/json',
             }
         });
-        console.log("acctoken >> "+acctoken);
-        
+                
         const data = await response.json();
         let jsonData = JSON.parse(data);
         console.log(jsonData);
@@ -133,8 +132,12 @@ export default function UserInfo() {
 
     // 유저 정보 가져오기
     try{
+        const reqBody = {
+            accessToken : acctoken
+        }
         const response = await fetch('/api/member/members', {
-            method: 'GET',
+            method: 'POST',
+            body: JSON.stringify(reqBody),
             headers: {
                 'Content-type': 'application/json',
             }

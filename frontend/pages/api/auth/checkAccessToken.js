@@ -1,8 +1,15 @@
 import axios from "axios";
-import {getCookie} from "cookies-next";
+import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
+import Cookies from 'cookies'   
 
 export default async function handler(req, res) {
     const data = new Object();
+    
+    console.log(req.headers.cookie)
+
+    const cookies = new Cookies(req, res)
+    // Get a cookie
+    console.log(cookies.get('refresh_token'))
 
     let token = req.body.token;
     const isLogin = req.body.isLogin;
@@ -19,12 +26,8 @@ export default async function handler(req, res) {
 
     const now = year + '-' + month  + '-' + day+'T'+ hours + ':' + minutes  + ':' + seconds;
 
-    console.log(token)
-    console.log(isLogin)
-    console.log(expTime)
     //token 값이 비어있거나 만료 시간이 지났으면, reissue
-    if(token = "" || token == "undefined" || now > expTime){
-        console.log("~~~~")
+    if(token == "" || token == "undefined" || now > expTime){
         if(isLogin == "true"){
             const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/auth/reissue"
             try {
@@ -38,11 +41,12 @@ export default async function handler(req, res) {
             res.status(500).end();
         }
     } else {
-        let data = new Object();
-        data.accessToken = req.token;
-        data.expTime = expTime;
-        console.log(">>>>> "+JSON.stringify(response));
-        res.status(200).json(JSON.stringify(data));
+        let data = {
+            accessToken : token,
+            isLogin : isLogin,
+            expTime : expTime
+        };
+        res.status(200).json(data);
     }
 
 }

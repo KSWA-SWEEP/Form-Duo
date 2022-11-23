@@ -13,10 +13,11 @@ import {Dialog, Transition} from "@headlessui/react";
 import FindUserEmail from "../../components/ui/account/FindUserEmail";
 
 const SignIn =()=> {
+    const [acctoken, setAcctoken] = useRecoilState(accToken);
     const router = useRouter();
     const userEmail = useRef("default");
     const userPw = useRef("default");
-    const [acctoken,setAcctoken] = useRecoilState(accToken);
+
     // const [reftoken,setReftoken] = useRecoilState(refToken);
     //로그인 오류 모달
     let [isFailOpen, setIsFailOpen] = useState(false)
