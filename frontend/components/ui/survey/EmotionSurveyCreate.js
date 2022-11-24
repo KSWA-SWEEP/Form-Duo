@@ -14,11 +14,8 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import Respond from "./input/Respond.js";
 import "react-datepicker/dist/react-datepicker.css";
-// import checkAccessToken from "../../customAxios/checkAccessToken";
-import checkAccessToken from "../../../pages/api/checkAccessToken.js";
-// import CustomAxios from "../../customAxios/customAxios";
-import CustomAxios from "../../../pages/api/customAxios.js";
 import {accToken} from "../../../atoms/accToken";
+import checkAccessToken from "../../func/checkAccessToken.js";
 
 const qTypes = [
     //{ name: '객관식', comp: "Objective", contentYn: true },

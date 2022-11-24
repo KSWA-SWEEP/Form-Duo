@@ -4,16 +4,14 @@ import Cookies from 'cookies'
 
 export default async function handler(req, res) {
     const data = new Object();
-    
-    console.log(req.headers.cookie)
-
-    const cookies = new Cookies(req, res)
-    // Get a cookie
-    console.log(cookies.get('refresh_token'))
 
     let token = req.body.token;
     const isLogin = req.body.isLogin;
     const expTime = req.body.expTime;
+
+    // Get a cookie
+    const cookies = new Cookies(req, res)
+    let refreshToken = cookies.get('refresh_token')
 
     // 현재 시간
     const today = new Date()
@@ -26,18 +24,26 @@ export default async function handler(req, res) {
 
     const now = year + '-' + month  + '-' + day+'T'+ hours + ':' + minutes  + ':' + seconds;
 
-    //token 값이 비어있거나 만료 시간이 지났으면, reissue
+    // token 값이 비어있거나 만료 시간이 지났으면, reissue
     if(token == "" || token == "undefined" || now > expTime){
         if(isLogin == "true"){
             const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/auth/reissue"
+
+            // spring gateway 사용시
+            // const url = process.env.NEXT_PUBLIC_API_URL + "/auth/api/v1/auth/reissue"
+
             try {
-                const response = await axios.post(url);
-                console.log(">> "+JSON.stringify(response));
+                const data = new Object();
+                data.refreshToken = refreshToken;
+                const response = await axios.post(url, data);
+                
                 res.status(200).json(JSON.stringify(response.data));
             } catch (err) {
+                console.log(">> "+JSON.stringify(err));
                 res.status(500).end();
             }
         } else {
+            console.log(">> "+JSON.stringify(err));
             res.status(500).end();
         }
     } else {
@@ -46,7 +52,7 @@ export default async function handler(req, res) {
             isLogin : isLogin,
             expTime : expTime
         };
-        res.status(200).json(data);
+        res.status(200).json(JSON.stringify(data));
     }
 
 }

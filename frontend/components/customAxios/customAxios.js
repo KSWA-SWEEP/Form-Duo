@@ -8,7 +8,7 @@ async function CustomAxios(type, url, token, data) {
     }
 
     if(sessionStorage.getItem("isLogin") == "true" && token !== ""){
-    //if(getCookie("isLogin") == true && token !== ""){
+    // if(getCookie("isLogin") == "true" && token !== ""){
         switch (type) {
             case 'get' :
                 // console.log("##GETTING##  " + token + "  " + "   " + url)

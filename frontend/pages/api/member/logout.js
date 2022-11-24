@@ -1,16 +1,24 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
-    const data = new Object();
-    data.email = req.body.email;
-    data.password = req.body.password;
-    const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/auth/login"
+    
+    let token = req.body.accessToken;
+    
+    const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/members/logout"
 
     // spring gateway 사용시
-    // const url = process.env.NEXT_PUBLIC_API_URL + "/auth/api/v1/auth/login"
+    // const url = process.env.NEXT_PUBLIC_API_URL + "/member/api/v1/members/logout"
+
+    const data = new Object();
 
     try {
-        const response = await axios.post(url, data);
+        const response = await axios.post(url, data, {
+            headers: {
+                withCredentials: true,
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${req.body.accessToken}`
+            }
+        });
 
         const setCookie = response.headers['set-cookie']
 

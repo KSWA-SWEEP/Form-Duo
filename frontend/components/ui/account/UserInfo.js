@@ -4,16 +4,16 @@ import Loading from "../../common/Loading";
 import userBasicImg from "../../../public/img/userBasicImg.png"
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
-import {accToken} from '../../../atoms/accToken'
-import {useRecoilState} from "recoil";
-// import checkAccessToken from "../../customAxios/checkAccessToken";
-import checkAccessToken from "../../../pages/api/checkAccessToken";
-// import CustomAxios from "../../customAxios/customAxios";
-import CustomAxios from "../../../pages/api/customAxios";
+import { accToken } from "../../../atoms/accToken";
+import { useRecoilState } from "recoil";
+import checkAccessToken from "../../func/checkAccessToken";
 import {getCookie} from "cookies-next";
 
 
 export default function UserInfo() {
+
+  const [acctoken,setAcctoken] = useRecoilState(accToken);
+  
   const [userData, setUserData] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
@@ -27,7 +27,6 @@ export default function UserInfo() {
 
   const [btnState, setBtnState] = useState(true);
 
-  const [acctoken,setAcctoken] = useRecoilState(accToken);
 
   const [isPassword, setIsPassword] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -79,28 +78,28 @@ export default function UserInfo() {
   }
 
   async function updateUser(data){
-      try{
-          // const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members',data,{
-          //     headers: {
-          //         withCredentials: true,
-          //         'Authorization': `Bearer ${acctoken}`
-          //     }});
-          // setIsUserInfoChgModalOpen(false)
-          // location.reload();
-
-          checkAccessToken(acctoken).then(r=>{
-              // console.log("##acctoken : " + r)
-              setAcctoken(r)
-              CustomAxios('put','/api/v1/members',r,data).then(r =>{
-                  // console.log("##result : " + JSON.stringify(r))
-                  setIsUserInfoChgModalOpen(false)
-                  location.reload();
-              })
-          })
-      }catch (e) {
-          console.log(e);
-          openFailModal();
-      }
+        try{
+            checkAccessToken(acctoken).then(async r=>{
+                setAcctoken(r)
+                try{
+                    data.accessToken = r;
+                    const response = await fetch('/api/member/members', {
+                        method: 'PUT',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-type': 'application/json',
+                        }
+                    });
+                    setIsUserInfoChgModalOpen(false)
+                    location.reload();
+                }catch(e){
+                    console.log(JSON.stringify(e));
+                }
+            })
+        }catch (e) {
+            console.log(JSON.stringify(e));
+            openFailModal();
+        }
   }
 
   if (isLoading) return <Loading/>
@@ -108,51 +107,32 @@ export default function UserInfo() {
 
   async function getUserInfo(){
     // token 정보 확인
-    try{
-        const response = await fetch('/api/auth/checkAccessToken', {
-            method: 'POST',
-            body: JSON.stringify({ token: acctoken, isLogin : sessionStorage.getItem("isLogin"), expTime : sessionStorage.getItem("expTime") }),
-            headers: {
-                'Content-type': 'application/json',
+    checkAccessToken(acctoken).then(async r=>{
+        setAcctoken(r)
+        // 유저 정보 가져오기
+        try{
+            const reqBody = {
+                accessToken : r
             }
-        });
-                
-        const data = await response.json();
-        let jsonData = JSON.parse(data);
-        console.log(jsonData);
+            const response = await fetch('/api/member/members', {
+                method: 'POST',
+                body: JSON.stringify(reqBody),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            });
 
-        // recoil에 accessToken 저장
-        setAcctoken(jsonData.accessToken);
-        // 만료 시간 sessionStorage에 저장
-        sessionStorage.setItem("expTime",jsonData.expTime);
+            const data = await response.json();
+            let jsonData = JSON.parse(data);
 
-    }catch (e) {
-        console.log(e);
-    }
-
-    // 유저 정보 가져오기
-    try{
-        const reqBody = {
-            accessToken : acctoken
+            setUserData(jsonData)
+            setLoading(false)
+            setUserEmail(jsonData.email)
+            setUserName(jsonData.username)
+        }catch(e){
+            console.log(JSON.stringify(e));
         }
-        const response = await fetch('/api/member/members', {
-            method: 'POST',
-            body: JSON.stringify(reqBody),
-            headers: {
-                'Content-type': 'application/json',
-            }
-        });
-
-        const data = await response.json();
-        let jsonData = JSON.parse(data);
-
-        setUserData(jsonData)
-        setLoading(false)
-        setUserEmail(jsonData.email)
-        setUserName(jsonData.username)
-    }catch(e){
-        console.log(e);
-    }
+    })
   }
 
   function pwdCheck() {

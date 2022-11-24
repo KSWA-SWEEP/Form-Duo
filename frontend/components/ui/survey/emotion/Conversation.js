@@ -2,12 +2,9 @@ import axios from "axios";
 import React, { Fragment, useState, useEffect } from "react";
 import {getCookie} from "cookies-next";
 import Piechart from "./PieChart";
-// import checkAccessToken from "../../../customAxios/checkAccessToken";
-import checkAccessToken from "../../../../pages/api/checkAccessToken";
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../../atoms/accToken";
-// import CustomAxios from "../../../customAxios/customAxios";
-import CustomAxios from "../../../../pages/api/customAxios";
+import checkAccessToken from "../../../func/checkAccessToken";
 
 export default function Conversation(props) {
     

@@ -11,11 +11,7 @@ import {useRecoilState} from "recoil";
 import {accToken} from "../../atoms/accToken";
 import {useState} from "react";
 import {useRouter} from "next/router";
-import axios from "axios";
-// import CustomAxios from "../customAxios/customAxios";
-import CustomAxios from '../../pages/api/customAxios';
-import checkAccessToken from '../../pages/api/checkAccessToken';
-// import checkAccessToken from "../customAxios/checkAccessToken";
+import checkAccessToken from '../func/checkAccessToken';
 
 // 임시 사용자 id
 const userId = 'user001';
@@ -63,60 +59,35 @@ export default function Header () {
     else setIsLogin(false);
   });
 
+
   const [acctoken,setAcctoken] = useRecoilState(accToken);
-  // const [reftoken,setReftoken] = useRecoilState(refToken);
   const router = useRouter();
 
-  // async function sendLogout() {
-  //   try {
-  //     // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/members/logout', {},{
-  //     //   headers: {
-  //     //     'Authorization': `Bearer ${acctoken}`
-  //     //   }});
-  //     console.log("acctoken : "+acctoken)
-  //     const result = CustomAxios('post', '/api/v1/members/logout', acctoken,{});
-  //     // console.log(result.data);
-  //
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
   async function checkAccToken(){
     const result = checkAccessToken(acctoken);
     // console.log("##ACC : " + result)
-    await setAcctoken(result)
+    setAcctoken(result)
     return result
   }
-  //check
-  // console.log("accToken? " + acctoken)
-  // console.log("refToken? " + reftoken)
-  // console.log("Cookies : "+JSON.stringify(getCookies()));
 
   //로그아웃 함수
   async function logOut() {
 
-    checkAccToken().then((result)=>{
-      // console.log("##acctoken : " + result)
+    checkAccToken().then(async (result)=>{
       setAcctoken(result)
-      const r = CustomAxios('post', '/api/v1/members/logout', result,{});
-      }).then(() => {
+      const reqBody = { accessToken : result }
+      const r = await fetch('/api/member/logout', {
+        method: 'POST',
+        body: JSON.stringify(reqBody),
+        headers: {
+            'Content-type': 'application/json',
+        }
+      })
+    }).then(() => {
       setAcctoken("");
-      //setCookie("isLogin","false")
       sessionStorage.setItem("isLogin","false")
       sessionStorage.setItem("expTime","")
-
-      // console.log("acctoken recoil : " + acctoken)
-      // setReftoken("");
-      // setCookie("accessToken","");
-      // setCookie("refreshToken","")
-
-    }).then(()=>{
-      // console.log("log out acctoken recoil : " + acctoken)
     });
-    // console.log("Logout");
-    //check
-    // console.log("Acc : " + acctoken);
-    // console.log("Cookies : "+JSON.stringify(getCookies()));
     closeModal();
     await router.push('/');
   };

@@ -5,11 +5,8 @@ import SurveyPreview from "../../../components/ui/survey/SurveyPreview";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
-// import checkAccessToken from "../../../components/customAxios/checkAccessToken";
-import checkAccessToken from '../../api/checkAccessToken';
-// import CustomAxios from "../../../components/customAxios/customAxios";
-import CustomAxios from '../../api/customAxios';
 import {accToken} from "../../../atoms/accToken";
+import checkAccessToken from '../../../components/func/checkAccessToken';
 
 // 설문 참여 페이지
 const DuoPreview = () => {

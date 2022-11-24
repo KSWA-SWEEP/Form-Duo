@@ -7,10 +7,7 @@ import { Pagination } from "@mui/material";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../atoms/accToken";
-// import checkAccessToken from "../../customAxios/checkAccessToken";
-import checkAccessToken from '../../../pages/api/checkAccessToken';
-// import CustomAxios from "../../customAxios/customAxios";
-import CustomAxios from '../../../pages/api/customAxios';
+import checkAccessToken from '../../func/checkAccessToken';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')

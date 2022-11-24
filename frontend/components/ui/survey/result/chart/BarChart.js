@@ -4,12 +4,9 @@ import { ResponsiveBar } from '@nivo/bar';
 import {useEffect, useRef, useState} from "react";
 import { ResponsivePie } from '@nivo/pie';
 import axios from "axios";
-// import checkAccessToken from "../../../../customAxios/checkAccessToken";
-import checkAccessToken from '../../../../../pages/api/checkAccessToken';
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../../../atoms/accToken";
-// import CustomAxios from "../../../../customAxios/customAxios";
-import CustomAxios from '../../../../../pages/api/customAxios';
+import checkAccessToken from '../../../../func/checkAccessToken';
 
 export default function BarChart(props){
     //Access Token

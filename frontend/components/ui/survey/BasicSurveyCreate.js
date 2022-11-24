@@ -14,11 +14,8 @@ import { glbSvyContentsState } from "../../../atoms/glbSvyContents.js";
 import Loading from "../../common/Loading.js";
 import Respond from "./input/Respond.js";
 import "react-datepicker/dist/react-datepicker.css";
-// import checkAccessToken from "../../customAxios/checkAccessToken";
-import checkAccessToken from "../../../pages/api/checkAccessToken.js";
+import checkAccessToken from "../../func/checkAccessToken.js";
 import {accToken} from "../../../atoms/accToken";
-// import CustomAxios from "../../customAxios/customAxios";
-import CustomAxios from "../../../pages/api/customAxios.js";
 
 const qTypes = [
     { name: '객관식', comp: "Objective", contentYn: true },
@@ -188,12 +185,28 @@ export default function BasicSurveyCreate() {
             // setIsSettingModalOpen(false)
             // document.location.href = "/survey/create/finish"
 
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('post','/api/v1/surveys',r,data).then(r=>{
+            checkAccessToken(acctoken).then(async r=>{
+                setAcctoken(r);
+                try{
+                    data.accessToken = r;
+                    const response = await fetch('/api/survey/surveys', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-type': 'application/json',
+                        }
+                    });
+
+                    console.log("### ok "+JSON.stringify(response));
                     setIsSettingModalOpen(false)
                     document.location.href = "/survey/create/finish"
-                })
+                }catch(e){
+                    console.log("### error "+JSON.stringify(e));
+                }
+                // CustomAxios('post','/api/v1/surveys',r,data).then(r=>{
+                //     setIsSettingModalOpen(false)
+                //     document.location.href = "/survey/create/finish"
+                // })
             })
 
         } catch (e) {

@@ -2,12 +2,13 @@ import axios from "axios";
 
 export default async function handler(req, res) {  
     
-    const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/members"
+    const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/surveys"
 
     // spring gateway 사용시
-    // const url = process.env.NEXT_PUBLIC_API_URL + "/member/api/v1/auth/login"
+    // const url = process.env.NEXT_PUBLIC_API_URL + "/survey/api/v1/surveys"
 
     let data = new Object();
+
 
     if (req.method === 'POST') {
         try {
@@ -20,27 +21,30 @@ export default async function handler(req, res) {
             });
             res.status(200).json(JSON.stringify(response.data))
         } catch (err) {
-            console.log(">> "+JSON.stringify(err));
+            console.log(err)
             res.status(500).end();
         }
     } 
     else if (req.method === 'GET') {
-    } 
-    else if (req.method === 'PUT') {
-        data = req.body;
+        let token = req.headers.accesstoken;
         try {
-            const response = await axios.put(url, data, {
+            const response = await axios.get(url, {
                 headers: {
                     withCredentials: true,
                     'Content-Type': "application/json",
-                    'Authorization': `Bearer ${req.body.accessToken}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
-            res.status(200).json(JSON.stringify(response.data))
+            console.log("|||||||||||||||||||")
+            console.log(response.data)
+            res.status(200).end(response.data)
         } catch (err) {
-            console.log(">> "+JSON.stringify(err));
+            console.log("## error : ")
+            console.log(err)
             res.status(500).end();
         }
+    } 
+    else if (req.method === 'PUT') {
     } 
     else if (req.method === 'DELETE') {
 
