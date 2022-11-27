@@ -7,9 +7,9 @@ export default function SubjectiveList(props) {
                         <h1 className="px-4 text-xl font-extrabold text-neutral-600 dark:text-fdyellowlight" data-testid="title">
                             {props.num}번
                         </h1>
-                        <div className="ml-10 mt-3">
+                        <div className="mt-3 ml-10">
                             {props.value.map(e => {
-                                return <h1 className="px-4 mt-2 font-extrabold text-neutral-600 text-l dark:text-fdyellowlight" data-testid="intro">
+                                return <h1 key={e} className="px-4 mt-2 font-extrabold text-neutral-600 text-l dark:text-fdyellowlight" data-testid="intro">
                                     {e}
                                 </h1>
                             })}
