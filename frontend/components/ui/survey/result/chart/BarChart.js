@@ -71,13 +71,6 @@ export default function BarChart(props) {
     function setSubjAnsval() {
         svyCont.current.map((svyQ) => {
             subjAnsval[svyQ.qId] = []
-            if (svyQ.contentYn && svyQ.qContents !== undefined) {
-                const qCont = svyQ.qContents
-                qCont.map((contents) => {
-                    let contValue = contents.qContentVal
-                    subjAnsval[svyQ.qId] = [...subjAnsval[svyQ.qId], { key: contValue, value: 0 }]
-                })
-            }
         })
     }
     function ansCount() {
