@@ -168,7 +168,7 @@ const SurveyResult = () => {
                                     {(surveyType === "basic") ?
                                         <SurveyAnalysis resPeople={data.length} maxResPeople={data[0].svyRespsMax} resContents={Object.values(data)} />
                                         :
-                                        <Conversation cvId = { Object.values(data)[0].svyId}/>
+                                        <Conversation cvId = {router.query.svyId}/>
                                     }
                                 </Tab.Panel>
                                 <Tab.Panel>
