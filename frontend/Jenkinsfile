@@ -5,6 +5,7 @@ pipeline {
         dockerHubRegistry = 'jongleur6596/frontend-msa'
         dockerHubRegistryCredential = 'jongleur6596'
         dockerImageName = 'frontend-msa'
+        serviceName = 'service-front'
         gitCredentialId = '6261fc8c-759c-4d26-b6ff-29666b2a5625'
         gitSrcUrl = 'git@github.com:KSWA-SWEEP/Form-Duo.git'
         gitManifestUrl = 'git@github.com:KSWA-SWEEP/k8s-manifest.git'
@@ -84,13 +85,15 @@ pipeline {
                 git credentialsId: "${gitCredentialId}",
                     url: "${gitManifestUrl}",
                     branch: 'main'
-                                
-                sh "sed -i 's/${dockerImageName}:.*\$/${dockerImageName}:${currentBuild.number}/g' deployment.yaml"
-                sh "git add deployment.yaml"
+                 
+                sh "sed -i 's/${dockerImageName}:.*\$/${dockerImageName}:${currentBuild.number}/g' ./${serviceName}/deployment.yaml"
+                sh "git add ./${serviceName}/deployment.yaml"
+                sh "git config --global user.email 'panggeunho@gmail.com'"
+                sh "git config --global user.name 'banggeunho'"
                 sh "git commit -m '[UPDATE] config-service ${currentBuild.number} image versioning'"
                 sshagent(credentials: ["${gitCredentialId}"]) {
                     sh "git remote set-url origin ${gitManifestUrl}"
-                    sh "git push -u origin master"
+                    sh "git push -u origin msa-front"
                 }
             }
             post {
