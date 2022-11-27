@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import { subjAnsState } from "../../../../../atoms/subjAns"
-import { Suspense, useState, useEffect } from "react";
-import SubjectiveTable from "./SubjectiveTable";
+import SubjectiveList from "./SubjectiveList";
 
 export default function SubjectiveChart() {
 
@@ -10,13 +9,12 @@ export default function SubjectiveChart() {
     return (
         <div>
             {/* {JSON.stringify(subjAns)} */}
-            <h1>주관식 답변 출력</h1>
-            <div>
+            <div className="ml-20 mr-20 mb-5">
                 {typeof(JSON.parse(JSON.stringify(subjAns))) != 'object' && Object.keys(JSON.parse(JSON.parse(JSON.stringify(subjAns)))).map(key => {
-                    console.log("This is key: " + key)
-                    console.log("This is  value: " + JSON.parse(JSON.parse(JSON.stringify(subjAns)))[key])
+                    // console.log("This is key: " + key)
+                    // console.log("This is  value: " + JSON.parse(JSON.parse(JSON.stringify(subjAns)))[key])
                     return JSON.parse(JSON.parse(JSON.stringify(subjAns)))[key] != "" ?
-                        <SubjectiveTable num={key} value={JSON.parse(JSON.parse(JSON.stringify(subjAns)))[key]} />
+                        <SubjectiveList num={key} value={JSON.parse(JSON.parse(JSON.stringify(subjAns)))[key]} />
                         : <></>
                     }
                 )}

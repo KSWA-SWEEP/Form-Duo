@@ -89,11 +89,11 @@ export default function BarChart(props) {
                     })
                 }
                 else {
-                    console.log("###### subjective answer")
+                    // console.log("###### subjective answer")
                     respCont.ansVal.map((ans) => {
-                        console.log("## qId: " + respCont.qId + ", recentResp: " + ans.resp);
+                        // console.log("## qId: " + respCont.qId + ", recentResp: " + ans.resp);
                         subjAnsval[respCont.qId].unshift(ans.resp);
-                        console.log("## AllResp: " + subjAnsval[respCont.qId]);     // TODO: qId별 최근 3개의 답변 출력하기
+                        // console.log("## AllResp: " + subjAnsval[respCont.qId]);     // TODO: qId별 최근 3개의 답변 출력하기
                     })
                 }
             })
