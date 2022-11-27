@@ -27,10 +27,10 @@ export default async function handler(req, res) {
     // token 값이 비어있거나 만료 시간이 지났으면, reissue
     if(token == "" || token == "undefined" || now > expTime){
         if(isLogin == "true"){
-            const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/auth/reissue"
+            // const url = process.env.NEXT_PUBLIC_API_URL + "/api/v1/auth/reissue"
 
             // spring gateway 사용시
-            // const url = process.env.NEXT_PUBLIC_API_URL + "/auth/api/v1/auth/reissue"
+            const url = process.env.NEXT_PUBLIC_API_URL + "/auth/api/v1/auth/reissue"
 
             try {
                 const data = new Object();
