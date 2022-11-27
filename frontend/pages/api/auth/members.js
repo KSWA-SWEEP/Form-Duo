@@ -25,6 +25,21 @@ export default async function handler(req, res) {
         }
     } 
     else if (req.method === 'GET') {
+        let token = req.headers.accesstoken;
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    withCredentials: true,
+                    'Content-Type': "application/json",
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            res.status(200).json(JSON.stringify(response.data))
+        } catch (err) {
+            console.log("## error : ")
+            console.log(err)
+            res.status(500).end();
+        }
     } 
     else if (req.method === 'PUT') {
         data = req.body;

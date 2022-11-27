@@ -109,14 +109,11 @@ export default function UserInfo() {
         // 유저 정보 가져오기
         try{
             let resData = new Object();
-            const reqBody = {
-                accessToken : r
-            }
             const response = await fetch('/api/auth/members', {
-                method: 'POST',
-                body: JSON.stringify(reqBody),
+                method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
+                    'accessToken' : r,
                 }
             })
             .then((response) => response.json())
