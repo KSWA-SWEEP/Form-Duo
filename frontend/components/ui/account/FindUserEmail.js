@@ -40,14 +40,25 @@ const FindUserEmail = ({show, onHide, init}) => {
         }
     };
 
+    //이미 가입 된 메일인지 확인
     async function isMember(){
         emailMessage.current = ""
-        // setEmailMessage('')
         const data = new Object();
         data.email = userEmail.current;
         try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
-            return result;
+            let resData = new Object();
+            const response = await fetch('/api/auth/isMember', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                resData = result;
+            });
+            return resData;
         }catch (e) {
             console.log(e);
         }
@@ -66,7 +77,7 @@ const FindUserEmail = ({show, onHide, init}) => {
                 // setEmailMessage('등록 되지 않은 메일입니다. 회원가입을 진행해주세요🤗')
                 setIsExist(false)
             }else{
-                const result = r.data.username
+                const result = JSON.parse(r).username
                 if(result){
                     console.log(result)
                     emailMessage.current ='이미 가입 된 메일입니다. 비밀번호를 잊으셨다면 비밀번호를 재설정 해주세요🙇‍♀️'
@@ -98,7 +109,7 @@ const FindUserEmail = ({show, onHide, init}) => {
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                    <div className="flex items-center justify-center min-h-full p-4 text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -108,14 +119,14 @@ const FindUserEmail = ({show, onHide, init}) => {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <div className="w-full rounded-xl p-3 max-w-md space-y-5 bg-fdyellowbright">
+                            <div className="w-full max-w-md p-3 space-y-5 rounded-xl bg-fdyellowbright">
                                 <div>
                                     <Image
-                                        className="mt-8 w-40 h-auto mx-auto"
+                                        className="w-40 h-auto mx-auto mt-8"
                                         src={logoIcon}
                                         alt="FormDuo"
                                     />
-                                    <h2 className="mt-5 text-center text-2xl font-bold tracking-tight text-fdbluedark">
+                                    <h2 className="mt-5 text-2xl font-bold tracking-tight text-center text-fdbluedark">
                                         계 정 확 인
                                     </h2>
                                 </div>
@@ -132,18 +143,18 @@ const FindUserEmail = ({show, onHide, init}) => {
                                                 type="email"
                                                 autoComplete="email"
                                                 required
-                                                className="relative block w-full appearance-none rounded-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                                className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 rounded-none appearance-none rounded-t-md rounded-b-md text-neutral-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                                 placeholder="Email address"
                                                 onChange={onEmailChange}
                                             />
                                             {userEmail.current.length > 0 && <span className={`message ${!isEmail ? ' text-xs' : !isExist ? ' text-xs':' text-xs'}`}>{emailMessage.current}</span>}
-                                            <div className="mt-2 p-2 grid grid-cols-2 divide-x">
+                                            <div className="grid grid-cols-2 p-2 mt-2 divide-x">
                                                 <div>
                                                     <button
                                                         type="button"
                                                         onClick ={checkEmail}
                                                         disabled={!isEmail}
-                                                        className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                        className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-fdbluedark hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     >
                                                         계정 조회 하기
                                                     </button>
@@ -152,7 +163,7 @@ const FindUserEmail = ({show, onHide, init}) => {
                                                     <button
                                                         type="button"
                                                         onClick ={onHide}
-                                                        className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                        className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-fdbluedark hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                                     >
                                                         닫기
                                                     </button>

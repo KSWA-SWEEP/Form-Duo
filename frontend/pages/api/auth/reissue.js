@@ -35,15 +35,19 @@ export default async function handler(req, res) {
             try {
                 const data = new Object();
                 data.refreshToken = refreshToken;
+                console.log("===================")
+                console.log(data)
                 const response = await axios.post(url, data);
                 
                 res.status(200).json(JSON.stringify(response.data));
             } catch (err) {
-                console.log(">> "+JSON.stringify(err));
+                console.log(">> err");
+                console.log(err);
                 res.status(500).end();
             }
         } else {
-            console.log(">> "+JSON.stringify(err));
+            console.log(">> err");
+            console.log(err);
             res.status(500).end();
         }
     } else {

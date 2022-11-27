@@ -1,7 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/20/solid'
 import Image from 'next/future/image';
 import logoIcon from '../../public/img/mixed.png'
-import axios from "axios";
 import {useRouter} from "next/router";
 import {Fragment, useEffect, useRef} from "react";
 import {Dialog, Transition} from "@headlessui/react";
@@ -120,8 +119,19 @@ const SignUp = () =>{
         // console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
         try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
-            return result;
+            let resData = new Object();
+            const response = await fetch('/api/auth/isMember', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                resData = result;
+            });
+            return resData;
         }catch (e) {
             console.log(e);
         }
@@ -167,26 +177,14 @@ const SignUp = () =>{
                 }
             });
             //check
-            console.log("Result : " + JSON.stringify(result.data));
-            console.log("User email : "+ result.data["email"]);
+            console.log("Result : " + JSON.stringify(response));
+            console.log("User email : "+ response["email"]);
             openModal();
             return <></>;
         }catch (e) {
             console.log(e);
             openFailModal();
         }
-        
-        // try{
-        //     const result = await axios.post(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/signup", data);
-        //     //check
-        //     // console.log("Result : " + JSON.stringify(result.data));
-        //     // console.log("User email : "+ result.data["email"]);
-        //     openModal();
-        //     return <></>;
-        // }catch (e) {
-        //     console.log(e);
-        //     openFailModal();
-        // }
     }
 
     //메일인증
@@ -196,25 +194,28 @@ const SignUp = () =>{
 
     const sendAuthMail =()=>{
         isMember().then(r =>{
-            // console.log("Result : "+ JSON.stringify(r))
-            if(!r){
+            if(JSON.parse(r) == ""){
                 //인증 중
-                // setIsAuthIng(true)
                 // console.log("메일인증")
+                // 인증번호 test 코드
+                // console.log("============== "+randNum.current)
+                setIsAuthIng(true)
                 send("service_xefuilp", "template_xfz7szn", {
                     to_name: userName.current,
                     message: "인증번호는 " + randNum.current + " 입니다.",
                     user_email: userEmail.current,
                 },"cPndipwNGrbp1LMBT").then(r  =>{});
             }else{
-                const result = r.data.username
+                const result = JSON.parse(r).username
+                console.log("$$$ result : "+ result.length)
                 if(result){
                     // console.log("계정 존재")
                     openFailModal();
                 }else{
                     //인증 중
-                    // setIsAuthIng(true)
                     // console.log("메일인증")
+                    // console.log("============== "+randNum.current)
+                    setIsAuthIng(true)
                     send("service_xefuilp", "template_xfz7szn", {
                         to_name: userName.current,
                         message: "인증번호는 " + randNum.current + " 입니다.",
@@ -252,7 +253,7 @@ const SignUp = () =>{
                                     name="username"
                                     type="text"
                                     required
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none text-neutral-900 rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="User name"
                                     onChange={onNameChange}
                                 />
@@ -268,7 +269,7 @@ const SignUp = () =>{
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none text-neutral-900 rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
@@ -292,7 +293,7 @@ const SignUp = () =>{
                                     type="text"
                                     required
                                     disabled={!(isAuthIng)}
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none text-neutral-900 rounded-b-md rounded-t-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Authentication Number"
                                     onChange={onAuthChange}
                                 />
@@ -308,7 +309,7 @@ const SignUp = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-t-md rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none text-neutral-900 rounded-t-md rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password"
                                     onChange={onPwChange}
                                 />
@@ -326,7 +327,7 @@ const SignUp = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full px-3 py-2 text-neutral-900 placeholder-gray-500 border border-gray-300 appearance-none rounded-t-md rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none text-neutral-900 rounded-t-md rounded-b-md focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password Check"
                                     onChange={onPwChkChange}
                                 />

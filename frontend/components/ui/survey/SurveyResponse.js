@@ -42,14 +42,35 @@ export default function SurveyResponse(props) {
         /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
 
     async function getSurvey() {
-        try {
-            const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
-            setSvyContents(res.data);
-            setSvyTitle(res.data.svyTitle);
-            setSvyIntro(res.data.svyIntro);
+        // try {
+        //     const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
+        //     setSvyContents(res.data);
+        //     setSvyTitle(res.data.svyTitle);
+        //     setSvyIntro(res.data.svyIntro);
 
-            return svyContents;
-        } catch (e) {
+        //     return svyContents;
+        // } catch (e) {
+        //     console.log(e);
+        // }
+        try{
+            let resData = new Object();
+            const response = await fetch('/api/survey/surveys/'+ props.svyId, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                let jsondata = JSON.parse(data)
+                setSvyContents(jsondata);
+                setSvyTitle(jsondata.svyTitle);
+                setSvyIntro(jsondata.svyIntro);
+                
+                return svyContents;
+            });
+        }catch(e){
+            console.log("## error : ");
             console.log(e);
         }
     }
@@ -140,20 +161,46 @@ export default function SurveyResponse(props) {
     }
 
     async function makeResp(data) {
-        try {
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
-            setIsSettingModalOpen(false);
+        // try {
+        //     const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp', data);
+        //     setIsSettingModalOpen(false);
 
-            // 스크롤 이슈 처리
-            // 일단.. 급한 만큼 engMsg에서 큰따옴표 모두 없앱니다 . . . . 추후 수정
-            const endMsg = JSON.stringify(svyContents.svyEndMsg).replace(/\"/gi, "");
-            router.push({
-                pathname: '/survey/share/finish',
-                query: {endMsg: endMsg}
-            }, 'finish');
-        } catch (e) {
+        //     // 스크롤 이슈 처리
+        //     // 일단.. 급한 만큼 engMsg에서 큰따옴표 모두 없앱니다 . . . . 추후 수정
+        //     const endMsg = JSON.stringify(svyContents.svyEndMsg).replace(/\"/gi, "");
+        //     router.push({
+        //         pathname: '/survey/share/finish',
+        //         query: {endMsg: endMsg}
+        //     }, 'finish');
+        // } catch (e) {
+        //     console.log(e);
+        //     openFailModal();
+        // }
+
+        try{
+            let resData = new Object();
+            const response = await fetch('/api/response/create', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setIsSettingModalOpen(false);
+
+                // 스크롤 이슈 처리
+                // 일단.. 급한 만큼 engMsg에서 큰따옴표 모두 없앱니다 . . . . 추후 수정
+                const endMsg = JSON.stringify(svyContents.svyEndMsg).replace(/\"/gi, "");
+                router.push({
+                    pathname: '/survey/share/finish',
+                    query: {endMsg: endMsg}
+                }, 'finish');
+            });
+        } catch(e){
+            console.log("## error : ");
             console.log(e);
-            openFailModal();
         }
     }
     // if(svyRespContents.length == 0)initResContents();

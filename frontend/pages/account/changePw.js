@@ -111,10 +111,28 @@ const ChangePw = () =>{
         console.log("userEmail : " + userEmail.current);
         // console.log("userPw : " + userPw.current);
         data.email = userEmail.current;
+        // try{
+        //     const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
+        //     userName.current = result.data.username
+        //     return result;
+        // }catch (e) {
+        //     console.log(e);
+        // }
         try{
-            const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/auth/isMember',data);
-            userName.current = result.data.username
-            return result;
+            let resData = new Object();
+            const response = await fetch('/api/auth/isMember', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((result) => {
+                resData = result
+                userName.current = resData.username
+            });
+            return resData;
         }catch (e) {
             console.log(e);
         }
@@ -142,15 +160,31 @@ const ChangePw = () =>{
         data.username = userName.current;
         data.email = userEmail.current;
         data.password = userPw.current;
+        // try{
+        //     const result = await axios.put(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/changePw", data);
+        //     //check
+        //     // console.log("Result : " + JSON.stringify(result.data));
+        //     // console.log("User email : "+ result.data["email"]);
+        //     openModal();
+        //     return <></>;
+        // }catch (e) {
+        //     console.log(e);
+        //     openFailModal();
+        // }
+        
         try{
-            const result = await axios.put(process.env.NEXT_PUBLIC_API_URL+"/api/v1/auth/changePw", data);
-            //check
-            // console.log("Result : " + JSON.stringify(result.data));
-            // console.log("User email : "+ result.data["email"]);
+            const response = await fetch('/api/auth/changePw', {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            });
             openModal();
             return <></>;
-        }catch (e) {
-            console.log(e);
+        }catch(e){
+            console.log(">> error")
+            console.log(JSON.stringify(e));
             openFailModal();
         }
     }
@@ -162,9 +196,10 @@ const ChangePw = () =>{
 
     const sendAuthMail =()=>{
         isMember().then(r =>{
-            // console.log("Result : "+ JSON.stringify(r.data))
-            if(r){
-                const result = r.data.username
+            console.log("Result : "+ r)
+            if(JSON.parse(r) != ""){
+                const result = JSON.parse(r).username
+                console.log(result)
                 if(!result){
                     // console.log("계정 없음")
                     openFailModal();
@@ -192,7 +227,7 @@ const ChangePw = () =>{
 
     return (
         <>
-            <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-center min-h-full px-4 py-12 sm:px-6 lg:px-8">
                 <div className="w-full max-w-md space-y-8">
                     <div>
                         <Image
@@ -200,7 +235,7 @@ const ChangePw = () =>{
                             src={logoIcon}
                             alt="FormDuo"
                         />
-                        <h2 className="mt-5 text-center text-1xl font-bold tracking-tight text-fdblue">
+                        <h2 className="mt-5 font-bold tracking-tight text-center text-1xl text-fdblue">
                             비밀번호 재설정
                         </h2>
                     </div>
@@ -208,7 +243,7 @@ const ChangePw = () =>{
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div className="space-y-4 rounded-md shadow-sm">
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-neutral-900">
+                                <label htmlFor="email-address" className="block ml-2 text-sm text-neutral-900">
                                     이메일 주소
                                 </label>
                                 <input
@@ -217,7 +252,7 @@ const ChangePw = () =>{
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md text-neutral-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Email address"
                                     onChange={onEmailChange}
                                 />
@@ -226,13 +261,13 @@ const ChangePw = () =>{
                                     type="button"
                                     onClick ={sendAuthMail}
                                     disabled={!(isEmail)}
-                                    className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-fdbluedark hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
                                     인증 메일 전송
                                 </button>
                             </div>
                             <div>
-                                <label htmlFor="email-address" className="ml-2 block text-sm text-neutral-900">
+                                <label htmlFor="email-address" className="block ml-2 text-sm text-neutral-900">
                                     이메일 인증
                                 </label>
                                 <input
@@ -241,14 +276,14 @@ const ChangePw = () =>{
                                     type="text"
                                     required
                                     disabled={!(isAuthIng)}
-                                    className="relative block w-full appearance-none rounded-b-md rounded-t-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none rounded-b-md rounded-t-md text-neutral-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Authentication Number"
                                     onChange={onAuthChange}
                                 />
                                 {userAuth.current.length > 0 && <span className={`message ${isAuthConfirm ? 'success text-xs' : 'error text-xs text-red-500'}`}>{authMessage}</span>}
                             </div>
                             <div>
-                                <label htmlFor="password" className="ml-2 block text-sm text-neutral-900">
+                                <label htmlFor="password" className="block ml-2 text-sm text-neutral-900">
                                     비밀번호
                                 </label>
                                 <input
@@ -257,7 +292,7 @@ const ChangePw = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none rounded-t-md rounded-b-md text-neutral-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password"
                                     onChange={onPwChange}
                                 />
@@ -266,7 +301,7 @@ const ChangePw = () =>{
                                 )}
                             </div>
                             <div>
-                                <label htmlFor="password" className="ml-2 block text-sm text-neutral-900">
+                                <label htmlFor="password" className="block ml-2 text-sm text-neutral-900">
                                     비밀번호 확인
                                 </label>
                                 <input
@@ -275,7 +310,7 @@ const ChangePw = () =>{
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="relative block w-full appearance-none rounded-t-md rounded-b-md border border-gray-300 px-3 py-2 text-neutral-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    className="relative block w-full px-3 py-2 placeholder-gray-500 border border-gray-300 appearance-none rounded-t-md rounded-b-md text-neutral-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                     placeholder="Password Check"
                                     onChange={onPwChkChange}
                                 />
@@ -289,10 +324,10 @@ const ChangePw = () =>{
                                 type="button"
                                 onClick ={reqChangePw}
                                 disabled={!(isEmail && isPassword && isPasswordConfirm && isAuthConfirm)}
-                                className="group relative flex w-full justify-center rounded-md border border-transparent bg-fdbluedark py-2 px-4 text-sm font-medium text-white hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md group bg-fdbluedark hover:bg-fdblue focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <LockClosedIcon className="h-5 w-5 text-fdbluelight group-hover:text-fdbluedark" aria-hidden="true" />
+                  <LockClosedIcon className="w-5 h-5 text-fdbluelight group-hover:text-fdbluedark" aria-hidden="true" />
                 </span>
                                 비밀번호 재설정
                             </button>

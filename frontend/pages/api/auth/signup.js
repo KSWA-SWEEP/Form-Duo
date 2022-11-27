@@ -12,9 +12,11 @@ export default async function handler(req, res) {
 
     try {
         const response = await axios.post(url, data);
+        console.log(response);
         res.status(200).json(JSON.stringify(response.data))
     } catch (err) {
-        console.log(">> "+JSON.stringify(err));
+        console.log(">> err");
+        console.log(JSON.stringify(err));
         res.status(500).end();
     }
 }
