@@ -1,5 +1,6 @@
 import { Button, Grid } from '@mui/material';
 import BarChart from './chart/BarChart';
+import SubjectiveChart from './chart/SubjectiveChart';
 import {Slider} from './chart/Slider';
 import axios from "axios";
 import {useRef} from "react";
@@ -71,6 +72,7 @@ export default function SurveyAnalysis(props) {
             <div className="overflow-auto bg-white rounded-md shadow-lg max-h-500 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                  {/*{chartTypes.map((type) => {return (<Chart props={type} />)})} */}
                 <BarChart resContents={props.resContents}/>
+                <SubjectiveChart/>
             </div>
 
         </div>

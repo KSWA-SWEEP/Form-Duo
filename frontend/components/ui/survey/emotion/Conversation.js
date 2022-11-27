@@ -52,7 +52,7 @@ export default function Conversation(props) {
                     }
                 })
                 .then((response) => response.json())
-                .then((data) => 
+                .then((data) =>
                     resData = data
                 ).then(r=>{
                     msg_Arr = [];
@@ -65,6 +65,7 @@ export default function Conversation(props) {
                     })
                     setConv_end("Conv Done");
                 }).then(r=>{
+                    // console.log("Message : "+ msg_Arr)
                     setConv_end("Conv Done");
                 }).then(r=>{
                     if(conv_end != "!@!"){
@@ -109,7 +110,7 @@ export default function Conversation(props) {
                             default : console.log("Switch Error")
                         }
                     });
-                    
+
                 }catch(e){
                     console.log("## error : ");
                     console.log(e);
@@ -120,9 +121,9 @@ export default function Conversation(props) {
 
     return (
         <div>
-            <p className="mt-3 text-3xl font-bold leading-normal tracking-tight lg:text-center text-neutral-900 sm:text-4xl">
+            {/* <p className="lg:text-center mt-3 text-3xl font-bold leading-normal tracking-tight text-neutral-900 sm:text-4xl">
                     응답 발화 분석 차트
-                </p>
+                </p> */}
             <Piechart 
             good_motion = {good_motion}
             bad_motion = {bad_motion}
