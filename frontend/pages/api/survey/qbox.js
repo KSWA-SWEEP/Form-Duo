@@ -25,13 +25,13 @@ export default async function handler(req, res) {
         }
     } 
     else if (req.method === 'GET') {
-        data = req.body;
+        let token = req.headers.accesstoken;
         try {
-            const response = await axios.put(url, data, {
+            const response = await axios.get(url, {
                 headers: {
                     withCredentials: true,
                     'Content-Type': "application/json",
-                    'Authorization': `Bearer ${req.body.accessToken}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
             res.status(200).json(JSON.stringify(response.data))

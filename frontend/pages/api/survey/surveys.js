@@ -12,6 +12,7 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
+            data = req.body
             const response = await axios.post(url, data, {
                 headers: {
                     withCredentials: true,
@@ -35,9 +36,7 @@ export default async function handler(req, res) {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log("|||||||||||||||||||")
-            console.log(response.data)
-            res.status(200).end(response.data)
+            res.status(200).send(response.data)
         } catch (err) {
             console.log("## error : ")
             console.log(err)

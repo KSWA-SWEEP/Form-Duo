@@ -108,36 +108,42 @@ export default function SurveyModify (props) {
     
     // 그럼 getSurvey 로 해당 아이디의 설문을 받고? 
     async function getSurvey(){
-      try{
-        //   const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId);
-        // //   console.log(svyContents);
-        //   return svyContents;
+      checkAccessToken(acctoken).then(async r=>{
+        setAcctoken(r)
+        try{
+            let resData = new Object();
+            const response = await fetch('/api/survey/surveys/'+ props.svyId, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'accessToken' : r,
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                let resultData = data;
+                let svyContent = resultData.svyContent;
+                let savedSvyTitle = resultData.svyTitle;
+                let savedSvyIntro = resultData.svyIntro;
+                let startDt = resultData.svyStartDt;
+                let endDt = resultData.svyEndDt;
 
-          checkAccessToken(acctoken).then(r=>{
-              setAcctoken(r)
-              CustomAxios('get','/api/v1/surveys/'+ props.svyId,r,{}).then(r => {
-                  let resultData = r.data;
-                  let svyContent = resultData.svyContent;
-                  let savedSvyTitle = resultData.svyTitle;
-                  let savedSvyIntro = resultData.svyIntro;
-                  let startDt = resultData.svyStartDt;
-                  let endDt = resultData.svyEndDt;
+                setSvyContents(svyContent);
+                setSvyData(resultData);
+                setSvyTitle(savedSvyTitle);
+                setSvyIntro(savedSvyIntro);
+                setSvyStartDt(new Date(startDt));
+                setSvyEndDt(new Date(endDt));
 
-                  setSvyContents(svyContent);
-                  setSvyData(resultData);
-                  setSvyTitle(savedSvyTitle);
-                  setSvyIntro(savedSvyIntro);
-                  setSvyStartDt(new Date(startDt));
-                  setSvyEndDt(new Date(endDt));
-
-                  const lastSvyContent = svyContent.slice(-1)[0];
-                  const lastQId = lastSvyContent.qId;
-                  questionId.current = lastQId;
-              });
-          })
-      }catch (e) {
-          console.log(e);
-      }
+                const lastSvyContent = svyContent.slice(-1)[0];
+                const lastQId = lastSvyContent.qId;
+                questionId.current = lastQId;
+            });
+        }catch(e){
+            console.log("## error : ");
+            console.log(e);
+        }
+    })
     }
 
     const onTitleChange = (e) => {
@@ -213,23 +219,26 @@ export default function SurveyModify (props) {
         return data;
     }
 
-    async function updateSvy(data){
-        try{
-            // const result = await axios.put(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.svyId, data);
-            // setIsSettingModalOpen(false)
-            // document.location.href = "/survey/create/finish"
-
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('put','/api/v1/surveys/' + props.svyId, r, data).then(r=>{
-                    setIsSettingModalOpen(false)
-                    document.location.href = "/survey/create/finish"
-                })
-            })
-        }catch (e) {
-            console.log(e);
-            openFailModal();
-        }
+    async function updateSvy(data){        
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r)
+            try{
+                data.accessToken = r;
+                const response = await fetch('/api/survey/surveys/' + props.svyId, {
+                    method: 'PUT',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+                });
+                setIsSettingModalOpen(false)
+                document.location.href = "/survey/create/finish"
+            }catch(e){
+                console.log(">> error")
+                console.log(JSON.stringify(e));
+                openFailModal();
+            }
+        })
     }
     
     function addSelected(e) {

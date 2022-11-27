@@ -180,39 +180,26 @@ export default function BasicSurveyCreate() {
     }
 
     async function makeSvy(data) {
-        try {
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys', data);
-            // setIsSettingModalOpen(false)
-            // document.location.href = "/survey/create/finish"
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r);
+            try{
+                data.accessToken = r;
+                const response = await fetch('/api/survey/surveys', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+                });
 
-            checkAccessToken(acctoken).then(async r=>{
-                setAcctoken(r);
-                try{
-                    data.accessToken = r;
-                    const response = await fetch('/api/survey/surveys', {
-                        method: 'POST',
-                        body: JSON.stringify(data),
-                        headers: {
-                            'Content-type': 'application/json',
-                        }
-                    });
-
-                    console.log("### ok "+JSON.stringify(response));
-                    setIsSettingModalOpen(false)
-                    document.location.href = "/survey/create/finish"
-                }catch(e){
-                    console.log("### error "+JSON.stringify(e));
-                }
-                // CustomAxios('post','/api/v1/surveys',r,data).then(r=>{
-                //     setIsSettingModalOpen(false)
-                //     document.location.href = "/survey/create/finish"
-                // })
-            })
-
-        } catch (e) {
-            console.log(e);
-            openFailModal();
-        }
+                console.log("### ok "+JSON.stringify(response));
+                setIsSettingModalOpen(false)
+                document.location.href = "/survey/create/finish"
+            }catch(e){
+                openFailModal();
+                console.log("### error "+JSON.stringify(e));
+            }
+        })
     }
 
     function addSelected(e) {

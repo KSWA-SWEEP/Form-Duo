@@ -31,9 +31,9 @@ async function checkAccessToken(token) {
         // refresh token 만료의 경우 => 로그아웃 후 재로그인 진행
         if(response.status == 500)
         {
-            alert("토큰이 만료되었습니다.\n 다시 로그인 해주시기 바랍니다.");
+            alert("토큰이 만료되었습니다.\n다시 로그인 해주시기 바랍니다.");
             
-            const r = await fetch('/api/member/logout', {
+            const r = await fetch('/api/auth/logout', {
                 method: 'POST',
                 body: JSON.stringify({}),
                 headers: {

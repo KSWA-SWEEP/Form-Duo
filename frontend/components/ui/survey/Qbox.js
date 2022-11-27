@@ -81,24 +81,24 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     const [acctoken,setAcctoken] = useRecoilState(accToken);
     //API로 질문 가져오기
     async function getMySvyList(){
-        try{
-            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{
-            //     headers: {
-            //         'Authorization': `Bearer ${acctoken}`
-            //     }});
-            // return result;
-
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('get','/api/v1/surveys',r,{}).then(r=>{
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r)
+            try{
+                let resData = new Object();
+                const response = await fetch('/api/survey/surveys', {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'accessToken' : r,
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
                     //데이터 가져오기
-                    svyList.current = r.data;
-                    // console.log("svyList : " + JSON.stringify(svyList))
+                    svyList.current = data;
                     svyList.current.map((survey) =>{
                         mySvy = mySvy.concat(survey.svyContent)
                     })
-                    //check log
-                    // console.log("MySvy : "+ JSON.stringify(mySvy));
                 }).then(r=>{
                     //데이터 key값 설정
                     mySvy.map((svy,idx) => {
@@ -114,11 +114,12 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 }).then(r=>{
                     //데이터 설정 후 랜더링을 위해 useState 값 변경
                     setMyData(true)
-                })
-            })
-        }catch (e) {
-            console.log(e);
-        }
+                });
+            }catch(e){
+                console.log("## error : ");
+                console.log(e);
+            }
+        })
     }
     //내가 했던 질문 Setting function
     function settingMyQuestion(){
@@ -130,19 +131,22 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
     const [qboxQ,setQboxQ] = useState(false)
     //API로 값 불러오기
     async function getQboxList(){
-        try{
-            // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/qbox', {
-            //     headers: {
-            //         'Authorization': `Bearer ${acctoken}`
-            //     }});
-            // return result;
-            let qbox =[];
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('get', '/api/v1/qbox',r,{}).then(r=>{
+        let qbox =[];
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r)
+            try{
+                let resData = new Object();
+                const response = await fetch('/api/survey/qbox', {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'accessToken' : r,
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
                     //데이터 가져오기
-                    qboxList.current = r.data;
-                    // console.log("svyList : " + JSON.stringify(svyList))
+                    qboxList.current = JSON.parse(data);
                     qboxList.current.map((survey) =>{
                         if(survey.delYn == null && survey.name != "string" && survey.qtitle != ""){
                             survey.qId = survey.qid
@@ -196,12 +200,12 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                     // console.log("Qbox : "+ JSON.stringify(qbox));
                     sampleQsts.current.QBox = qbox
                     setQboxQ(true)
-                })
-            })
-
-        }catch (e) {
-            console.log(e);
-        }
+                });
+            }catch(e){
+                console.log("## error : ");
+                console.log(e);
+            }
+        })
     }
     //Qbox 질문 Setting function
     function settingQbox(){
@@ -277,7 +281,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
+                    <div className="flex items-center justify-center min-h-full p-4 text-center">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -290,7 +294,7 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                             <div  className="w-full max-w-md px-2 py-16 sm:px-0">
                                 <Tab.Group>
                                     {/*탭 상단 설정*/}
-                                    <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
+                                    <Tab.List className="flex p-1 space-x-1 rounded-xl bg-blue-900/20">
                                         {Object.keys(sampleQsts.current).map((questions) => (
                                             <Tab
                                                 key={questions}
@@ -325,17 +329,17 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                                                         Qdata.map((question) => (
                                                             <li
                                                                 key={question.qId}
-                                                                className="relative rounded-md p-2 hover:bg-gray-100"
+                                                                className="relative p-2 rounded-md hover:bg-gray-100"
                                                             >
                                                                 {/*드롭다운을 통해 Question 내용 보여주기*/}
                                                                 <Disclosure>
                                                                     {({ open }) => (
                                                                         <>
-                                                                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-fdbluelight px-4 py-2 text-left text-sm font-medium text-neutral-800 hover:bg-fdblue focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                                                                                <h3 className="text-sm font-medium leading-7 float-left">
+                                                                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg bg-fdbluelight text-neutral-800 hover:bg-fdblue focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                                                                                <h3 className="float-left text-sm font-medium leading-7">
                                                                                     {question.qTitle}
                                                                                 </h3>
-                                                                                <ul className="mt-2 flex float-right space-x-2 text-xs font-normal leading-4 text-neutral-500">
+                                                                                <ul className="flex float-right mt-2 space-x-2 text-xs font-normal leading-4 text-neutral-500">
                                                                                     <li>{question.name}</li>
                                                                                 </ul>
                                                                                 <ChevronUpIcon
@@ -370,11 +374,11 @@ const Qbox = ({show, onHide, setSvyContents, svyContents, questionId}) => {
                                                         ))}
                                                     <Pagination count={nowTab==='내가했던질문'?MyLAST_PAGE:QLAST_PAGE} defaultPage={1} boundaryCount={2}
                                                                 sx={{margin: 2}} onChange={(e) => handlePage(e)}
-                                                                className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap  hover:scale-105"/>
+                                                                className="inline-flex items-center justify-center px-3 py-2 ml-8 text-sm font-normal text-white duration-200 border border-transparent rounded-md shadow-sm whitespace-nowrap hover:scale-105"/>
                                                     <div className="flex justify-center mt-2">
                                                         <button
                                                             type="button"
-                                                            className="inline-flex w-full justify-center px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
+                                                            className="inline-flex justify-center w-full px-2 py-2 mx-2 text-xs font-semibold border border-transparent rounded-md text-neutral-700 bg-neutral-200 hover:bg-neutral-300 focus:outline-none "
                                                             onClick={onHide}
                                                         >
                                                             닫기

@@ -159,22 +159,26 @@ export default function DuoSurveyCreate() {
     }
 
     async function makeSvy(data) {
-        try {
-            // const result = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys', data);
-            // setIsSettingModalOpen(false)
-            // document.location.href = "/survey/create/finish"
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r);
+            try{
+                data.accessToken = r;
+                const response = await fetch('/api/survey/surveys', {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+                });
 
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('post','/api/v1/surveys',r,data).then(r=>{
-                    setIsSettingModalOpen(false)
-                    document.location.href = "/survey/create/finish"
-                })
-            })
-        } catch (e) {
-            console.log(e);
-            openFailModal();
-        }
+                console.log("### ok "+JSON.stringify(response));
+                setIsSettingModalOpen(false)
+                document.location.href = "/survey/create/finish"
+            }catch(e){
+                openFailModal();
+                console.log("### error "+JSON.stringify(e));
+            }
+        })
     }
 
     // qId 값으로 사용 될 id - ref 를 사용하여 변수 담기

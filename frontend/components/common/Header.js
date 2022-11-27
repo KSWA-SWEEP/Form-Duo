@@ -76,7 +76,7 @@ export default function Header () {
     checkAccToken().then(async (result)=>{
       setAcctoken(result)
       const reqBody = { accessToken : result }
-      const r = await fetch('/api/member/logout', {
+      const r = await fetch('/api/auth/logout', {
         method: 'POST',
         body: JSON.stringify(reqBody),
         headers: {

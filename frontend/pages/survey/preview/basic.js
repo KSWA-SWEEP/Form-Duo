@@ -63,23 +63,27 @@ const BasicPreview = () => {
       }
 
     async function getSurvey() {
-        try {
-            // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + query.svyId);
-            // setSvyContents(svyContents.data);
-            // setLoading(false);
-            // return svyContents;
-
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('get','/api/v1/surveys/' + query.svyId, r,{}).then(r=>{
-                    setSvyContents(r.data);
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r)
+            try{
+                const response = await fetch('/api/survey/surveys/' + query.svyId, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'accessToken' : r,
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {                    
+                    setSvyContents(data);
                     setLoading(false);
                     return r;
-                })
-            })
-        } catch (e) {
-            console.log(e);
-        }
+                });
+            }catch(e){
+                console.log("## error : ");
+                console.log(e);
+            }
+        })
     }
 
     async function getCreateSurvey() {

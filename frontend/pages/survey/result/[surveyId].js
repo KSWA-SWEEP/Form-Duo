@@ -43,23 +43,27 @@ const SurveyResult = () => {
 
 
     async function getContents(surveyId) {
-        try {
-            // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + surveyId + '/resp')
-            // setData(svyContents.data);
-
-            // console.log("@@@: " + JSON.stringify(date));
-            // setLoading(false);
-            // return svyContents;
-
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('get','/api/v1/surveys/' + surveyId + '/resp', r, {}).then(r=>{
-                    setData(r.data);
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r)
+            try{
+                let resData = new Object();
+                const response = await fetch('/api/response/'+ surveyId, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'accessToken' : r,
+                    }
                 })
-            })
-        } catch (e) {
-            console.log(e);
-        }
+                .then((response) => response.json())
+                .then((res) => 
+                    setData(res)
+                );
+
+            }catch(e){
+                console.log("## error : ");
+                console.log(e);
+            }
+        })
     }
 
     if (!surveyId) return <p> Loading ...</p>

@@ -78,28 +78,25 @@ export default function UserInfo() {
   }
 
   async function updateUser(data){
+    checkAccessToken(acctoken).then(async r=>{
+        setAcctoken(r)
         try{
-            checkAccessToken(acctoken).then(async r=>{
-                setAcctoken(r)
-                try{
-                    data.accessToken = r;
-                    const response = await fetch('/api/member/members', {
-                        method: 'PUT',
-                        body: JSON.stringify(data),
-                        headers: {
-                            'Content-type': 'application/json',
-                        }
-                    });
-                    setIsUserInfoChgModalOpen(false)
-                    location.reload();
-                }catch(e){
-                    console.log(JSON.stringify(e));
+            data.accessToken = r;
+            const response = await fetch('/api/auth/members', {
+                method: 'PUT',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json',
                 }
-            })
-        }catch (e) {
+            });
+            setIsUserInfoChgModalOpen(false)
+            location.reload();
+        }catch(e){
+            console.log(">> error")
             console.log(JSON.stringify(e));
-            openFailModal();
+        openFailModal();
         }
+    })
   }
 
   if (isLoading) return <Loading/>
@@ -111,25 +108,30 @@ export default function UserInfo() {
         setAcctoken(r)
         // 유저 정보 가져오기
         try{
+            let resData = new Object();
             const reqBody = {
                 accessToken : r
             }
-            const response = await fetch('/api/member/members', {
+            const response = await fetch('/api/auth/members', {
                 method: 'POST',
                 body: JSON.stringify(reqBody),
                 headers: {
                     'Content-type': 'application/json',
                 }
-            });
+            })
+            .then((response) => response.json())
+            .then((data) => 
+                resData = data
+            );
 
-            const data = await response.json();
-            let jsonData = JSON.parse(data);
+            let jsonData = JSON.parse(resData);
 
             setUserData(jsonData)
             setLoading(false)
             setUserEmail(jsonData.email)
             setUserName(jsonData.username)
         }catch(e){
+            console.log(">> error")
             console.log(JSON.stringify(e));
         }
     })

@@ -15,7 +15,6 @@ import { Tab } from '@headlessui/react'
 import {accToken} from "../../../atoms/accToken";
 import {useRecoilState} from "recoil";
 import checkAccessToken from "../../func/checkAccessToken"
-import CustomAxios from "../../customAxios/customAxios.js";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -73,17 +72,72 @@ function SurveyGridList() {
       //setIsTokenExist(getCookies("isLogin"))
       setIsTokenExist(sessionStorage.getItem("isLogin"))
       getSvyList().then(r => {})
-
-      // console.log(JSON.stringify(result))
-      // if(result == undefined){
-      //     setAcctoken(accessToken)
-      //     setData(null)
-      // }else{
-      //     setAcctoken(accessToken)
-      //     setSvyList(result.data)
-      //     setData(result.data)
-      // }
    }, []);
+
+   
+  async function getSvyList(){    
+    checkAccessToken(acctoken).then(async r=>{
+        setAcctoken(r)
+        try{
+            let resData = new Object();
+            const response = await fetch('/api/survey/surveys', {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'accessToken' : r,
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => 
+                resData = data
+            );
+            
+            if(resData == undefined){
+                setData(null)
+            } else {
+                setSvyList(resData)
+                setData(resData)
+            }
+
+            setLoading(false)
+        }catch(e){
+            console.log("## error : ");
+            console.log(e);
+        }
+    })
+  } 
+
+  async function getSvyListByType(type){
+    checkAccessToken(acctoken).then(async r=>{
+        setAcctoken(r)
+        try{
+            let resData = new Object();
+            const response = await fetch('/api/survey/surveys/type?type=' + type, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'accessToken' : r,
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => 
+                resData = data
+            );
+
+            if(resData == undefined){
+                setData(null)
+            } else {
+                setSvyList(resData)
+                setData(resData)
+            }
+
+            setLoading(false)
+        }catch(e){
+            console.log("## error : ");
+            console.log(e);
+        }
+    })
+  } 
    
    if (!data || data.length === 0) return (
     <div>
@@ -152,67 +206,6 @@ function SurveyGridList() {
     </div>
 )
    
-
-  async function getSvyList(){
-    try{
-
-        //초안
-            // await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys',{headers : {
-            //     'Content-Type': "application/json",
-            //     // "Authorization": "Bearer " + getCookie("accessToken"),
-            // }});
-        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys');
-
-        // 1차 수정
-        // const result = CustomAxios('get','/api/v1/surveys',acctoken,{})
-        // console.log("##result : " + JSON.stringify(result))
-        // setLoading(false)
-        // return result;
-
-        checkAccessToken(acctoken).then(r=>{
-            setAcctoken(r)
-            const result = CustomAxios('get','/api/v1/surveys',r,{})
-            return result;
-        }).then(r=>{
-            if(r == undefined){
-                setData(null)
-            } else {
-                setSvyList(r.data)
-                setData(r.data)
-            }
-            // console.log("##result : " + JSON.stringify(r))
-            setLoading(false)
-            return r;
-        })
-    }catch (e) {
-        console.log(e);
-    }
-  } 
-
-  async function getSvyListByType(type){
-    try{
-        // const result = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/type?type='+type, {headers : {
-        //         'Content-Type': "application/json",
-        //         "Authorization": "Bearer " + getCookie("accessToken"),
-        //     }});
-        checkAccessToken(acctoken).then(r=>{
-            setAcctoken(r)
-            CustomAxios('get', '/api/v1/surveys/type?type='+type, acctoken, {}).then(r=>{
-                if(r == undefined){
-                    setData(null)
-                } else {
-                    setSvyList(r.data)
-                    setData(r.data)
-                }
-                return r;
-            })
-        })
-
-    }catch (e) {
-        console.log(e);
-    }
-  } 
-
   function openDeleteModal() {
     setIsDeleteModalOpen(true)
   }
@@ -273,17 +266,23 @@ function SurveyGridList() {
   } 
   
   async function deleteSelected(svyId){
-    try{
-        // const result = await axios.delete(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/'+svyId);
-        // return result;
-        checkAccessToken(acctoken).then(r=>{
-            setAcctoken(r)
-            return CustomAxios('delete','/api/v1/surveys/'+svyId,r,{})
-        })
-    }catch (e) {
-        closeDeleteModal();
-        openFailModal();
-    }
+    checkAccessToken(acctoken).then(async r=>{
+        setAcctoken(r)
+        try{
+            const response = await fetch('/api/survey/surveys/'+svyId, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'accessToken' : r,
+                }
+            })
+        }catch(e){
+            closeDeleteModal();
+            openFailModal();
+            console.log("## error : ");
+            console.log(e);
+        }
+    })
   } 
 
   const downloadQr = (svyId) => {

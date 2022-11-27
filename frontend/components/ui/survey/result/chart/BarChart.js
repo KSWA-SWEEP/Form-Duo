@@ -7,7 +7,6 @@ import axios from "axios";
 import {useRecoilState} from "recoil";
 import {accToken} from "../../../../../atoms/accToken";
 import checkAccessToken from '../../../../func/checkAccessToken';
-
 export default function BarChart(props){
     //Access Token
     const [acctoken,setAcctoken] = useRecoilState(accToken);
@@ -18,35 +17,36 @@ export default function BarChart(props){
     //객관식, checkbox, drop box
     //설문 전체 form 받기
     async function getSurvey(){
-        try{
-            // const svyContents = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/v1/surveys/' + props.resContents[0].svyId);
-            // // console.log("Ana##svyContents : " + JSON.stringify(svyContents));
-            // return svyContents;
-            checkAccessToken(acctoken).then(r=>{
-                setAcctoken(r)
-                CustomAxios('get','/api/v1/surveys/' + props.resContents[0].svyId, r, {}).then((r)=>{
-                    svyCont.current = r.data.svyContent;
-                    // console.log("Ana##svyContents : "+JSON.stringify(svyCont.current))
+        checkAccessToken(acctoken).then(async r=>{
+            setAcctoken(r)
+            try{
+                let resData = new Object();
+                const response = await fetch('/api/survey/surveys/' + props.resContents[0].svyId, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'accessToken' : r,
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    svyCont.current = data.svyContent
                 }).then(()=>{
                     setSvyAnsval()
                 }).then(()=>{
                     ansCount()
                 }).then(()=>{
                     setAnaData()
-                    // console.log("Ana##setting SvyAnsVal : "+ JSON.stringify(svyAnsval))
-                }).then(()=>{
-                    anaData.current.map((ana)=>{
-                        // console.log("Ana##SSSSETTING : "+ JSON.stringify(ana))
-                    })
-                    // console.log("keys : "+ anaData.current.length)
                 }).then(()=>{
                     setReady(false)
-                })
-            })
-        }catch (e) {
-            console.log(e);
-        }
+                });
+            }catch(e){
+                console.log("## error : ");
+                console.log(e);
+            }
+        })
     }
+
     function setSvyAnsval(){
         svyCont.current.map((svyQ)=>{
             svyAnsval[svyQ.qId] = []
@@ -63,7 +63,6 @@ export default function BarChart(props){
     }
     function ansCount(){
         props.resContents.map((resC)=>{
-            // console.log("Ana##resC : "+JSON.stringify(resC))
             resC.svyRespContent.map((respCont)=>{
                 if(respCont.qType !== "Subjective"){
                     respCont.ansVal.map((ans)=>{
