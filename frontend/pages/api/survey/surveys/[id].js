@@ -4,10 +4,10 @@ export default async function handler(req, res) {
     const query = req.query;
     const { id } = query;
 
-    // const url = process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${id}`
+    const url = process.env.NEXT_PUBLIC_API_URL + `/api/v1/surveys/${id}`
 
     // spring gateway 사용시
-    const url = process.env.NEXT_PUBLIC_API_URL + `/survey/api/v1/surveys/${id}`
+    // const url = process.env.NEXT_PUBLIC_API_URL + `/survey/api/v1/surveys/${id}`
 
     let data = new Object();
 

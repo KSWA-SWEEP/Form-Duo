@@ -2,10 +2,10 @@ import axios from "axios";
 
 export default async function handler(req, res) {  
 
-    // const url = process.env.NEXT_PUBLIC_API_URL + '/api/v1/conv'
+    const url = process.env.NEXT_PUBLIC_API_URL + '/api/v1/resp'
 
     // spring gateway 사용시
-    const url = process.env.NEXT_PUBLIC_API_URL + '/response/api/v1/create'
+    // const url = process.env.NEXT_PUBLIC_API_URL + '/response/api/v1/create'
 
     let data = new Object();
     data = req.body;
