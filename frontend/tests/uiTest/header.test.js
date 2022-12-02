@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import Header from "../components/common/Header";
+import Header from "../../components/common/Header";
 import { RecoilRoot } from "recoil";
 import {waitFor} from '@testing-library/dom'
 
